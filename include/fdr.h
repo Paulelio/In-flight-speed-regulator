@@ -1,6 +1,20 @@
+/**
+Grupo 1
+Diogo Fernandes 49992
+Paulo Alvares 49460
+*/
+
 #ifndef _FDR_H
 #define _FDR_H
 
-/*	Definir interface do algoritmo de controlo	*/
+#include <stdbool.h>
+
+/*	Definir interface do flight data recorder	*/
+/*      */
+/*      */
+/*      */
+
+bool storeData(double speed, double thrust);
+
 
 #endif
