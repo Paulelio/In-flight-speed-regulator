@@ -7,3 +7,17 @@ Cenas a fazer:
         ☐ Testar verificacao de input
         ☐ Testar formulas
     ☐ 
+
+DUVIDAS:
+    ☐ Como fazer o calculo do thrust no control algorithm, uma vez que não temos a informação do drag neste componente?
+    ☐ Como correr o xenomai?
+    ☐ Como inicializar as cenas todas:
+        ☐ Ordem de prioridade (fmc > ctrl > fdr ??) 
+        ☐ 
+    ☐ A visualização dos dados é para fazer com base no ficheiro do flight recorder?
+    ☐ Os dados devem ser persistentes entre utilizações ou se são para ser apagados no fim de terminar a sessão?
+
+
+Ctrl+Enter para criar novos bullet points
+Alt+D para alterar para feito
+Alt+C para cancelar

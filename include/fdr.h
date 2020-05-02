@@ -9,12 +9,14 @@ Paulo Alvares 49460
 
 #include <stdbool.h>
 
+
+
 /*	Definir interface do flight data recorder	*/
 /*      */
 /*      */
 /*      */
 
-bool storeData(double speed, double thrust);
+bool storeData();
 
 
 #endif
