@@ -16,7 +16,8 @@ DUVIDAS:
         ☐ 
     ☐ A visualização dos dados é para fazer com base no ficheiro do flight recorder?
     ☐ Os dados devem ser persistentes entre utilizações ou se são para ser apagados no fim de terminar a sessão?
-
+    ☐ Pode ser feita a alteração das permissões do ficheiro ld.so.cache?
+    ☐ Como é que se guarda a velocidade com o fmc uma vez que as leituras de ficheiros em RT podem causar page faults?
 
 Ctrl+Enter para criar novos bullet points
 Alt+D para alterar para feito
