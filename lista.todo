@@ -1,12 +1,12 @@
 Coisas a fazer:
     ☐ Verificar mutual exclusion
-    ☐ Como correr fmc.c e ctrl.c 
-    ☐ Data visualization 
+    ✔ Como correr fmc.c e ctrl.c @done(20-05-08 20:08)
+    ☐ Data visualization
     ☐ Multithreads 
     ☐ Testar o código que já temos
-        ☐ Testar verificacao de input
+        ✔ Testar verificacao de input @done(20-05-08 20:08)
         ☐ Testar formulas
-    ☐ Criar threads co prints para verificar se a execução está a funcionar
+    ✔ Criar threads co prints para verificar se a execução está a funcionar @done(20-05-08 20:09)
 
 DÚVIDAS:
     ✔ Como fazer o calculo do thrust no control algorithm, uma vez que não temos a informação do drag neste componente? @done(20-05-08 17:37) Utilizar percentagens das diferenças entre as velocidades dadas inicialmente

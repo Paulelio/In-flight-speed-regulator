@@ -33,12 +33,16 @@ double last_time = 0.0;
 void flightManagement(void * input){
     printf("in flight management\n");
 
-    //altitude = ((struct aviao_t*) input)->altitude;
-    //vel_init = ((struct aviao_t*) input)->vel_init;
-    //vel_final = ((struct aviao_t*) input)->vel_final;
+    altitude = ((struct aviao_t*) input)->altitude;
+    vel_init = ((struct aviao_t*) input)->vel_init;
+    vel_final = ((struct aviao_t*) input)->vel_final;
 
-    //double drag = computeDrag(altitude);
+    printf("Valores da estrutura %i %d %d \n", altitude, vel_init, vel_final);
 
+    double drag = computeDrag(altitude);
+    printf("Drag = %d", drag);
+    
+    
     //while(1)
     //
     //computeSpeed(time)
