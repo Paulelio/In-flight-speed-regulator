@@ -28,5 +28,5 @@ void flightManagement(void* input);
  */
 double getSpeed(double time);
 
-double getDrag(int h);
+double computeDrag(int h);
 #endif
