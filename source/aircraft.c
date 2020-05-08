@@ -18,6 +18,17 @@ Funcao main que inicializa e coordena o sistema
 #include "ctrl.h"
 #include "fdr.h"
 
+/** Tabela 1
+ * Valores minimos e maximos para as variaveis
+ *	|     Name      | Minimum | Maximum | Units |
+ *  |---------------|---------|---------|-------|
+ * 	| Engine thrust | 0       | 242     | kN    |
+ * 	| Speed         | 300     | 823     | km/h  |
+ * 	| Altitude      | 1000    | 12500   | m     |
+ * 	Peso = 79000 kg
+ */
+
+
 /** Funcao para verificar se a velocidade estah dentro dos limites
  * Parameters: v - velocidade
  * Return: true if 300 <= v <= 823, false otherwise
@@ -39,16 +50,6 @@ bool verifyHeight(int h){
 	}
 	return true;
 }
-
-/** Tabela 1
- * Valores minimos e maximos para as variaveis
- *	|     Name      | Minimum | Maximum | Units |
- *  |---------------|---------|---------|-------|
- * 	| Engine thrust | 0       | 242     | kN    |
- * 	| Speed         | 300     | 823     | km/h  |
- * 	| Altitude      | 1000    | 12500   | m     |
- * 	Peso = 79000 kg
- */
 
 int main(int argc, char** argv) {
 
@@ -92,14 +93,14 @@ int main(int argc, char** argv) {
 	pthread_t fdr_thread;
 
 	//thread do Flight Management Computer
-	pthread_create(fmc_thread, NULL, flightManagement, (void *) aviao);
+	pthread_create(&fmc_thread, NULL, &flightManagement, &aviao);
 	//adicionar argumentos de inicializacao - altitude e velocidades
 
 	//thread do Control Algorithm
-	pthread_create(ctrl_thread, NULL, controlAlgorithm, NULL);
+	pthread_create(&ctrl_thread, NULL, &controlAlgorithm, NULL);
 	
 	//thread do Flight Data Recorder
-	pthread_create(fdr_thread, NULL, flightDataRecorder, NULL);
+	pthread_create(&fdr_thread, NULL, &flightDataRecorder, NULL);
 	
 	pthread_join(fmc_thread, NULL); //-- ver exemplo nos slides
 	pthread_join(ctrl_thread, NULL);
