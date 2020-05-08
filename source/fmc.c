@@ -85,7 +85,7 @@ void flightManagement(void * input){
 
     printf("Valores da estrutura %i %d %d \n", altitude, vel_init, vel_final);
 
-    double drag = computeDrag(altitude);
+    double drag = computeDrag(4000);
     printf("Drag = %d\n", drag);
     
     
