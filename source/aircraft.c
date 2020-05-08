@@ -81,7 +81,7 @@ int main(int argc, char** argv) {
 	aviao->altitude = altitude;
 	aviao->vel_init = vel_init;
 	aviao->vel_final = vel_final;
-
+	
 	/**
 	 * Criacao de threads para correrem as
 	 * varias atividades
@@ -101,5 +101,7 @@ int main(int argc, char** argv) {
 	//thread do Flight Data Recorder
 	//pthread_create(fdr_thread, NULL, funcaoDoFDR, NULL);
 	//pthread_join() -- ver exemplo nos slides
+
+	free(aviao);
 }
 
