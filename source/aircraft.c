@@ -18,6 +18,28 @@ Funcao main que inicializa e coordena o sistema
 #include "ctrl.h"
 #include "fdr.h"
 
+/** Funcao para verificar se a velocidade estah dentro dos limites
+ * Parameters: v - velocidade
+ * Return: true if 300 <= v <= 823, false otherwise
+ */
+bool verifySpeed(int v){
+	if(v < 300 || v > 823){
+		return false;
+	}
+	return true;
+}
+
+/** Funcao para verificar se a altitude estah dentro dos limites
+ * Parameters: h - altitude
+ * Return: true if 300 <= v <= 823, false otherwise
+ */
+bool verifyHeight(int h){
+	if(h < 1000 || h > 12500){
+		return false;
+	}
+	return true;
+}
+
 /** Tabela 1
  * Valores minimos e maximos para as variaveis
  *	|     Name      | Minimum | Maximum | Units |
@@ -27,6 +49,7 @@ Funcao main que inicializa e coordena o sistema
  * 	| Altitude      | 1000    | 12500   | m     |
  * 	Peso = 79000 kg
  */
+
 int main(int argc, char** argv) {
 
 	if(argc != 3){
@@ -78,27 +101,5 @@ int main(int argc, char** argv) {
 	//thread do Flight Data Recorder
 	//pthread_create(fdr_thread, NULL, funcaoDoFDR, NULL);
 	//pthread_join() -- ver exemplo nos slides
-}
-
-/** Funcao para verificar se a velocidade estah dentro dos limites
- * Parameters: v - velocidade
- * Return: true if 300 <= v <= 823, false otherwise
- */
-bool verifySpeed(int v){
-	if(v < 300 || v > 823){
-		return false;
-	}
-	return true;
-}
-
-/** Funcao para verificar se a altitude estah dentro dos limites
- * Parameters: h - altitude
- * Return: true if 300 <= v <= 823, false otherwise
- */
-bool verifyHeight(int h){
-	if(h < 1000 || h > 12500){
-		return false;
-	}
-	return true;
 }
 
