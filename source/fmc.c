@@ -43,7 +43,7 @@ void computeSpeed(double time, double drag){
  * Parameters: h - altitude
  */ 
 double computeDrag(int h){
-	double drag = -100000 + 1.87 * h; //dependendo da restante implementacao pode ser local
+	double drag = 1.87 * h - 100000; //dependendo da restante implementacao pode ser local
     return drag;
 }
 
@@ -87,7 +87,7 @@ void flightManagement(void * input){
     printf("Valores da estrutura %i %d %d \n", altitude, vel_init, vel_final);
 
     double drag = computeDrag(4000);
-    printf("Drag = %d\n", drag);
+    printf("Drag = %.d\n", drag);
     
     
     //while(1)
