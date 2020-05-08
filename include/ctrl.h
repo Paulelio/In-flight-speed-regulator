@@ -11,5 +11,9 @@ Paulo Alvares 49460
 /*  Ajustar o thrust T para chegar à Velocidade   */
 /*  0 <= T <= 242 | speed = f_get_speed() |   */
 
+/**
+ * Funcao corpo do Control Algorithm
+ */
+int controlAlgorithm(void* input);
 
 #endif

@@ -14,7 +14,7 @@ Paulo Alvares 49460
  */ 
 int controlAlgorithm(void * input){
     //processar input ???
-
+    printf("Control Algorithm\n");
     //while(1)
     //buscar speed
     //computar thrust

@@ -16,7 +16,6 @@ int vel_init = 0;
 int vel_final = 0;
 
 double vel = 0.0;
-double drag = 0.0; 
 double thrust = 0.0;
 
 double last_time = 0.0;
@@ -31,12 +30,14 @@ double last_time = 0.0;
  * 
  * 
  */ 
-int flightManagement(void * input){
-    altitude = ((struct aviao_t*) input)->altitude;
-    vel_init = ((struct aviao_t*) input)->vel_init;
-    vel_final = ((struct aviao_t*) input)->vel_final;
+void flightManagement(void * input){
+    printf("in flight management\n");
 
-    computeDrag(altitude);
+    //altitude = ((struct aviao_t*) input)->altitude;
+    //vel_init = ((struct aviao_t*) input)->vel_init;
+    //vel_final = ((struct aviao_t*) input)->vel_final;
+
+    //double drag = computeDrag(altitude);
 
     //while(1)
     //
@@ -51,7 +52,7 @@ int flightManagement(void * input){
  * Parameters: time - instante de tempo
  * Returns: velocidade resultante
  */ 
-void computeSpeed(double time){
+void computeSpeed(double time, double drag){
     double new_vel = vel + (thrust + drag)/(peso/10000^2) * (time - last_time);
     last_time = time; //atualiza os
     vel = new_vel;    //valores antigos
@@ -61,8 +62,8 @@ void computeSpeed(double time){
  * Calcula o drag dada uma certa altitude h
  * Parameters: h - altitude
  */ 
-void computeDrag(int h){
-	drag = -100000 + 1.87 * h; //dependendo da restante implementacao pode ser local
+double computeDrag(int h){
+	return -100000 + 1.87 * h; //dependendo da restante implementacao pode ser local
 }
 
 /** Funcao de comunicacao com ctrl

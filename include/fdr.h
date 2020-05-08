@@ -9,12 +9,15 @@ Paulo Alvares 49460
 
 #include <stdbool.h>
 
-
-
 /*	Definir interface do flight data recorder	*/
 /*      */
 /*      */
 /*      */
+
+/**
+ * Funcao corpo do Flight Data Recorder
+ */
+int flightDataRecorder(void* input);
 
 bool storeData();
 

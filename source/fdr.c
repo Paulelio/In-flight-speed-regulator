@@ -18,7 +18,8 @@ FILE *fileRecord;
  * 
  */ 
 int flightDataRecorder(void * input){
-
+    printf("o input e este \n");
+    return 0;
 }
 /** funcao para escrever os records para um ficheiro csv
  * a estrutar do ficheiro e do tipo <timestamp,speed,thrust>
@@ -30,6 +31,6 @@ int flightDataRecorder(void * input){
 void writeToRecord(time_t timestamp, double speed, double thrust){
 
     fileRecord = fopen("/tmp/fdrBlackbox.csv", "a");
-    fprintf(fileRecord, "%s, %s, %s\n", timestamp, speed, thrust);
+    fprintf(fileRecord, "%s, %d, %d\n", timestamp, speed, thrust);
     fclose(fileRecord);
 }
