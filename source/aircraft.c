@@ -81,7 +81,7 @@ int main(int argc, char** argv) {
 	aviao->altitude = altitude;
 	aviao->vel_init = vel_init;
 	aviao->vel_final = vel_final;
-	printf("passei o struct");
+	printf("passei o struct\n");
 	/**
 	 * Criacao de threads para correrem as
 	 * varias atividades
