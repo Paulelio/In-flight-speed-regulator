@@ -8,7 +8,8 @@ Paulo Alvares 49460
 #include "fmc.h"
 #define peso 79000
 #define period 1 //in milliseconds 
-#define NACQUI = 5; //valor de quantos em quantos ciclos vai ser enviada info para o fdr
+#define NACQUI 5 //valor de quantos em quantos ciclos vai ser enviada info para o fdr
+#define limit_interval 0.05 //valor de intervalo aceitavel da velocidade final
 
 //variaveis globais -- podem ser alteradas no futuro
 int altitude = 0;
@@ -25,31 +26,6 @@ double last_time = 0.0;
  * int clock_gettime(clockid_t clock_id, struct timespec *tp);
  * int clock_settime(clockid_t clock_id, const struct timespec *tp);
  */
-
-/** Funcao principal do FMC
- * 
- * 
- */ 
-void flightManagement(void * input){
-    printf("in flight management\n");
-
-    altitude = ((struct aviao_t*) input)->altitude;
-    vel_init = ((struct aviao_t*) input)->vel_init;
-    vel_final = ((struct aviao_t*) input)->vel_final;
-
-    printf("Valores da estrutura %i %d %d \n", altitude, vel_init, vel_final);
-
-    double drag = computeDrag(altitude);
-    printf("Drag = %d", drag);
-    
-    
-    //while(1)
-    //
-    //computeSpeed(time)
-    //verify velocity requirements
-    //update time
-    //sleep(periodo)
-}
 
 /** Funcao para calcular a velocidade
  * Calcula a velocidade num certo instante de tempo com um certo thrust
@@ -89,8 +65,33 @@ double f_set_thrust(double new_thrust){
  * Returns: true - se estiver a menos de 5%, false se estiver fora desse limite
  */ 
 bool verifySpeedLim(double speed){
-    if(speed < vel_final * 0.95 || speed > vel_final * 1.05){ //passar para constantes os valores limite #define
+    if(speed < vel_final * (1 - limit_interval) || speed > vel_final * (1 + limit_interval)){ //passar para constantes os valores limite #define
         return false;
     }
     return true;
+}
+
+/** Funcao principal do FMC
+ * 
+ * 
+ */ 
+void flightManagement(void * input){
+    printf("in flight management\n");
+
+    altitude = ((struct aviao_t*) input)->altitude;
+    vel_init = ((struct aviao_t*) input)->vel_init;
+    vel_final = ((struct aviao_t*) input)->vel_final;
+
+    printf("Valores da estrutura %i %d %d \n", altitude, vel_init, vel_final);
+
+    double drag = computeDrag(altitude);
+    printf("Drag = %d", drag);
+    
+    
+    //while(1)
+    //
+    //computeSpeed(time)
+    //verify velocity requirements
+    //update time
+    //sleep(periodo)
 }
