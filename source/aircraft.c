@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
 		return -1;
 	}
 
-	//explicar no relatorio que estamos a trabalhar com inteiros
+	//explicar no relatorio que estamos a trabalhar com inteiros apenas
 
 	//data verifiers
 	int altitude = atoi(argv[1]);
