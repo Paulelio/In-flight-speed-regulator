@@ -6,7 +6,7 @@ Coisas a fazer:
     ☐ Testar o código que já temos
         ☐ Testar verificacao de input
         ☐ Testar formulas
-    ☐ 
+    ☐ Criar threads co prints para verificar se a execução está a funcionar
 
 DÚVIDAS:
     ✔ Como fazer o calculo do thrust no control algorithm, uma vez que não temos a informação do drag neste componente? @done(20-05-08 17:37) Utilizar percentagens das diferenças entre as velocidades dadas inicialmente
