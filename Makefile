@@ -21,5 +21,5 @@ aircraft:
 	$(CC) -o $(OBJ_dir)/$@ $< -I include $(CFLAGS) $(LDFLAGS) 
 
 clean:
-	@rm -f $(addprefix $(OBJ_dir)/,$(OBJETOS))
-	@rm -f $(addprefix $(BIN_dir)/aircraft)
+	rm -f $(addprefix $(OBJ_dir)/,$(OBJETOS))
+	rm -f $(addprefix $(BIN_dir)/aircraft)

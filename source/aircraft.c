@@ -35,6 +35,8 @@ int main(int argc, char** argv) {
 		return -1;
 	}
 
+	//explicar no relatorio que estamos a trabalhar com inteiros
+
 	//data verifiers
 	int altitude = atoi(argv[1]);
 	int vel_init = atoi(argv[2]);
@@ -50,16 +52,17 @@ int main(int argc, char** argv) {
 		return -1;
 	}
 
+	mlockall(MCL_FUTURE || MCL_CURRENT); // TEMPORARIO!!!!! comeca o bloqueio de parte ou todos os virtual address space dos processos para a RAM 
+	//provavelmente so o corrente -- verificar na doc
 	struct aviao_t* aviao = (struct aviao_t*) malloc(sizeof(struct aviao_t));
 	aviao->altitude = altitude;
 	aviao->vel_init = vel_init;
 	aviao->vel_final = vel_final;
 
-	mlockall(MCL_FUTURE || MCL_CURRENT); // TEMPORARIO!!!!! comeca o bloqueio de parte ou todos os virtual address space dos processos para a RAM 
-	
 	/**
 	 * Criacao de threads para correrem as
 	 * varias atividades
+	 * 
 	 */
 	pthread_t fmc_thread;
 	pthread_t ctrl_thread;
@@ -74,7 +77,7 @@ int main(int argc, char** argv) {
 	
 	//thread do Flight Data Recorder
 	//pthread_create(fdr_thread, NULL, funcaoDoFDR, NULL);
-	
+	//pthread_join() -- ver exemplo nos slides
 }
 
 /** Funcao para verificar se a velocidade estah dentro dos limites

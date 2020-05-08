@@ -16,7 +16,7 @@ int vel_init = 0;
 int vel_final = 0;
 
 double vel = 0.0;
-double drag = 0.0;
+double drag = 0.0; 
 double thrust = 0.0;
 
 double last_time = 0.0;
@@ -62,7 +62,7 @@ void computeSpeed(double time){
  * Parameters: h - altitude
  */ 
 void computeDrag(int h){
-	drag = -100000 + 1.87 * h;
+	drag = -100000 + 1.87 * h; //dependendo da restante implementacao pode ser local
 }
 
 /** Funcao de comunicacao com ctrl
@@ -84,7 +84,7 @@ double f_set_thrust(double new_thrust){
  * Returns: true - se estiver a menos de 5%, false se estiver fora desse limite
  */ 
 bool verifySpeedLim(double speed){
-    if(speed < vel_final * 0.95 || speed > vel_final * 1.05){
+    if(speed < vel_final * 0.95 || speed > vel_final * 1.05){ //passar para constantes os valores limite #define
         return false;
     }
     return true;

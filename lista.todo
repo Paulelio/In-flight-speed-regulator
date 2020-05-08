@@ -1,4 +1,4 @@
-Cenas a fazer:
+Coisas a fazer:
     ☐ Verificar mutual exclusion
     ☐ Como correr fmc.c e ctrl.c 
     ☐ Data visualization 
@@ -8,16 +8,15 @@ Cenas a fazer:
         ☐ Testar formulas
     ☐ 
 
-DUVIDAS:
-    ☐ Como fazer o calculo do thrust no control algorithm, uma vez que não temos a informação do drag neste componente?
-    ☐ Como correr o xenomai?
-    ☐ Como inicializar as cenas todas:
-        ☐ Ordem de prioridade (fmc > ctrl > fdr ??) 
-        ☐ 
-    ☐ A visualização dos dados é para fazer com base no ficheiro do flight recorder?
-    ☐ Os dados devem ser persistentes entre utilizações ou se são para ser apagados no fim de terminar a sessão?
-    ☐ Pode ser feita a alteração das permissões do ficheiro ld.so.cache?
-    ☐ Como é que se guarda a velocidade com o fmc uma vez que as leituras de ficheiros em RT podem causar page faults?
+DÚVIDAS:
+    ✔ Como fazer o calculo do thrust no control algorithm, uma vez que não temos a informação do drag neste componente? @done(20-05-08 17:37) Utilizar percentagens das diferenças entre as velocidades dadas inicialmente
+    ✔ Como correr o xenomai? @done(20-05-08 17:20)
+    ☐ Como inicializar as cenas todas: 
+        ✔ Ordem de prioridade (fmc > ctrl > fdr) @done(20-05-08 17:38)
+    ✔ A visualização dos dados é para fazer com base no ficheiro do flight recorder? @done(20-05-08 17:45)
+    ✔ Os dados devem ser persistentes entre utilizações ou se são para ser apagados no fim de terminar a sessão? @done(20-05-08 17:48)
+    ✔ Pode ser feita a alteração das permissões do ficheiro ld.so.cache? @done(20-05-08 17:14) R: Não convem porque o xenomai executa sempre em root
+    ✔ Como é que se guarda a velocidade com o fmc uma vez que as leituras de ficheiros em RT podem causar page faults? @done(20-05-08 17:50)
 
 Ctrl+Enter para criar novos bullet points
 Alt+D para alterar para feito
