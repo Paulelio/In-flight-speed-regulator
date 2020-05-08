@@ -82,8 +82,6 @@ int main(int argc, char** argv) {
 	aviao->vel_init = vel_init;
 	aviao->vel_final = vel_final;
 	printf("passei o struct\n");
-	
-	
 	/**
 	 * Criacao de threads para correrem as
 	 * varias atividades
@@ -103,7 +101,7 @@ int main(int argc, char** argv) {
 	//thread do Flight Data Recorder
 	pthread_create(fdr_thread, NULL, flightDataRecorder, NULL);
 	
-	pthread_join(fmc_thread,(void*) aviao); //-- ver exemplo nos slides
+	pthread_join(fmc_thread, NULL); //-- ver exemplo nos slides
 	pthread_join(ctrl_thread, NULL);
 	pthread_join(fdr_thread, NULL);
 
