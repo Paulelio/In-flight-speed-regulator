@@ -93,7 +93,7 @@ int main(int argc, char** argv) {
 	pthread_t fdr_thread;
 
 	//thread do Flight Management Computer
-	pthread_create(&fmc_thread, NULL, &flightManagement, &aviao);
+	pthread_create(&fmc_thread, NULL, &flightManagement, aviao);
 	//adicionar argumentos de inicializacao - altitude e velocidades
 
 	//thread do Control Algorithm
