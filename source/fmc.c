@@ -78,15 +78,15 @@ bool verifySpeedLim(double speed){
 void flightManagement(void * input){
     printf("in flight management\n");
     struct aviao_t * aviao = (struct aviao_t*) input;
-    
+
     altitude = aviao->altitude;
     vel_init = aviao->vel_init;
     vel_final = aviao->vel_final;
 
-    printf("Valores da estrutura %i %d %d \n", altitude, vel_init, vel_final);
+    printf("Valores da estrutura %i %d %d \n", &altitude, &vel_init, &vel_final);
 
     double drag = computeDrag(altitude);
-    printf("Drag = %d", drag);
+    printf("Drag = %d\n", drag);
     
     
     //while(1)
