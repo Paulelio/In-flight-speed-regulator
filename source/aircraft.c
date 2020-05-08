@@ -52,7 +52,7 @@ bool verifyHeight(int h){
 
 int main(int argc, char** argv) {
 
-	if(argc != 3){
+	if(argc != 4){
 		printf("Uso: ./aircraft <altitude> <velocidade_init> <velocidade_final>\n");
 		printf("Exemplo: ./aircraft 4000 500 600\n");
 		return -1;
