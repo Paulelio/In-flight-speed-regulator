@@ -43,7 +43,8 @@ void computeSpeed(double time, double drag){
  * Parameters: h - altitude
  */ 
 double computeDrag(int h){
-	return -100000 + 1.87 * h; //dependendo da restante implementacao pode ser local
+	double drag = -100000 + 1.87 * h; //dependendo da restante implementacao pode ser local
+    return drag;
 }
 
 /** Funcao de comunicacao com ctrl
