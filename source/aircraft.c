@@ -95,15 +95,15 @@ int main(int argc, char** argv) {
 	pthread_t fmc_thread, ctrl_thread, fdr_thread;
 
 	sched_attr attr;
-	attr.sched_policy = SCHED_DEADLINE;
+	(*attr).sched_policy = SCHED_DEADLINE;
 
 	//thread do Flight Management Computer
-	attr.sched_runtime = 30000000;
-	attr.sched_period = 100000000;
-	attr.sched_deadline = attr.sched_period;
+	(*attr).sched_runtime = 30000000;
+	(*attr).sched_period = 100000000;
+	(*attr).sched_deadline = attr.sched_period;
 		
-	attr.size = sizeof(struct attr);
-
+	(*attr).size = sizeof(struct attr);
+	printf("Debug attributes %d %d %d %d",(*attr).sched_runtime, (*attr).sched_period, (*attr).sched_deadline,(*attr).size);
 
 	if (sched_setattr(fmc_thread, &attr, 0))
 		perror("sched_setattr()");
