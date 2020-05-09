@@ -13,7 +13,6 @@ Funcao main que inicializa e coordena o sistema
 #include <unistd.h>
 #include <pthread.h> 
 #include <sys/mman.h>
-#include <sched/types.h>
 #include <linux/sched.h>
 
 #include "fmc.h"
