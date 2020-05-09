@@ -13,7 +13,7 @@ Funcao main que inicializa e coordena o sistema
 #include <unistd.h>
 #include <pthread.h> 
 #include <sys/mman.h>
-#include <linux/sched.h>
+#include <sched.h>
 
 #include "fmc.h"
 #include "ctrl.h"
@@ -93,17 +93,17 @@ int main(int argc, char** argv) {
 	 * 
 	 */
 	pthread_t fmc_thread, ctrl_thread, fdr_thread;
-
-	sched_attr attr;
-	(*attr).sched_policy = SCHED_DEADLINE;
+	//typedef struct sched_attr attr;
+	struct sched_attr attr;
+	attr.sched_policy = SCHED_DEADLINE;
 
 	//thread do Flight Management Computer
-	(*attr).sched_runtime = 30000000;
-	(*attr).sched_period = 100000000;
-	(*attr).sched_deadline = attr.sched_period;
+	attr.sched_runtime = 30000000;
+	attr.sched_period = 100000000;
+	attr.sched_deadline = attr.sched_period;
 		
-	(*attr).size = sizeof(struct attr);
-	printf("Debug attributes %d %d %d %d",(*attr).sched_runtime, (*attr).sched_period, (*attr).sched_deadline,(*attr).size);
+	attr->size = sizeof(struct attr);
+	printf("Debug attributes %d %d %d %d",attr->sched_runtime, attr->sched_period, attr->sched_deadline, attr->size);
 
 	if (sched_setattr(fmc_thread, &attr, 0))
 		perror("sched_setattr()");
