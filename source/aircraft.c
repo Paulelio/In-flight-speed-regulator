@@ -13,7 +13,8 @@ Funcao main que inicializa e coordena o sistema
 #include <unistd.h>
 #include <pthread.h> 
 #include <sys/mman.h>
-#include <sched.h>
+#include <linux/sched/types.h>
+#include <linux/sched.h>
 
 #include "fmc.h"
 #include "ctrl.h"
@@ -95,6 +96,7 @@ int main(int argc, char** argv) {
 	pthread_t fmc_thread, ctrl_thread, fdr_thread;
 	//typedef struct sched_attr attr;
 	struct sched_attr attr;
+
 	attr.sched_policy = SCHED_DEADLINE;
 
 	//thread do Flight Management Computer
