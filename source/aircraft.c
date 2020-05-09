@@ -94,16 +94,14 @@ int main(int argc, char** argv) {
 	 */
 	pthread_t fmc_thread, ctrl_thread, fdr_thread;
 
-	struct sched_attr attr{
-		sched_policy = SCHED_DEADLINE;
-	
+	sched_attr attr;
+	attr.sched_policy = SCHED_DEADLINE;
+
 	//thread do Flight Management Computer
-		sched_runtime = 30000000;
-		sched_period = 100000000;
-		sched_deadline = attr.sched_period;
+	attr.sched_runtime = 30000000;
+	attr.sched_period = 100000000;
+	attr.sched_deadline = attr.sched_period;
 		
-	};
-	
 	attr.size = sizeof(struct attr);
 
 
