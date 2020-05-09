@@ -10,7 +10,8 @@ Paulo Alvares 49460
 #define period 1 //in milliseconds 
 #define NACQUI 5 //valor de quantos em quantos ciclos vai ser enviada info para o fdr
 #define LIMIT_INTERVAL 0.05 //valor de intervalo aceitavel da velocidade final
-#define SAMPLE_INT = NULL
+#define SAMPLE_INT = 30000 //intervalo entre medicoes 30s (30000 ms)
+
 int vel_init = 0;
 int vel_final = 0;
 
@@ -77,11 +78,11 @@ void flightManagement(void * input){
     printf("in flight management\n");
     struct aviao_t * aviao = (struct aviao_t*) input;
 
-    altitude = (*aviao).altitude;
+    int altitude = (*aviao).altitude;
     vel_init = (*aviao).vel_init;
     vel_final = (*aviao).vel_final;
 
-    printf("Valores da estrutura %i %d %d \n", altitude, vel_init, vel_final);
+    printf("Valores da estrutura: altitude %i, velocidade inicial %d, velocidade final %d \n", altitude, vel_init, vel_final);
 
     double drag = computeDrag(altitude);
     printf("Drag = %f\n", drag);
