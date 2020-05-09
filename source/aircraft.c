@@ -13,6 +13,7 @@ Funcao main que inicializa e coordena o sistema
 #include <unistd.h>
 #include <pthread.h> 
 #include <sys/mman.h>
+#include <linux/sched.h>
 
 #include "fmc.h"
 #include "ctrl.h"
@@ -83,23 +84,49 @@ int main(int argc, char** argv) {
 	aviao->vel_init = vel_init;
 	aviao->vel_final = vel_final;
 	printf("passei o struct\n");
+	
+	
+	
 	/**
 	 * Criacao de threads para correrem as
 	 * varias atividades
 	 * 
 	 */
-	pthread_t fmc_thread;
-	pthread_t ctrl_thread;
-	pthread_t fdr_thread;
+	pthread_t fmc_thread, ctrl_thread, fdr_thread;
 
+	struct sched_attr attr;
+	attr.size = sizeof(struct attr);
+	attr.sched_policy = SCHED_DEADLINE;
+	
 	//thread do Flight Management Computer
+	attr.sched_runtime = 30000000;
+	attr.sched_period = 100000000;
+	attr.sched_deadline = attr.sched_period;
+
+	if (sched_setattr(fmc_thread, &attr, 0))
+		perror("sched_setattr()");
+
 	pthread_create(&fmc_thread, NULL, &flightManagement, (void *) aviao);
 	//adicionar argumentos de inicializacao - altitude e velocidades
 
 	//thread do Control Algorithm
+	attr.sched_runtime = 30000000;
+	attr.sched_period = 100000000;
+	attr.sched_deadline = attr.sched_period;
+ 
+	if (sched_setattr(ctrl_thread, &attr, 0))
+		perror("sched_setattr()");
+
 	pthread_create(&ctrl_thread, NULL, &controlAlgorithm, NULL);
 	
 	//thread do Flight Data Recorder
+	attr.sched_runtime = 30000000;
+	attr.sched_period = 100000000;
+	attr.sched_deadline = attr.sched_period;
+
+	if (sched_setattr(fdr_thread, &attr, 0))
+		perror("sched_setattr()");
+
 	pthread_create(&fdr_thread, NULL, &flightDataRecorder, NULL);
 	
 	pthread_join(fmc_thread, NULL); //-- ver exemplo nos slides

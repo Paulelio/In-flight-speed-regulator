@@ -9,10 +9,8 @@ Paulo Alvares 49460
 #define peso 79000
 #define period 1 //in milliseconds 
 #define NACQUI 5 //valor de quantos em quantos ciclos vai ser enviada info para o fdr
-#define limit_interval 0.05 //valor de intervalo aceitavel da velocidade final
-
-//variaveis globais -- podem ser alteradas no futuro
-int altitude = 0;
+#define LIMIT_INTERVAL 0.05 //valor de intervalo aceitavel da velocidade final
+#define SAMPLE_INT = NULL
 int vel_init = 0;
 int vel_final = 0;
 
@@ -43,8 +41,7 @@ void computeSpeed(double time, double drag){
  * Parameters: h - altitude
  */ 
 double computeDrag(int h){
-	double drag = (1.87 * h) - 100000; //dependendo da restante implementacao pode ser local
-    return drag;
+	return (1.87 * h) - 100000; //dependendo da restante implementacao pode ser local
 }
 
 /** Funcao de comunicacao com ctrl
@@ -66,7 +63,7 @@ double f_set_thrust(double new_thrust){
  * Returns: true - se estiver a menos de 5%, false se estiver fora desse limite
  */ 
 bool verifySpeedLim(double speed){
-    if(speed < vel_final * (1 - limit_interval) || speed > vel_final * (1 + limit_interval)){ //passar para constantes os valores limite #define
+    if(speed < vel_final * (1 - LIMIT_INTERVAL) || speed > vel_final * (1 + LIMIT_INTERVAL)){ //passar para constantes os valores limite #define
         return false;
     }
     return true;
