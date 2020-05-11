@@ -5,6 +5,8 @@ Paulo Alvares 49460
 */
 #include <time.h>
 #include <stdbool.h>
+#include <stdio.h>
+
 #include "fmc.h"
 #define peso 79000
 #define period 1 //in milliseconds 
@@ -55,7 +57,7 @@ double f_get_speed(){
 /** Funcao de comunicacao com ctrl
  * Altera o thrust para um novo valor
  */ 
-double f_set_thrust(double new_thrust){
+void f_set_thrust(double new_thrust){
     thrust = new_thrust; //adicionar locks
 }
 

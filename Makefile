@@ -1,7 +1,6 @@
 OBJ_dir = object
 SRC_dir = source
 BIN_dir = binary
-INC_dir = include
 
 skin = native
 CC = gcc
@@ -19,10 +18,10 @@ out:
 	make aircraft
 
 aircraft:
-	$(CC) $(OBJ_dir)/ctrl.o $(OBJ_dir)/fdr.o $(OBJ_dir)/fmc.o $(OBJ_dir)/aircraft.o -o $(BIN_dir)/aircraft $(CFLAGS) $(LDFLAGS) 
+	$(CC) $(OBJ_dir)/ctrl.o $(OBJ_dir)/fdr.o $(OBJ_dir)/fmc.o $(OBJ_dir)/aircraft.o -o $(BIN_dir)/aircraft $(CFLAGS) $(LDFLAGS) -lpthread
 
 $(OBJ_dir)/%.o: $(SRC_dir)/%.c $($@)
-	$(CC) -Wall -c -I include -o $@ $< $(CFLAGS) $(LDFLAGS)
+	$(CC) -Wall -g -c -I include -o $@ $< $(CFLAGS) $(LDFLAGS)
 
 clean:
 	@rm -f $(addprefix $(OBJ_dir)/,$(OBJETOS))

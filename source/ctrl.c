@@ -3,6 +3,7 @@ Grupo 1
 Diogo Fernandes 49992
 Paulo Alvares 49460
 */
+#include <stdio.h>
 
 #include "ctrl.h"
 
@@ -20,4 +21,6 @@ int controlAlgorithm(void * input){
     //computar thrust
     //guardar thrust para fmc
     //sleep periodo
+
+    return 0;
 }

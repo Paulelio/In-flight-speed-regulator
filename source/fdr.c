@@ -31,6 +31,8 @@ int flightDataRecorder(void * input){
 void writeToRecord(time_t timestamp, double speed, double thrust){
 
     fileRecord = fopen("/tmp/fdrBlackbox.csv", "a");
-    fprintf(fileRecord, "%s, %d, %d\n", timestamp, speed, thrust);
+    fprintf(fileRecord, "%ld, %f, %f\n", timestamp, speed, thrust);
     fclose(fileRecord);
+
+    return;
 }

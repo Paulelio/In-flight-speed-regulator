@@ -109,7 +109,7 @@ int main(int argc, char** argv) {
 	if (sched_setattr(fmc_thread, &attr, 0))
 		perror("sched_setattr()");
 
-	pthread_create(&fmc_thread, NULL, &flightManagement, (void *) aviao);
+	pthread_create(&fmc_thread, NULL, (void*) &flightManagement, (void *) aviao);
 	//adicionar argumentos de inicializacao - altitude e velocidades
 
 	//thread do Control Algorithm
@@ -120,7 +120,7 @@ int main(int argc, char** argv) {
 	if (sched_setattr(ctrl_thread, &attr, 0))
 		perror("sched_setattr()");
 
-	pthread_create(&ctrl_thread, NULL, &controlAlgorithm, NULL);
+	pthread_create(&ctrl_thread, NULL, (void*) &controlAlgorithm, NULL);
 	
 	//thread do Flight Data Recorder
 	attr.sched_runtime = 30000000;
@@ -130,7 +130,7 @@ int main(int argc, char** argv) {
 	if (sched_setattr(fdr_thread, &attr, 0))
 		perror("sched_setattr()");
 
-	pthread_create(&fdr_thread, NULL, &flightDataRecorder, NULL);
+	pthread_create(&fdr_thread, NULL, (void*) &flightDataRecorder, NULL);
 	
 	pthread_join(fmc_thread, NULL); //-- ver exemplo nos slides
 	pthread_join(ctrl_thread, NULL);
