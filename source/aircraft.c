@@ -19,6 +19,17 @@ Funcao main que inicializa e coordena o sistema
 #include "ctrl.h"
 #include "fdr.h"
 
+struct sched_attr {
+    uint32_t size;
+    uint32_t sched_policy;
+    uint64_t sched_flags;
+    int32_t sched_nice;
+    uint32_t sched_priority;
+    uint64_t sched_runtime;
+    uint64_t sched_deadline;
+    uint64_t sched_period;
+};
+
 /** Tabela 1
  * Valores minimos e maximos para as variaveis
  *	|     Name      | Minimum | Maximum | Units |
@@ -29,6 +40,15 @@ Funcao main que inicializa e coordena o sistema
  * 	Peso = 79000 kg
  */
 
+/**
+ * Funcao set attribute para scheduling
+ * 
+ */
+int sched_setattr(pid_t pid, 
+              const struct sched_attr *attr,
+                                unsigned int flags) {
+    return syscall(__NR_sched_setattr, pid, attr, flags);
+} 
 
 /** Funcao para verificar se a velocidade estah dentro dos limites
  * Parameters: v - velocidade
@@ -77,34 +97,34 @@ int main(int argc, char** argv) {
 		return -1;
 	}
 
+	//FAZER AQUI A CRIAÇÃO DA SHARED MEMORY
+	
+
 	mlockall(MCL_FUTURE || MCL_CURRENT); // TEMPORARIO!!!!! comeca o bloqueio de parte ou todos os virtual address space dos processos para a RAM 
+	
 	//provavelmente so o corrente -- verificar na doc
 	struct aviao_t* aviao = (struct aviao_t*) malloc(sizeof(struct aviao_t));
 	aviao->altitude = altitude;
 	aviao->vel_init = vel_init;
 	aviao->vel_final = vel_final;
-	printf("passei o struct\n");
-	
-	
-	
+	printf("passei o struct\n");	
+
 	/**
 	 * Criacao de threads para correrem as
 	 * varias atividades
 	 * 
 	 */
 	pthread_t fmc_thread, ctrl_thread, fdr_thread;
-	//typedef struct sched_attr attr;
-	struct sched_attr attr;
-
-	attr.sched_policy = SCHED_DEADLINE;
 
 	//thread do Flight Management Computer
-	attr.sched_runtime = 30000000;
-	attr.sched_period = 100000000;
-	attr.sched_deadline = attr.sched_period;
-		
-	attr->size = sizeof(struct attr);
-	printf("Debug attributes %d %d %d %d",attr->sched_runtime, attr->sched_period, attr->sched_deadline, attr->size);
+	struct sched_attr attrFMC = {
+        .size = sizeof (attr),
+        .sched_policy = SCHED_DEADLINE,
+        .sched_runtime = 10 * 1000 * 1000, // 10 000 000 microsegundos = 10 segundos
+        .sched_period = 1 * 1000 * 1000 * 1000, //1 000 000 000 nanosegundos = 1 segundos
+        .sched_deadline = 11 * 1000 * 1000 // 11 000 000 microsegundos = 11 segundos
+    };
+	//printf("Debug attributes %d %d %d %d",attr->sched_runtime, attr->sched_period, attr->sched_deadline, attr->size);
 
 	if (sched_setattr(fmc_thread, &attr, 0))
 		perror("sched_setattr()");
@@ -112,30 +132,29 @@ int main(int argc, char** argv) {
 	pthread_create(&fmc_thread, NULL, (void*) &flightManagement, (void *) aviao);
 	//adicionar argumentos de inicializacao - altitude e velocidades
 
-	//thread do Control Algorithm
-	attr.sched_runtime = 30000000;
-	attr.sched_period = 100000000;
-	attr.sched_deadline = attr.sched_period;
+	//thread do Control Algorithm-RT
+	struct sched_attr attrCTRL = {
+        .size = sizeof (attr),
+        .sched_policy = SCHED_DEADLINE,
+        .sched_runtime = 10 * 1000 * 1000,
+        .sched_period = 1 * 1000 * 1000 * 1000,
+        .sched_deadline = 11 * 1000 * 1000
+    };
  
 	if (sched_setattr(ctrl_thread, &attr, 0))
 		perror("sched_setattr()");
 
 	pthread_create(&ctrl_thread, NULL, (void*) &controlAlgorithm, NULL);
 	
+	//thread do Control Algorithm-NRT para teste
+	//pthread_create(&ctrl_thread, NULL, (void*) &controlAlgorithmNRT, NULL);
+
 	//thread do Flight Data Recorder
-	attr.sched_runtime = 30000000;
-	attr.sched_period = 100000000;
-	attr.sched_deadline = attr.sched_period;
-
-	if (sched_setattr(fdr_thread, &attr, 0))
-		perror("sched_setattr()");
-
 	pthread_create(&fdr_thread, NULL, (void*) &flightDataRecorder, NULL);
 	
 	pthread_join(fmc_thread, NULL); //-- ver exemplo nos slides
 	pthread_join(ctrl_thread, NULL);
 	pthread_join(fdr_thread, NULL);
-
 
 	free(aviao);
 }

@@ -11,8 +11,6 @@ Paulo Alvares 49460
 
 FILE *fileRecord;
 
-
-
 /** Funcao principal do FDR
  * 
  * 

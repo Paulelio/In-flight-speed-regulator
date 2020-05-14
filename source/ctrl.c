@@ -7,8 +7,6 @@ Paulo Alvares 49460
 
 #include "ctrl.h"
 
-#define period 10 //in milliseconds
-
 /** Funcao principal do ctrl
  * 
  * 
