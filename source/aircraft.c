@@ -14,6 +14,10 @@ Funcao main que inicializa e coordena o sistema
 #include <pthread.h> 
 #include <sys/mman.h>
 #include <linux/sched.h>
+#include <stdint.h>
+#include <sys/syscall.h>
+
+
 
 #include "fmc.h"
 #include "ctrl.h"
