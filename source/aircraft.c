@@ -122,7 +122,7 @@ int main(int argc, char** argv) {
 
 	//thread do Flight Management Computer
 	struct sched_attr attrFMC = {
-        .size = sizeof (attr),
+        .size = sizeof (attrFMC),
         .sched_policy = SCHED_DEADLINE,
         .sched_runtime = 10 * 1000 * 1000, // 10 000 000 microsegundos = 10 segundos
         .sched_period = 1 * 1000 * 1000 * 1000, //1 000 000 000 nanosegundos = 1 segundos
@@ -138,7 +138,7 @@ int main(int argc, char** argv) {
 
 	//thread do Control Algorithm-RT
 	struct sched_attr attrCTRL = {
-        .size = sizeof (attr),
+        .size = sizeof (attrCTRL),
         .sched_policy = SCHED_DEADLINE,
         .sched_runtime = 10 * 1000 * 1000,
         .sched_period = 1 * 1000 * 1000 * 1000,
