@@ -130,7 +130,7 @@ int main(int argc, char** argv) {
     };
 	//printf("Debug attributes %d %d %d %d",attr->sched_runtime, attr->sched_period, attr->sched_deadline, attr->size);
 
-	if (sched_setattr(fmc_thread, &attr, 0))
+	if (sched_setattr(fmc_thread, &attrFMC, 0))
 		perror("sched_setattr()");
 
 	pthread_create(&fmc_thread, NULL, (void*) &flightManagement, (void *) aviao);
@@ -145,7 +145,7 @@ int main(int argc, char** argv) {
         .sched_deadline = 11 * 1000 * 1000
     };
  
-	if (sched_setattr(ctrl_thread, &attr, 0))
+	if (sched_setattr(ctrl_thread, &attrCTRL, 0))
 		perror("sched_setattr()");
 
 	pthread_create(&ctrl_thread, NULL, (void*) &controlAlgorithm, NULL);
