@@ -13,6 +13,8 @@ Paulo Alvares 49460
 #include <linux/sched.h>
 #include <stdint.h>
 #include <sys/syscall.h>
+#include <sys/ipc.h> 
+#include <sys/msg.h> 
 
 #include "fmc.h"
 
@@ -30,6 +32,10 @@ double thrust = 0.0;
 
 double last_time = 0.0;
 
+struct mesg_buffer { 
+    long mesg_type; 
+    char mesg_text[100]; 
+} message; 
 
 struct sched_attr {
     uint32_t size;
@@ -102,6 +108,11 @@ bool verifySpeedLim(double speed){
     return true;
 }
 
+struct mesg_buffer { 
+    long mesg_type; 
+    char mesg_text[100]; 
+} message; 
+
 /** Funcao principal do FMC
  * 
  * 
@@ -132,7 +143,29 @@ void flightManagement(void * input){
 
     double drag = computeDrag(altitude);
     printf("Drag = %f\n", drag);
+
+    printf("A enviar para o FDR");
     
+    // write message
+    key_t key; 
+    int msgid; 
+  
+    // ftok to generate unique key 
+    key = ftok("progfile", 65); 
+  
+    // msgget creates a message queue 
+    // and returns identifier 
+    msgid = msgget(key, 0666 | IPC_CREAT); 
+    message.mesg_type = 1; 
+  
+    printf("Write Data : "); 
+    message.mesg_text = "1,300,200"; 
+  
+    // msgsnd to send message 
+    msgsnd(msgid, &message, sizeof(message), 0); 
+  
+    // display the message 
+    printf("Data send is : %s \n", message.mesg_text); 
     
     //while(1)
     //

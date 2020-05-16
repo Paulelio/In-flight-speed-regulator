@@ -58,7 +58,7 @@ bool verifyHeight(int h){
 	return true;
 }
 
-void* create_shared_memory(size_t size) {
+/* void* create_shared_memory(size_t size) {
   // o buffer é readeable e writeable
   int protection = PROT_READ | PROT_WRITE;
 
@@ -70,7 +70,7 @@ void* create_shared_memory(size_t size) {
   // The remaining parameters to `mmap()` are not important for this use case,
   // but the manpage for `mmap` explains their purpose.
   return mmap(NULL, size, protection, visibility, -1, 0);
-}
+} */
 
 int main(int argc, char** argv) {
 

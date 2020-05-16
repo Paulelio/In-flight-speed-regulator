@@ -36,6 +36,7 @@ int sched_setattrCTRL(pid_t pid,
     return syscall(__NR_sched_setattr, pid, attr, flags);
 }
 
+
 /** Funcao principal do ctrl
  * 
  * 
@@ -48,13 +49,7 @@ int controlAlgorithm(void * input){
         .sched_period = 1 * 1000 * 1000 * 1000,
         .sched_deadline = 11 * 1000 * 1000
     };
- 
-	if (sched_setattrCTRL(0, &attrCTRL, 0)){
-		perror("sched_setattr()");
-    }
 
-    //processar input ???
-    printf("Control Algorithm\n");
     //while(1)
     //buscar speed
     //computar thrust
