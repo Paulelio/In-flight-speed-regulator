@@ -49,7 +49,7 @@ int controlAlgorithm(void * input){
         .sched_deadline = 11 * 1000 * 1000
     };
  
-	if (sched_setattrCTRL(getpid(), &attrCTRL, 0)){
+	if (sched_setattrCTRL(0, &attrCTRL, 0)){
 		perror("sched_setattr()");
     }
 

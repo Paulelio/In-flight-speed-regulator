@@ -118,7 +118,7 @@ void flightManagement(void * input){
     };
 	//printf("Debug attributes %d %d %d %d",attr->sched_runtime, attr->sched_period, attr->sched_deadline, attr->size);
 
-	if (sched_setattrFMC(getpid(), &attrFMC, 0)){
+	if (sched_setattrFMC(0, &attrFMC, 0)){
         perror("sched_setattr()");
     }	
 
