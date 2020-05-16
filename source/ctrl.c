@@ -14,7 +14,27 @@ Paulo Alvares 49460
 #include <sys/syscall.h>
 
 #include "ctrl.h"
-#include "thread.h"
+
+struct sched_attr {
+    uint32_t size;
+    uint32_t sched_policy;
+    uint64_t sched_flags;
+    int32_t sched_nice;
+    uint32_t sched_priority;
+    uint64_t sched_runtime;
+    uint64_t sched_deadline;
+    uint64_t sched_period;
+};
+
+/**
+ * Funcao set attribute para scheduling
+ * 
+ */
+int sched_setattr(pid_t pid, 
+              const struct sched_attr *attr,
+                                unsigned int flags) {
+    return syscall(__NR_sched_setattr, pid, attr, flags);
+}
 
 /** Funcao principal do ctrl
  * 
