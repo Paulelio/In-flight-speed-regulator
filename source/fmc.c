@@ -46,7 +46,7 @@ struct sched_attr {
  * Funcao set attribute para scheduling
  * 
  */
-int sched_setattr(pid_t pid, 
+int sched_setattrFMC(pid_t pid, 
               const struct sched_attr *attr,
                                 unsigned int flags) {
     return syscall(__NR_sched_setattr, pid, attr, flags);
@@ -118,7 +118,7 @@ void flightManagement(void * input){
     };
 	//printf("Debug attributes %d %d %d %d",attr->sched_runtime, attr->sched_period, attr->sched_deadline, attr->size);
 
-	if (sched_setattr(getpid(), &attrFMC, 0)){
+	if (sched_setattrFMC(getpid(), &attrFMC, 0)){
         perror("sched_setattr()");
     }	
 

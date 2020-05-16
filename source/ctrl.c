@@ -30,7 +30,7 @@ struct sched_attr {
  * Funcao set attribute para scheduling
  * 
  */
-int sched_setattr(pid_t pid, 
+int sched_setattrCTRL(pid_t pid, 
               const struct sched_attr *attr,
                                 unsigned int flags) {
     return syscall(__NR_sched_setattr, pid, attr, flags);
@@ -49,7 +49,7 @@ int controlAlgorithm(void * input){
         .sched_deadline = 11 * 1000 * 1000
     };
  
-	if (sched_setattr(getpid(), &attrCTRL, 0)){
+	if (sched_setattrCTRL(getpid(), &attrCTRL, 0)){
 		perror("sched_setattr()");
     }
 
