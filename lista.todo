@@ -7,7 +7,7 @@ Coisas a fazer:
         ✔ Testar verificacao de input @done(20-05-08 20:08)
         ☐ Testar formulas
     ✔ Criar threads co prints para verificar se a execução está a funcionar @done(20-05-08 20:09)
-
+    ✔ message queue @done(20-05-16 18:27)
 DÚVIDAS:
     ✔ Como fazer o calculo do thrust no control algorithm, uma vez que não temos a informação do drag neste componente? @done(20-05-08 17:37) Utilizar percentagens das diferenças entre as velocidades dadas inicialmente
     ✔ Como correr o xenomai? @done(20-05-08 17:20)

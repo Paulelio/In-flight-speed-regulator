@@ -168,5 +168,6 @@ void flightManagement(void * input){
     //computeSpeed(time)
     //verify velocity requirements
     //update time
+    //envia mensagem
     //sleep(periodo)
 }
