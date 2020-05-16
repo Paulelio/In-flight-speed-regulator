@@ -140,7 +140,7 @@ void flightManagement(void * input){
     double drag = computeDrag(altitude);
     printf("Drag = %f\n", drag);
 
-    printf("A enviar para o FDR");
+    printf("A enviar para o FDR\n");
     
     // write message
     key_t key; 

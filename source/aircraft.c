@@ -118,18 +118,18 @@ int main(int argc, char** argv) {
 
 	//thread do Flight Management Computer
 	// pthread_create(&fmc_thread, NULL, (void*) &flightManagement, (void *) aviao);
-	pthread_create(&fmc_thread, NULL, flightManagement, (void *) aviao);
+	pthread_create(&fmc_thread, NULL, (void *) flightManagement, (void *) aviao);
 	//adicionar argumentos de inicializacao - altitude e velocidades
 
 	//thread do Control Algorithm-RT
 	// pthread_create(&ctrl_thread, NULL, (void*) &controlAlgorithm, NULL);
-	pthread_create(&ctrl_thread, NULL, controlAlgorithm, NULL);
+	pthread_create(&ctrl_thread, NULL,  (void *) controlAlgorithm, NULL);
 	//thread do Control Algorithm-NRT para teste
 	//pthread_create(&ctrl_thread, NULL, (void*) &controlAlgorithmNRT, NULL);
 
 	//thread do Flight Data Recorder
 	// pthread_create(&fdr_thread, NULL, (void*) &flightDataRecorder, NULL);
-	pthread_create(&fdr_thread, NULL, flightDataRecorder, NULL);
+	pthread_create(&fdr_thread, NULL,  (void *) flightDataRecorder, NULL);
 
 
 	pthread_join(fmc_thread, NULL); //-- ver exemplo nos slides

@@ -24,7 +24,7 @@ struct mesg_buffer {
  */ 
 int flightDataRecorder(void * input){
     printf("Flight Data Recorder \n");
-    printf("A ler do FMC");
+    printf("A ler do FMC\n");
     //read message
     
     key_t key; 
