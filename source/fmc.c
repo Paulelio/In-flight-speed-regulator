@@ -108,10 +108,6 @@ bool verifySpeedLim(double speed){
     return true;
 }
 
-struct mesg_buffer { 
-    long mesg_type; 
-    char mesg_text[100]; 
-} message; 
 
 /** Funcao principal do FMC
  * 
