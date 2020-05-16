@@ -160,6 +160,8 @@ int main(int argc, char** argv) {
 	pthread_join(ctrl_thread, NULL);
 	pthread_join(fdr_thread, NULL);
 
+	printf('%lx, %lx, %lx', *ctrl_thread, *fmc_thread, *fdr_thread)
+
 	free(aviao);
 }
 
