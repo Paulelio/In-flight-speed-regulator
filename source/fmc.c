@@ -15,7 +15,6 @@ Paulo Alvares 49460
 #include <sys/syscall.h>
 
 #include "fmc.h"
-#include "thread.h"
 
 #define peso 79000
 #define period 1 //in milliseconds 
