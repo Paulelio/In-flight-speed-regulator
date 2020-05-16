@@ -4,10 +4,19 @@ Diogo Fernandes 49992
 Paulo Alvares 49460
 */
 #include <time.h>
-#include <stdbool.h>
 #include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h> 
+#include <unistd.h>
+#include <pthread.h> 
+#include <sys/mman.h>
+#include <linux/sched.h>
+#include <stdint.h>
+#include <sys/syscall.h>
 
 #include "fmc.h"
+#include "thread.h"
+
 #define peso 79000
 #define period 1 //in milliseconds 
 #define NACQUI 5 //valor de quantos em quantos ciclos vai ser enviada info para o fdr
@@ -78,6 +87,20 @@ bool verifySpeedLim(double speed){
  */ 
 void flightManagement(void * input){
     printf("in flight management\n");
+
+    struct sched_attr attrFMC = {
+        .size = sizeof (attrFMC),
+        .sched_policy = SCHED_DEADLINE,
+        .sched_runtime = 10 * 1000 * 1000, // 10 000 000 microsegundos = 10 segundos
+        .sched_period = 1 * 1000 * 1000 * 1000, //1 000 000 000 nanosegundos = 1 segundos
+        .sched_deadline = 11 * 1000 * 1000 // 11 000 000 microsegundos = 11 segundos
+    };
+	//printf("Debug attributes %d %d %d %d",attr->sched_runtime, attr->sched_period, attr->sched_deadline, attr->size);
+
+	if (sched_setattr(getpid(), &attrFMC, 0)){
+        perror("sched_setattr()");
+    }	
+
     struct aviao_t * aviao = (struct aviao_t*) input;
 
     int altitude = (*aviao).altitude;
