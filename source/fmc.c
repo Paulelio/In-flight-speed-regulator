@@ -155,7 +155,7 @@ void flightManagement(void * input){
     message.mesg_type = 1; 
   
     printf("Write Data : "); 
-    message.mesg_text = "1,300,200"; 
+    message.mesg_text = {"2,300,200", "3,400,215"}; 
   
     // msgsnd to send message 
     msgsnd(msgid, &message, sizeof(message), 0); 
