@@ -7,6 +7,7 @@ Paulo Alvares 49460
 #include <stdio.h>
 #include <sys/ipc.h> 
 #include <sys/msg.h>
+#include <unistd.h>
 
 #include "fdr.h"
 #include "fmc.h"

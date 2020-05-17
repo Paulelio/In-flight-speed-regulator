@@ -37,7 +37,7 @@ int vel_final = 0;
 double vel = 0.0;
 double thrust = 0.0;
 
-double last_time = 0.0;
+struct timespec *last_time;
 
 struct mesg_buffer { 
     long mesg_type; 
@@ -70,10 +70,22 @@ int sched_setattrFMC(pid_t pid,
  * Parameters: time - instante de tempo
  * Returns: velocidade resultante
  */ 
-void computeSpeed(time_t time, double drag){
-    double new_vel = vel + (thrust + drag)/(peso/10000^2) * (time - last_time);
+void computeSpeed(struct timespec *time, double drag){
+    time_t result;
+    long nano_result;
+
+    if ((time->tv_nsec - last_time->tv_nsec) < 0) {
+        result = time->tv_sec - last_time->tv_sec - 1;
+        nano_result = time->tv_nsec - last_time->tv_nsec + 1000000000;
+    } else {
+        result = time->tv_sec - last_time->tv_sec;
+        nano_result = time->tv_nsec - last_time->tv_nsec;
+    }
+
+    double new_vel = vel + (thrust + drag)/(peso/10000^2) * (result + nano_result/1000000000);
     last_time = time; //atualiza os
     vel = new_vel;    //valores antigos
+    
 }
 
 /** Funcao para calcular o Drag
@@ -155,13 +167,18 @@ void flightManagement(void * input){
 
     int cycle_num = 1;
 
+    //time struct
+    struct timespec *tp;
+
+    clock_gettime(CLOCK_REALTIME, tp);
+
     if (sched_setattrFMC(0, &attrFMC, 0)){
         perror("sched_setattr()");
     }
 
     for(;;){
         
-        vel = computeSpeed(time, drag);
+        computeSpeed(tp->tv_sec, drag);
         //update time
         //envia mensagem
 
@@ -171,7 +188,7 @@ void flightManagement(void * input){
             printf("A enviar para o FDR\n");
             printf("A escrever dados: \n");
 
-            long current_timestamp = (unsigned long)time(NULL);
+            long current_timestamp = (unsigned)time(NULL);
             snprintf(buffer, sizeof(buffer), "%ld,%f,%f", current_timestamp, vel, drag);
             strlcpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
 
