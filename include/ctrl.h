@@ -14,6 +14,6 @@ Paulo Alvares 49460
 /**
  * Funcao corpo do Control Algorithm
  */
-int controlAlgorithm(void* input);
+void controlAlgorithm(void* input);
 
 #endif

@@ -69,6 +69,8 @@ void controlAlgorithm(void * input){
     double integral_prior = 0.0;
 
     double vel_atual;
+    double vel_final;
+    double thrust;
     double iteration_time; //??
 
     if (sched_setattrCTRL(0, &attrCTRL, 0)){
@@ -78,10 +80,10 @@ void controlAlgorithm(void * input){
     for(;;){
 
         vel_atual = f_get_speed();
-        error = vel_final – vel_atual;
+        error = vel_final - vel_atual;
         integral = integral_prior + error * iteration_time;
-        derivative = (error – error_prior) / iteration_time;
-        thrust = KP*error + KI*integral + KD*derivative;
+        derivative = (error - error_prior) / iteration_time;
+        thrust = KP * error + KI * integral + KD * derivative;
         f_set_thrust(thrust);
         error_prior = error;
         integral_prior = integral;
