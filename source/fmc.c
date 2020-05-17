@@ -177,7 +177,7 @@ void flightManagement(void * input){
     }
 
     for(;;){
-        
+        printf("entrou no for\n");
         computeSpeed(tp, drag);
         //update time
         //envia mensagem
