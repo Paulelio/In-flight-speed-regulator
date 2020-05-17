@@ -37,7 +37,7 @@ int vel_final = 0;
 double vel = 0.0;
 double thrust = 0.0;
 
-struct timespec *last_time;
+struct timespec *last_time = malloc(sizeof(last_time));
 
 struct mesg_buffer { 
     long mesg_type; 
