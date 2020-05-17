@@ -178,7 +178,7 @@ void flightManagement(void * input){
 
     for(;;){
         
-        computeSpeed(tp->tv_sec, drag);
+        computeSpeed(tp, drag);
         //update time
         //envia mensagem
 
