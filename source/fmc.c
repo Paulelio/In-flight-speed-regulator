@@ -182,7 +182,7 @@ void flightManagement(void * input){
         //update time
         //envia mensagem
 
-        
+        printf("antes do if\n");
         // Envia mensagem a cada NACQUI ciclos
         if(cycle_num % NACQUI == 0 || verifySpeedLim(vel)){
             printf("A enviar para o FDR\n");
