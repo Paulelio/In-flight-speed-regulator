@@ -73,13 +73,17 @@ int sched_setattrFMC(pid_t pid,
 void computeSpeed(struct timespec *time, double drag){
     time_t result;
     long nano_result;
-
+    printf("antes do if \n");
     if ((time->tv_nsec - last_time->tv_nsec) < 0) {
+        printf("no if \n");
         result = time->tv_sec - last_time->tv_sec - 1;
         nano_result = time->tv_nsec - last_time->tv_nsec + 1000000000;
+        print("depois dos calculos\n");
     } else {
+        printf("no else\n");
         result = time->tv_sec - last_time->tv_sec;
         nano_result = time->tv_nsec - last_time->tv_nsec;
+        print("depois dos calculos\n");
     }
 
     double new_vel = vel + (thrust + drag)/(peso/10000^2) * (result + nano_result/1000000000);
