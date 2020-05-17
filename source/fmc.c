@@ -134,7 +134,7 @@ void flightManagement(void * input){
     printf("No Flight Management\n");
 
     struct sched_attr attrFMC = {
-        .size = sizeof (attrFMC),
+        .size = sizeof(attrFMC),
         .sched_policy = SCHED_DEADLINE,
         .sched_runtime = 10 * 1000 * 1000, // 10 000 000 microsegundos = 10 segundos
         .sched_period = 1 * 1000 * 1000 * 1000, //1 000 000 000 nanosegundos = 1 segundos
@@ -178,7 +178,9 @@ void flightManagement(void * input){
     struct timespec *tp = malloc(sizeof(struct timespec));
     clock_gettime(CLOCK_REALTIME, tp);
 
-    if (sched_setattrFMC(0, &attrFMC, 0)){
+    pid_t pid = syscall(SYS_gettid);
+
+    if (sched_setattrFMC(pid, &attrFMC, 0)){
         perror("sched_setattr()");
     }
 
