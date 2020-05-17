@@ -196,7 +196,7 @@ void flightManagement(void * input){
             strncpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
 
             // msgsnd to send message 
-            msgsnd(msgid, &fdr_message, sizeof(fdr_message), 0); 
+            msgsnd(msgFMCid, &fdr_message, sizeof(fdr_message), 0); 
 
             // display the message 
             printf("Dados enviados: %s \n", fdr_message.mesg_text); 
