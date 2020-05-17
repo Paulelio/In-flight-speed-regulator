@@ -209,8 +209,7 @@ void flightManagement(void * input){
             if(verifySpeedLim(vel)){
                 printf("Chegou ao limite aceitavel de velocidade\n");
                 free(tp);
-                free(last_time);
-                free(buffer);
+                // TEMOS QUE FAZER FREE DOS MALLOCS TOOOOOODOS
                 
                 pthread_exit(NULL);
             }
