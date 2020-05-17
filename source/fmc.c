@@ -155,9 +155,11 @@ void flightManagement(void * input){
     key_t key; 
     int msgid; 
 
+    printf("Busca key");
     // ftok to generate unique key 
     key = ftok("flightManagement", 65); 
 
+    printf("Busca message ID");
     // msgget creates a message queue 
     // and returns identifier 
     msgid = msgget(key, 0666 | IPC_CREAT); 
