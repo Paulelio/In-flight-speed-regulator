@@ -15,7 +15,7 @@ Paulo Alvares 49460
 #include <sys/syscall.h>
 #include <sys/ipc.h> 
 #include <sys/msg.h>
-#include <bsd/string.h> 
+#include <string.h> 
 
 #include "fmc.h"
 
