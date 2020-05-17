@@ -167,10 +167,11 @@ void flightManagement(void * input){
 
     int cycle_num = 1;
 
+    printf("Adquirir timespec");
     //time struct
     struct timespec *tp;
-
     clock_gettime(CLOCK_REALTIME, tp);
+    printf("Adquiriu timespec");
 
     if (sched_setattrFMC(0, &attrFMC, 0)){
         perror("sched_setattr()");
