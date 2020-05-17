@@ -14,7 +14,8 @@ Paulo Alvares 49460
 #include <stdint.h>
 #include <sys/syscall.h>
 #include <sys/ipc.h> 
-#include <sys/msg.h> 
+#include <sys/msg.h>
+#include <bsd/string.h> 
 
 #include "fmc.h"
 
@@ -38,10 +39,10 @@ double thrust = 0.0;
 
 double last_time = 0.0;
 
-struct mesg_buffer fdr_message { 
+struct mesg_buffer { 
     long mesg_type; 
     char mesg_text[1024];
-}; 
+} fdr_message; 
 
 struct sched_attr {
     uint32_t size;
@@ -69,7 +70,7 @@ int sched_setattrFMC(pid_t pid,
  * Parameters: time - instante de tempo
  * Returns: velocidade resultante
  */ 
-void computeSpeed(double time, double drag){
+void computeSpeed(time_t time, double drag){
     double new_vel = vel + (thrust + drag)/(peso/10000^2) * (time - last_time);
     last_time = time; //atualiza os
     vel = new_vel;    //valores antigos
@@ -160,7 +161,7 @@ void flightManagement(void * input){
 
     for(;;){
         
-        vel = computeSpeed(time);
+        vel = computeSpeed(time, drag);
         //update time
         //envia mensagem
 
@@ -171,7 +172,7 @@ void flightManagement(void * input){
             printf("A escrever dados: \n");
 
             long current_timestamp = (unsigned long)time(NULL);
-            snprintf(buffer, sizeof(buffer), "%lf,%f,%f", current_timestamp, vel, drag);
+            snprintf(buffer, sizeof(buffer), "%ld,%f,%f", current_timestamp, vel, drag);
             strlcpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
 
             // msgsnd to send message 
