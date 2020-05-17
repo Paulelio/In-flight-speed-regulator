@@ -32,7 +32,7 @@ int flightDataRecorder(void * input){
     int msgid; 
     
     // ftok to generate unique key 
-    key = ftok("flightDataRecorder", 65); 
+    key = ftok("progfile", 65); 
     
 
     

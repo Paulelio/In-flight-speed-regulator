@@ -152,28 +152,25 @@ void flightManagement(void * input){
     //INICIALIZAR VALORES TEMPORAIS?
 
     // write message
-    key_t keyFMC; 
-    int msgFMCid; 
+    key_t key; 
+    int msgid; 
 
-    printf("Busca key");
     // ftok to generate unique key 
-    keyFMC = ftok("flightManagement", 65); 
-
-    printf("Busca message ID");
+    key = ftok("progfile", 65); 
+    
     // msgget creates a message queue 
     // and returns identifier 
-    msgFMCid = msgget(keyFMC, 0666 | IPC_CREAT); 
+    msgid = msgget(key, 0666 | IPC_CREAT); 
     fdr_message.mesg_type = 1; 
 
-    char buffer[1024];
+    char buffer[1024] = malloc(sizeof(char));
 
     int cycle_num = 1;
 
-    printf("Adquirir timespec");
+    printf("Adquirir timespec\n");
     //time struct
     struct timespec *tp = malloc(sizeof(struct timespec));
     clock_gettime(CLOCK_REALTIME, tp);
-    printf("Adquiriu timespec");
 
     if (sched_setattrFMC(0, &attrFMC, 0)){
         perror("sched_setattr()");
@@ -196,13 +193,15 @@ void flightManagement(void * input){
             strncpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
 
             // msgsnd to send message 
-            msgsnd(msgFMCid, &fdr_message, sizeof(fdr_message), 0); 
+            msgsnd(msgid, &fdr_message, sizeof(fdr_message), 0); 
 
             // display the message 
             printf("Dados enviados: %s \n", fdr_message.mesg_text); 
 
             if(verifySpeedLim(vel)){
                 printf("Chegou ao limite aceitavel de velocidade\n");
+                free(attrFMC);
+                free(fdr_message);
                 pthread_exit(NULL);
             }
         }
