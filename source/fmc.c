@@ -78,14 +78,14 @@ void computeSpeed(struct timespec *time, double drag){
         printf("no if \n");
         result = time->tv_sec - last_time->tv_sec - 1;
         nano_result = time->tv_nsec - last_time->tv_nsec + 1000000000;
-        print("depois dos calculos\n");
+        printf("depois dos calculos\n");
     } else {
         printf("no else\n");
         result = time->tv_sec - last_time->tv_sec;
         nano_result = time->tv_nsec - last_time->tv_nsec;
-        print("depois dos calculos\n");
+        printf("depois dos calculos\n");
     }
-
+    printf("depois do if e do else");
     double new_vel = vel + (thrust + drag)/(peso/10000^2) * (result + nano_result/1000000000);
     last_time = time; //atualiza os
     vel = new_vel;    //valores antigos
