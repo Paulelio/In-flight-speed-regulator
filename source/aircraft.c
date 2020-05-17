@@ -58,7 +58,7 @@ bool verifyHeight(int h){
 	return true;
 }
 
-/* void* create_shared_memory(size_t size) {
+void* create_shared_memory(size_t size) {
   // o buffer é readeable e writeable
   int protection = PROT_READ | PROT_WRITE;
 
@@ -70,7 +70,7 @@ bool verifyHeight(int h){
   // The remaining parameters to `mmap()` are not important for this use case,
   // but the manpage for `mmap` explains their purpose.
   return mmap(NULL, size, protection, visibility, -1, 0);
-} */
+}
 
 int main(int argc, char** argv) {
 
@@ -98,8 +98,12 @@ int main(int argc, char** argv) {
 	}
 
 	//FAZER AQUI A CRIAÇÃO DA SHARED MEMORY
-	
+	void * shmemSpeed = create_shared_memory(128);
+	void * shmemThrust = create_shared_memory(128);
 
+
+
+	// NAO SE PODE FAZER SHARED MEMORY DEPOIS DESTE COMENTARIO
 	mlockall(MCL_FUTURE || MCL_CURRENT); // TEMPORARIO!!!!! comeca o bloqueio de parte ou todos os virtual address space dos processos para a RAM 
 	
 	//provavelmente so o corrente -- verificar na doc
@@ -107,6 +111,7 @@ int main(int argc, char** argv) {
 	aviao->altitude = altitude;
 	aviao->vel_init = vel_init;
 	aviao->vel_final = vel_final;
+	aviao->thrust = shmemThrust;    
 	printf("passei o struct\n");	
 
 	/**
@@ -117,19 +122,17 @@ int main(int argc, char** argv) {
 	pthread_t fmc_thread, ctrl_thread, fdr_thread;
 
 	//thread do Flight Management Computer
-	// pthread_create(&fmc_thread, NULL, (void*) &flightManagement, (void *) aviao);
-	pthread_create(&fmc_thread, NULL, (void *) flightManagement, (void *) aviao);
+	pthread_create(&fmc_thread, NULL, (void*) &flightManagement, (void *) aviao);
 	//adicionar argumentos de inicializacao - altitude e velocidades
 
 	//thread do Control Algorithm-RT
-	// pthread_create(&ctrl_thread, NULL, (void*) &controlAlgorithm, NULL);
-	pthread_create(&ctrl_thread, NULL,  (void *) controlAlgorithm, NULL);
+	pthread_create(&ctrl_thread, NULL, (void*) &controlAlgorithm, NULL);
 	//thread do Control Algorithm-NRT para teste
 	//pthread_create(&ctrl_thread, NULL, (void*) &controlAlgorithmNRT, NULL);
 
 	//thread do Flight Data Recorder
-	// pthread_create(&fdr_thread, NULL, (void*) &flightDataRecorder, NULL);
-	pthread_create(&fdr_thread, NULL,  (void *) flightDataRecorder, NULL);
+	pthread_create(&fdr_thread, NULL, (void*) &flightDataRecorder, NULL);
+	
 
 
 	pthread_join(fmc_thread, NULL); //-- ver exemplo nos slides

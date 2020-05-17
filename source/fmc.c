@@ -24,6 +24,12 @@ Paulo Alvares 49460
 #define LIMIT_INTERVAL 0.05 //valor de intervalo aceitavel da velocidade final
 #define SAMPLE_INT = 30000 //intervalo entre medicoes 30s (30000 ms)
 
+/** Funcoes para uso de relogios
+ * int clock_getres(clockid_t clock_id, struct timespec *res);
+ * int clock_gettime(clockid_t clock_id, struct timespec *tp);
+ * int clock_settime(clockid_t clock_id, const struct timespec *tp);
+ */
+
 int vel_init = 0;
 int vel_final = 0;
 
@@ -32,10 +38,10 @@ double thrust = 0.0;
 
 double last_time = 0.0;
 
-struct mesg_buffer { 
+struct mesg_buffer fdr_message { 
     long mesg_type; 
-    char mesg_text[100]; 
-} message; 
+    char mesg_text[1024];
+}; 
 
 struct sched_attr {
     uint32_t size;
@@ -57,12 +63,6 @@ int sched_setattrFMC(pid_t pid,
                                 unsigned int flags) {
     return syscall(__NR_sched_setattr, pid, attr, flags);
 } 
-
-/** Funcoes para uso de relogios
- * int clock_getres(clockid_t clock_id, struct timespec *res);
- * int clock_gettime(clockid_t clock_id, struct timespec *tp);
- * int clock_settime(clockid_t clock_id, const struct timespec *tp);
- */
 
 /** Funcao para calcular a velocidade
  * Calcula a velocidade num certo instante de tempo com um certo thrust
@@ -114,7 +114,7 @@ bool verifySpeedLim(double speed){
  * 
  */ 
 void flightManagement(void * input){
-    printf("in flight management\n");
+    printf("No Flight Management\n");
 
     struct sched_attr attrFMC = {
         .size = sizeof (attrFMC),
@@ -124,10 +124,6 @@ void flightManagement(void * input){
         .sched_deadline = 11 * 1000 * 1000 // 11 000 000 microsegundos = 11 segundos
     };
 	//printf("Debug attributes %d %d %d %d",attr->sched_runtime, attr->sched_period, attr->sched_deadline, attr->size);
-
-	if (sched_setattrFMC(0, &attrFMC, 0)){
-        perror("sched_setattr()");
-    }	
 
     struct aviao_t * aviao = (struct aviao_t*) input;
 
@@ -140,34 +136,60 @@ void flightManagement(void * input){
     double drag = computeDrag(altitude);
     printf("Drag = %f\n", drag);
 
-    printf("A enviar para o FDR\n");
-    
+    //INICIALIZAR VALORES TEMPORAIS?
+
     // write message
     key_t key; 
     int msgid; 
-  
+
     // ftok to generate unique key 
-    key = ftok("progfile", 65); 
-  
+    key = ftok("flightManagement", 65); 
+
     // msgget creates a message queue 
     // and returns identifier 
     msgid = msgget(key, 0666 | IPC_CREAT); 
-    message.mesg_type = 1; 
-  
-    printf("Write Data : "); 
-    strcpy(message.mesg_text, "2,300,200"); 
-  
-    // msgsnd to send message 
-    msgsnd(msgid, &message, sizeof(message), 0); 
-  
-    // display the message 
-    printf("Data send is : %s \n", message.mesg_text); 
+    fdr_message.mesg_type = 1; 
+
+    char buffer[1024];
+
+    int cycle_num = 1;
+
+    if (sched_setattrFMC(0, &attrFMC, 0)){
+        perror("sched_setattr()");
+    }
+
+    for(;;){
+        
+        vel = computeSpeed(time);
+        //update time
+        //envia mensagem
+
+        
+        // Envia mensagem a cada NACQUI ciclos
+        if(cycle_num % NACQUI == 0 || verifySpeedLim(vel)){
+            printf("A enviar para o FDR\n");
+            printf("A escrever dados: \n");
+
+            long current_timestamp = (unsigned long)time(NULL);
+            snprintf(buffer, sizeof(buffer), "%lf,%f,%f", current_timestamp, vel, drag);
+            strlcpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
+
+            // msgsnd to send message 
+            msgsnd(msgid, &fdr_message, sizeof(fdr_message), 0); 
+
+            // display the message 
+            printf("Dados enviados: %s \n", fdr_message.mesg_text); 
+
+            if(verifySpeedLim(vel)){
+                printf("Chegou ao limite aceitavel de velocidade\n");
+                pthread_exit(NULL);
+            }
+        }
+        cycle_num ++;
+        sched_yield();
+    }
     
-    //while(1)
-    //
-    //computeSpeed(time)
-    //verify velocity requirements
-    //update time
-    //envia mensagem
-    //sleep(periodo)
+
+   
+
 }

@@ -15,7 +15,7 @@ FILE *fileRecord;
 
 struct mesg_buffer { 
     long mesg_type; 
-    char mesg_text[100]; 
+    char mesg_text[1024]; 
 } message; 
 
 /** Funcao principal do FDR
@@ -31,17 +31,17 @@ int flightDataRecorder(void * input){
     int msgid; 
     
     // ftok to generate unique key 
-    key = ftok("progfile", 65); 
+    key = ftok("flightDataRecorder", 65); 
   
     // msgget creates a message queue 
     // and returns identifier 
     msgid = msgget(key, 0666 | IPC_CREAT); 
-  
+    // CICLO PARA ESTAR SEMPRE A ESCUTA DA MENSAGEM
     // msgrcv to receive message 
     msgrcv(msgid, &message, sizeof(message), 1, 0); 
   
     // display the message 
-    printf("Data Received is : %s \n",  
+    printf("Dados Recebidos: %s \n",  
                     message.mesg_text); 
   
     // to destroy the message queue 
@@ -51,11 +51,8 @@ int flightDataRecorder(void * input){
 }
 /** funcao para escrever os records para um ficheiro csv
  * a estrutar do ficheiro e do tipo <timestamp,speed,thrust>
- * 
- * 
- * 
  */
-
+// FALTA DAR SPLIT DA MENSAGEM 
 void writeToRecord(time_t timestamp, double speed, double thrust){
 
     fileRecord = fopen("/tmp/fdrBlackbox.csv", "a");

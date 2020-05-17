@@ -1,5 +1,6 @@
 Coisas a fazer:
     ☐ Verificar mutual exclusion
+    ☐ Memória partilhada
     ✔ Como correr fmc.c e ctrl.c @done(20-05-08 20:08)
     ☐ Data visualization
     ☐ Multithreads 
@@ -21,3 +22,4 @@ DÚVIDAS:
 Ctrl+Enter para criar novos bullet points
 Alt+D para alterar para feito
 Alt+C para cancelar
+
