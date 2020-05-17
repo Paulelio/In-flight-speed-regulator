@@ -163,7 +163,7 @@ void flightManagement(void * input){
     msgid = msgget(key, 0666 | IPC_CREAT); 
     fdr_message.mesg_type = 1; 
 
-    char buffer[1024] = malloc(1024);
+    char *buffer = (char *) malloc(1024);
 
     int cycle_num = 1;
 
