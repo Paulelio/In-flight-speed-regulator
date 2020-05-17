@@ -32,17 +32,23 @@ int flightDataRecorder(void * input){
     
     // ftok to generate unique key 
     key = ftok("flightDataRecorder", 65); 
-  
+    
+
+    
+    
     // msgget creates a message queue 
     // and returns identifier 
     msgid = msgget(key, 0666 | IPC_CREAT); 
     // CICLO PARA ESTAR SEMPRE A ESCUTA DA MENSAGEM
-    // msgrcv to receive message 
-    msgrcv(msgid, &message, sizeof(message), 1, 0); 
+    for(;;){
+        // msgrcv to receive message 
+        msgrcv(msgid, &message, sizeof(message), 1, 0); 
   
-    // display the message 
-    printf("Dados Recebidos: %s \n",  
-                    message.mesg_text); 
+        // display the message 
+        printf("Dados Recebidos: %s \n",  
+                    message.mesg_text);
+    }
+     
   
     // to destroy the message queue 
     msgctl(msgid, IPC_RMID, NULL); 
