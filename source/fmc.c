@@ -37,7 +37,7 @@ int vel_final = 0;
 double vel = 0.0;
 double thrust = 0.0;
 
-struct timespec *last_time = malloc(sizeof *last_time);
+struct timespec *last_time;
 
 struct mesg_buffer { 
     long mesg_type; 
@@ -143,6 +143,8 @@ void flightManagement(void * input){
 	//printf("Debug attributes %d %d %d %d",attr->sched_runtime, attr->sched_period, attr->sched_deadline, attr->size);
 
     struct aviao_t * aviao = (struct aviao_t*) input;
+
+    last_time = malloc(sizeof *last_time);
 
     int altitude = (*aviao).altitude;
     vel_init = (*aviao).vel_init;
