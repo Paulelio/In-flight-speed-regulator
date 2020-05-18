@@ -76,7 +76,7 @@ void controlAlgorithm(void * input){
     sched_setattrCTRL(0, &attrCTRL, 0);
     
     for(;;){
-        printf("No for do CTRL\n");
+        // printf("No for do CTRL\n");
         vel_atual = f_get_speed();
         error = vel_final - vel_atual;
         integral = integral_prior + error * iteration_time;
@@ -92,3 +92,4 @@ void controlAlgorithm(void * input){
         sched_yield();
     }
 }
+ 
