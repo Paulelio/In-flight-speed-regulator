@@ -30,10 +30,11 @@ Paulo Alvares 49460
  * int clock_gettime(clockid_t clock_id, struct timespec *tp);
  * int clock_settime(clockid_t clock_id, const struct timespec *tp);
  */
-
+int start_time = (unsigned)time(NULL);
 int vel_final = 0.0;
 double vel = 0.0;
 double thrust = 0.0;
+long tempo_init;
 
 struct timespec *last_time;
 
@@ -72,7 +73,7 @@ void computeSpeed(struct timespec *time, double drag){
     time_t result;
     long nano_result;
 
-    printf("ComputeSpeed antes do if \n");
+    
     if ((time->tv_nsec - last_time->tv_nsec) < 0) {
         result = time->tv_sec - last_time->tv_sec - 1;
         nano_result = (time->tv_nsec - last_time->tv_nsec) + 1000000000;
@@ -86,7 +87,8 @@ void computeSpeed(struct timespec *time, double drag){
     printf("thrust %f\n", thrust);
     printf("speed %f\n", vel);
     
-    double new_vel = vel + ((thrust + drag)/(peso/10000^2)) * (result + nano_result/1000000000);
+    double new_vel = vel + ((thrust + drag)/(peso/10000^2)) * ((long) result + nano_result/1000000000);
+    printf("newv vel: \n", new_vel)
     last_time = time; //atualiza os
     vel = new_vel;    //valores antigos
     printf("Velocidade compute speed %f\n", vel);
@@ -172,7 +174,7 @@ void flightManagement(void * input){
     //time struct
     struct timespec *tp = malloc(sizeof(struct timespec));
     clock_gettime(CLOCK_REALTIME, tp);
-
+    tempo_init = tp->tv_sec;
     //set sched attribute
     sched_setattrFMC(0, &attrFMC, 0);
 
@@ -186,7 +188,7 @@ void flightManagement(void * input){
             //printf("A enviar para o FDR\n");
             //printf("A escrever dados: \n");
 
-            long current_timestamp = (unsigned)time(NULL);
+            long current_timestamp = (unsigned)time(NULL) - start_time;
             // printf("antes da escrita %s\n", buffer);
             printf("%ld,%f,%f\n", current_timestamp, vel, drag);
             snprintf(buffer, 255, "%d,%f,%f", current_timestamp, vel, drag);
