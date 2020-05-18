@@ -82,7 +82,7 @@ void computeSpeed(struct timespec *time, double drag){
     }
     printf("drag %f\n", drag);
     printf("thrust %f\n", thrust);
-    printf("Segundos = %d \n nanosec = %f\n thrust = %f\n drag = %f\n", result, nano_result, thrust, drag);
+    printf("Segundos = %d \n nanosec = %f\n thrust = %f\n drag = %f\n vel = %d\n", result, nano_result, drag, thrust, vel);
     double new_vel = vel + ((thrust + drag)/(peso/10000^2)) * (result + nano_result/1000000000);
     last_time = time; //atualiza os
     vel = new_vel;    //valores antigos
@@ -187,6 +187,7 @@ void flightManagement(void * input){
             // printf("antes da escrita %s\n", buffer);
             printf("%ld,%f,%f\n", current_timestamp, vel, drag);
             snprintf(buffer, 255, "%d,%f,%f", current_timestamp, vel, drag);
+
             printf("depois da escrita %s\n", buffer);
             strncpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
 
@@ -199,6 +200,7 @@ void flightManagement(void * input){
             if(verifySpeedLim(vel)){
                 printf("Chegou ao limite aceitavel de velocidade\n");
                 free(tp);
+                
                 // TEMOS QUE FAZER FREE DOS MALLOCS TOOOOOODOS
                 return;
             }

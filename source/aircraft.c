@@ -96,7 +96,7 @@ int main(int argc, char** argv) {
 		printf("Velocidades entre 300 e 823.\n");
 		return -1;
 	}
-
+	
 	//FAZER AQUI A CRIAÇÃO DA SHARED MEMORY
 	void * shmemSpeed = create_shared_memory(128);
 	void * shmemThrust = create_shared_memory(128);
