@@ -178,9 +178,9 @@ void flightManagement(void * input){
     struct timespec *tp = malloc(sizeof(struct timespec));
     clock_gettime(CLOCK_REALTIME, tp);
 
-    pid_t pid = syscall(SYS_gettid);
+    // pid_t pid = syscall(SYS_gettid);
 
-    sched_setattrFMC(0, &attrFMC, 0)
+    sched_setattrFMC(0, &attrFMC, 0);
     /* if (sched_setattrFMC(0, &attrFMC, 0)){
         perror("sched_setattr()");
     } */

@@ -55,7 +55,7 @@ void controlAlgorithm(void * input){
         .sched_deadline = 11 * 1000 * 1000
     };
 
-    pid_t pid = syscall(SYS_gettid);
+    // pid_t pid = syscall(SYS_gettid);
 
     //while(1)
     //buscar speed
@@ -75,7 +75,7 @@ void controlAlgorithm(void * input){
     double thrust;
     double iteration_time; //??
 
-    sched_setattrCTRL(0, &attrCTRL, 0)
+    sched_setattrCTRL(0, &attrCTRL, 0);
     /* if (sched_setattrCTRL(0, &attrCTRL, 0)){
         perror("sched_setattr()");
     } */
