@@ -140,57 +140,47 @@ void flightManagement(void * input){
     last_time = malloc(sizeof *last_time);
 
     int altitude = (*aviao).altitude;
-    int vel_init = (*aviao).vel_init;
+    vel = (*aviao).vel_init;
     vel_final = (*aviao).vel_final;
-    vel = vel_init;
-
-    printf("Valores da estrutura: altitude %i, velocidade inicial %d, velocidade final %d \n", altitude, vel_init, vel_final);
+    //printf("Valores da estrutura: altitude %i, velocidade inicial %d, velocidade final %d \n", altitude, vel_init, vel_final);
 
     double drag = computeDrag(altitude);
-    printf("Drag = %f\n", drag);
+    //printf("Drag = %f\n", drag);
 
-    //INICIALIZAR VALORES TEMPORAIS?
-
+    //--MESSAGE QUEUE CODE--
     // write message
     key_t key; 
-    int msgid; 
-
+    int msgid;
     // ftok to generate unique key 
     key = ftok("progfile", 65); 
-    
     // msgget creates a message queue 
     // and returns identifier 
     msgid = msgget(key, 0666 | IPC_CREAT); 
-    fdr_message.mesg_type = 1; 
-
+    fdr_message.mesg_type = 1;
     char *buffer = (char *) malloc(1024);
 
     int cycle_num = 1;
 
-    printf("Adquirir timespec\n");
+    //printf("Adquirir timespec\n");
     //time struct
     struct timespec *tp = malloc(sizeof(struct timespec));
     clock_gettime(CLOCK_REALTIME, tp);
 
-    // pid_t pid = syscall(SYS_gettid);
-
+    //set sched attribute
     sched_setattrFMC(0, &attrFMC, 0);
-    /* if (sched_setattrFMC(0, &attrFMC, 0)){
-        perror("sched_setattr()");
-    } */
 
     for(;;){
-        printf("entrou no for\n");
-        printf("vel = %f\n", vel);
+        printf("No for do FMC\n");
+        printf("Vel mal entra no for = %f\n", vel);
 
-        printf("FMC antes do if\n");
+        printf("Antes do if\n");
         // Envia mensagem a cada NACQUI ciclos
         if(cycle_num % NACQUI == 0 || verifySpeedLim(vel)){
-            printf("A enviar para o FDR\n");
-            printf("A escrever dados: \n");
+            //printf("A enviar para o FDR\n");
+            //printf("A escrever dados: \n");
 
             long current_timestamp = (unsigned)time(NULL);
-            printf("antes da escrita %s\n", buffer);
+            // printf("antes da escrita %s\n", buffer);
             printf("%ld,%f,%f\n", current_timestamp, vel, drag);
             snprintf(buffer, 255, "%d,%f,%f", current_timestamp, vel, drag);
             printf("depois da escrita %s\n", buffer);
@@ -206,8 +196,7 @@ void flightManagement(void * input){
                 printf("Chegou ao limite aceitavel de velocidade\n");
                 free(tp);
                 // TEMOS QUE FAZER FREE DOS MALLOCS TOOOOOODOS
-                
-                return;
+                exit(0);
             }
         }
         computeSpeed(tp, drag);

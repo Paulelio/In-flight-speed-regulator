@@ -75,13 +75,13 @@ void controlAlgorithm(void * input){
     double thrust;
     double iteration_time; //??
 
-    sched_setattrCTRL(0, &attrCTRL, 0);
+    sched_setattrCTRL(1, &attrCTRL, 0);
     /* if (sched_setattrCTRL(0, &attrCTRL, 0)){
         perror("sched_setattr()");
     } */
     
     for(;;){
-
+        printf("No for do CTRL\n");
         vel_atual = f_get_speed();
         error = vel_final - vel_atual;
         integral = integral_prior + error * iteration_time;
