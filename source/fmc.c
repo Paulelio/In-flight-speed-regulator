@@ -31,9 +31,6 @@ Paulo Alvares 49460
  * int clock_settime(clockid_t clock_id, const struct timespec *tp);
  */
 
-int vel_init = 0;
-int vel_final = 0;
-
 double vel = 0.0;
 double thrust = 0.0;
 
@@ -57,7 +54,6 @@ struct sched_attr {
 
 /**
  * Funcao set attribute para scheduling
- * 
  */
 int sched_setattrFMC(pid_t pid, 
               const struct sched_attr *attr,
@@ -147,8 +143,8 @@ void flightManagement(void * input){
     last_time = malloc(sizeof *last_time);
 
     int altitude = (*aviao).altitude;
-    vel_init = (*aviao).vel_init;
-    vel_final = (*aviao).vel_final;
+    int vel_init = (*aviao).vel_init;
+    int vel_final = (*aviao).vel_final;
 
     printf("Valores da estrutura: altitude %i, velocidade inicial %d, velocidade final %d \n", altitude, vel_init, vel_final);
 
@@ -187,6 +183,7 @@ void flightManagement(void * input){
 
     for(;;){
         printf("entrou no for\n");
+        printf("vel = %f\n", vel);
         computeSpeed(tp, drag);
         //update time
         //envia mensagem
@@ -200,7 +197,7 @@ void flightManagement(void * input){
             long current_timestamp = (unsigned)time(NULL);
             printf("%s\n", buffer);
             printf("%ld,%f,%f\n", current_timestamp, vel, drag);
-            snprintf(buffer, sizeof(buffer), "%ld,%f,%f", current_timestamp, vel, drag);
+            snprintf(buffer, 255, "%d,%f,%f", current_timestamp, vel, drag);
             printf("%s\n", buffer);
             strncpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
 
@@ -215,14 +212,11 @@ void flightManagement(void * input){
                 free(tp);
                 // TEMOS QUE FAZER FREE DOS MALLOCS TOOOOOODOS
                 
-                pthread_exit(NULL);
+                return;
             }
         }
         cycle_num ++;
         sched_yield();
     }
     
-
-   
-
 }
