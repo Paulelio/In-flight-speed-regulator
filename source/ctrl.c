@@ -73,7 +73,7 @@ void controlAlgorithm(void * input){
     double thrust;
     double iteration_time = 1.0; //??
 
-    sched_setattrCTRL(1, &attrCTRL, 0);
+    sched_setattrCTRL(0, &attrCTRL, 0);
     
     for(;;){
         printf("No for do CTRL\n");
