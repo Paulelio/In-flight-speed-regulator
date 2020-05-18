@@ -65,11 +65,13 @@ int sched_setattrFMC(pid_t pid,
 /** Funcao para calcular a velocidade
  * Calcula a velocidade num certo instante de tempo com um certo thrust
  * Parameters: time - instante de tempo
+ *             drag 
  * Returns: velocidade resultante
  */ 
 void computeSpeed(struct timespec *time, double drag){
     time_t result;
     long nano_result;
+
     printf("ComputeSpeed antes do if \n");
     if ((time->tv_nsec - last_time->tv_nsec) < 0) {
         result = time->tv_sec - last_time->tv_sec - 1;
@@ -78,6 +80,8 @@ void computeSpeed(struct timespec *time, double drag){
         result = time->tv_sec - last_time->tv_sec;
         nano_result = time->tv_nsec - last_time->tv_nsec;
     }
+
+    thrust = 0.0;
     printf("Segundos = %d \n nanosec = %f\n, thrust = %f\n, drag = %f\n", result, nano_result, thrust, drag);
     double new_vel = vel + ((thrust + drag)/(peso/10000^2)) * (result + nano_result/1000000000);
     last_time = time; //atualiza os
