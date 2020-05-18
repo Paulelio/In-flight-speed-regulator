@@ -88,9 +88,9 @@ void computeSpeed(struct timespec *time, double drag){
     printf("speed %f\n", vel);
 
     printf("resultado da equacao %f\n", (thrust + drag)/(peso/(10000^2)) );
-    printf("tempo na equacao %ld\n", ((long) result) + nano_result/1000000000);
+    printf("tempo na equacao %ld\n", (((long) result) + nano_result/1000000000));
     
-    double new_vel = vel + ((thrust + drag)/(peso/(10000^2))) * ( ( ( (long) result) + nano_result/1000000000) - tempo_init);
+    double new_vel = vel + ( (thrust + drag) / ( peso / (10000^2) ) ) * ( ( ( (long) result) + nano_result/1000000000));
     printf("newv vel: %f\n", new_vel);
     last_time = time; //atualiza os
     vel = new_vel;    //valores antigos
@@ -136,7 +136,7 @@ bool verifySpeedLim(double speed){
 void flightManagement(void * input){
     printf("No Flight Management\n");
 
-    int start_time = (unsigned)time(NULL);
+    
     
     struct sched_attr attrFMC = {
         .size = sizeof(attrFMC),
@@ -178,6 +178,8 @@ void flightManagement(void * input){
     struct timespec *tp = malloc(sizeof(struct timespec));
     clock_gettime(CLOCK_REALTIME, tp);
     tempo_init = tp->tv_sec;
+    last_time = tp;
+
     //set sched attribute
     sched_setattrFMC(0, &attrFMC, 0);
 
@@ -191,7 +193,7 @@ void flightManagement(void * input){
             //printf("A enviar para o FDR\n");
             //printf("A escrever dados: \n");
 
-            long current_timestamp = (unsigned)time(NULL) - start_time;
+            long current_timestamp = (unsigned)time(NULL);
             // printf("antes da escrita %s\n", buffer);
             printf("%ld,%f,%f\n", current_timestamp, vel, drag);
             snprintf(buffer, 255, "%d,%f,%f", current_timestamp, vel, drag);
