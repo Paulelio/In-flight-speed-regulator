@@ -78,8 +78,8 @@ void computeSpeed(struct timespec *time, double drag){
         result = time->tv_sec - last_time->tv_sec;
         nano_result = time->tv_nsec - last_time->tv_nsec;
     }
-    printf("Segundos = %d \n nanosec = %f\n", result, nano_result);
-    double new_vel = vel + (thrust + drag)/(peso/10000^2) * (result + nano_result/1000000000);
+    printf("Segundos = %d \n nanosec = %f\n, thrust = %f\n, drag = %f\n", result, nano_result, thrust, drag);
+    double new_vel = vel + ((thrust + drag)/(peso/10000^2)) * (result + nano_result/1000000000);
     last_time = time; //atualiza os
     vel = new_vel;    //valores antigos
     printf("Velocidade compute speed %f\n", vel);
@@ -119,7 +119,6 @@ bool verifySpeedLim(double speed){
     return true;
 }
 
-
 /** Funcao principal do FMC
  * 
  * 
@@ -143,6 +142,7 @@ void flightManagement(void * input){
     int altitude = (*aviao).altitude;
     int vel_init = (*aviao).vel_init;
     vel_final = (*aviao).vel_final;
+    vel = vel_init
 
     printf("Valores da estrutura: altitude %i, velocidade inicial %d, velocidade final %d \n", altitude, vel_init, vel_final);
 
@@ -182,9 +182,6 @@ void flightManagement(void * input){
     for(;;){
         printf("entrou no for\n");
         printf("vel = %f\n", vel);
-        computeSpeed(tp, drag);
-        //update time
-        //envia mensagem
 
         printf("FMC antes do if\n");
         // Envia mensagem a cada NACQUI ciclos
@@ -213,6 +210,8 @@ void flightManagement(void * input){
                 return;
             }
         }
+        computeSpeed(tp, drag);
+
         cycle_num ++;
         sched_yield();
     }
