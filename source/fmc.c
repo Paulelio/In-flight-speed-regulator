@@ -31,6 +31,7 @@ Paulo Alvares 49460
  * int clock_settime(clockid_t clock_id, const struct timespec *tp);
  */
 
+int vel_final = 0.0;
 double vel = 0.0;
 double thrust = 0.0;
 
@@ -144,7 +145,7 @@ void flightManagement(void * input){
 
     int altitude = (*aviao).altitude;
     int vel_init = (*aviao).vel_init;
-    int vel_final = (*aviao).vel_final;
+    vel_final = (*aviao).vel_final;
 
     printf("Valores da estrutura: altitude %i, velocidade inicial %d, velocidade final %d \n", altitude, vel_init, vel_final);
 
