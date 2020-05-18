@@ -145,7 +145,7 @@ void flightManagement(void * input){
     //printf("Valores da estrutura: altitude %i, velocidade inicial %d, velocidade final %d \n", altitude, vel_init, vel_final);
 
     double drag = computeDrag(altitude);
-    //printf("Drag = %f\n", drag);
+    printf("Drag = %f\n", drag);
 
     //--MESSAGE QUEUE CODE--
     // write message
