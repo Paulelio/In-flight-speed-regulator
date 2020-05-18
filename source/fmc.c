@@ -30,7 +30,7 @@ Paulo Alvares 49460
  * int clock_gettime(clockid_t clock_id, struct timespec *tp);
  * int clock_settime(clockid_t clock_id, const struct timespec *tp);
  */
-int start_time = (unsigned)time(NULL);
+
 int vel_final = 0.0;
 double vel = 0.0;
 double thrust = 0.0;
@@ -135,6 +135,8 @@ bool verifySpeedLim(double speed){
 void flightManagement(void * input){
     printf("No Flight Management\n");
 
+    int start_time = (unsigned)time(NULL);
+    
     struct sched_attr attrFMC = {
         .size = sizeof(attrFMC),
         .sched_policy = SCHED_DEADLINE,
