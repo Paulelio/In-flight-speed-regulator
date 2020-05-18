@@ -88,7 +88,7 @@ void computeSpeed(struct timespec *time, double drag){
     printf("speed %f\n", vel);
     
     double new_vel = vel + ((thrust + drag)/(peso/10000^2)) * ((long) result + nano_result/1000000000);
-    printf("newv vel: \n", new_vel)
+    printf("newv vel: \n", new_vel);
     last_time = time; //atualiza os
     vel = new_vel;    //valores antigos
     printf("Velocidade compute speed %f\n", vel);
