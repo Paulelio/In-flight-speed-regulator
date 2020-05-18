@@ -198,6 +198,8 @@ void flightManagement(void * input){
             printf("A escrever dados: \n");
 
             long current_timestamp = (unsigned)time(NULL);
+            printf("%s\n", buffer);
+            printf("%ld,%f,%f\n", current_timestamp, vel, drag);
             snprintf(buffer, sizeof(buffer), "%ld,%f,%f", current_timestamp, vel, drag);
             printf("%s\n", buffer);
             strncpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
