@@ -78,7 +78,7 @@ void computeSpeed(struct timespec *time, double drag){
         result = time->tv_sec - last_time->tv_sec;
         nano_result = time->tv_nsec - last_time->tv_nsec;
     }
-    printf("Segundos = %d \n nanosec = %f\n", result, vel);
+    printf("Segundos = %d \n nanosec = %f\n", result, nano_result);
     double new_vel = vel + (thrust + drag)/(peso/10000^2) * (result + nano_result/1000000000);
     last_time = time; //atualiza os
     vel = new_vel;    //valores antigos
@@ -193,10 +193,10 @@ void flightManagement(void * input){
             printf("A escrever dados: \n");
 
             long current_timestamp = (unsigned)time(NULL);
-            printf("%s\n", buffer);
+            printf("antes da escrita %s\n", buffer);
             printf("%ld,%f,%f\n", current_timestamp, vel, drag);
             snprintf(buffer, 255, "%d,%f,%f", current_timestamp, vel, drag);
-            printf("%s\n", buffer);
+            printf("depois da escrita %s\n", buffer);
             strncpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
 
             // msgsnd to send message 
