@@ -199,6 +199,7 @@ void flightManagement(void * input){
                 exit(0);
             }
         }
+        printf("Antes do computeSpeed o drag tem %f\n", drag);
         computeSpeed(tp, drag);
 
         cycle_num ++;
