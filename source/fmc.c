@@ -199,6 +199,7 @@ void flightManagement(void * input){
 
             long current_timestamp = (unsigned)time(NULL);
             snprintf(buffer, sizeof(buffer), "%ld,%f,%f", current_timestamp, vel, drag);
+            printf("%s\n", buffer);
             strncpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
 
             // msgsnd to send message 
