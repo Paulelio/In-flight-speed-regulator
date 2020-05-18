@@ -70,22 +70,19 @@ int sched_setattrFMC(pid_t pid,
 void computeSpeed(struct timespec *time, double drag){
     time_t result;
     long nano_result;
-    printf("antes do if \n");
+    printf("ComputeSpeed antes do if \n");
     if ((time->tv_nsec - last_time->tv_nsec) < 0) {
-        printf("no if \n");
         result = time->tv_sec - last_time->tv_sec - 1;
         nano_result = time->tv_nsec - last_time->tv_nsec + 1000000000;
-        printf("depois dos calculos\n");
     } else {
-        printf("no else\n");
         result = time->tv_sec - last_time->tv_sec;
         nano_result = time->tv_nsec - last_time->tv_nsec;
-        printf("depois dos calculos\n");
     }
-    printf("depois do if e do else");
+    
     double new_vel = vel + (thrust + drag)/(peso/10000^2) * (result + nano_result/1000000000);
     last_time = time; //atualiza os
     vel = new_vel;    //valores antigos
+    printf("Velocidade compute speed %f\n", vel);
     
 }
 
@@ -189,7 +186,7 @@ void flightManagement(void * input){
         //update time
         //envia mensagem
 
-        printf("antes do if\n");
+        printf("FMC antes do if\n");
         // Envia mensagem a cada NACQUI ciclos
         if(cycle_num % NACQUI == 0 || verifySpeedLim(vel)){
             printf("A enviar para o FDR\n");
