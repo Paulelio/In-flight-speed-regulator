@@ -149,7 +149,7 @@ void flightManagement(void * input){
 	//printf("Debug attributes %d %d %d %d",attr->sched_runtime, attr->sched_period, attr->sched_deadline, attr->size);
 
     struct aviao_t * aviao = (struct aviao_t*) input;
-
+ 
     last_time = malloc(sizeof(struct timespec));
 
     int altitude = (*aviao).altitude;
@@ -179,11 +179,11 @@ void flightManagement(void * input){
     struct timespec *tp = malloc(sizeof(struct timespec));
     clock_gettime(CLOCK_REALTIME, tp);
 
-    memcpy(last_time->tv_sec, tp->tv_sec, sizeof(tp->tv_sec));
-    memcpy(last_time->tv_nsec, tp->tv_nsec, sizeof(tp->tv_nsec));
+    //memcpy(last_time->tv_sec, tp->tv_sec, sizeof(tp->tv_sec));
+    //memcpy(last_time->tv_nsec, tp->tv_nsec, sizeof(tp->tv_nsec));
 
-    // last_time->tv_sec = tp->tv_sec;
-    // last_time->tv_nsec = tp->tv_nsec;
+    last_time->tv_sec = tp->tv_sec;
+    last_time->tv_nsec = tp->tv_nsec;
 
 
     //set sched attribute
