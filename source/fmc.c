@@ -142,7 +142,7 @@ void flightManagement(void * input){
     int altitude = (*aviao).altitude;
     int vel_init = (*aviao).vel_init;
     vel_final = (*aviao).vel_final;
-    vel = vel_init
+    vel = vel_init;
 
     printf("Valores da estrutura: altitude %i, velocidade inicial %d, velocidade final %d \n", altitude, vel_init, vel_final);
 
