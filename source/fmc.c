@@ -130,7 +130,7 @@ void flightManagement(void * input){
         .size = sizeof(attrFMC),
         .sched_policy = SCHED_DEADLINE,
         .sched_runtime = 10 * 1000 * 1000, // 10 000 000 microsegundos = 10 segundos
-        .sched_period = 1 * 1000 * 1000 * 1000, //1 000 000 000 nanosegundos = 1 segundos
+        .sched_period = 2 * 1000 * 1000 * 1000 * 1000, //1 000 000 000 nanosegundos = 1 segundos
         .sched_deadline = 11 * 1000 * 1000 // 11 000 000 microsegundos = 11 segundos -- deadline não pode ser maior que o período!
     };
 	//printf("Debug attributes %d %d %d %d",attr->sched_runtime, attr->sched_period, attr->sched_deadline, attr->size);

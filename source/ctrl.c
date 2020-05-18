@@ -51,11 +51,9 @@ void controlAlgorithm(void * input){
         .size = sizeof (attrCTRL),
         .sched_policy = SCHED_DEADLINE,
         .sched_runtime = 10 * 1000 * 1000,
-        .sched_period = 1 * 1000 * 1000 * 1000,
+        .sched_period = 2 * 1000 * 1000 * 1000 * 1000,
         .sched_deadline = 11 * 1000 * 1000
     };
-
-    // pid_t pid = syscall(SYS_gettid);
 
     //while(1)
     //buscar speed
@@ -73,12 +71,9 @@ void controlAlgorithm(void * input){
     double vel_atual;
     double vel_final;
     double thrust;
-    double iteration_time; //??
+    double iteration_time = 1.0; //??
 
     sched_setattrCTRL(1, &attrCTRL, 0);
-    /* if (sched_setattrCTRL(0, &attrCTRL, 0)){
-        perror("sched_setattr()");
-    } */
     
     for(;;){
         printf("No for do CTRL\n");
@@ -90,8 +85,10 @@ void controlAlgorithm(void * input){
         f_set_thrust(thrust);
         error_prior = error;
         integral_prior = integral;
-        sleep(iteration_time);
         
+        printf("no ctrl - vel atual = %f, erro = %f \n", vel_atual, error);
+        printf("thrust no crtl = \n", thrust);
+        //sleep(10); em NRT
         sched_yield();
     }
 }
