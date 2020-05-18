@@ -93,7 +93,7 @@ void computeSpeed(struct timespec *time, double drag){
     last_time->tv_sec = time->tv_sec;    //atualiza os
     last_time->tv_nsec = time->tv_nsec;  //valores antigos
     printf("last time %ld %ld\n", last_time->tv_sec, last_time->tv_nsec);
-    
+
     vel = new_vel;    
 }
 
@@ -150,7 +150,7 @@ void flightManagement(void * input){
 
     struct aviao_t * aviao = (struct aviao_t*) input;
 
-    last_time = malloc(sizeof *last_time);
+    last_time = malloc(sizeof(struct timespec));
 
     int altitude = (*aviao).altitude;
     vel = (*aviao).vel_init;
@@ -178,9 +178,12 @@ void flightManagement(void * input){
     //time struct
     struct timespec *tp = malloc(sizeof(struct timespec));
     clock_gettime(CLOCK_REALTIME, tp);
-    tempo_init = tp->tv_sec;
-    last_time->tv_sec = tp->tv_sec;
-    last_time->tv_nsec = tp->tv_nsec;
+
+    memcpy(last_time->tv_sec, tp->tv_sec, sizeof(tp->tv_sec));
+    memcpy(last_time->tv_nsec, tp->tv_nsec, sizeof(tp->tv_nsec));
+
+    // last_time->tv_sec = tp->tv_sec;
+    // last_time->tv_nsec = tp->tv_nsec;
 
 
     //set sched attribute
@@ -199,7 +202,7 @@ void flightManagement(void * input){
             long current_timestamp = (unsigned)time(NULL);
             // printf("antes da escrita %s\n", buffer);
             printf("%ld,%f,%f\n", current_timestamp, vel, drag);
-            snprintf(buffer, 255, "%d,%f,%f", current_timestamp, vel, drag);
+            snprintf(buffer, sizeof(fdr_message.mesg_text), "%d,%f,%f", current_timestamp, vel, drag);
 
             printf("depois da escrita %s\n", buffer);
             strncpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
@@ -217,6 +220,7 @@ void flightManagement(void * input){
                 // TEMOS QUE FAZER FREE DOS MALLOCS TOOOOOODOS
                 return;
             }
+            
         }
         printf("Antes do computeSpeed o drag tem %f\n", drag);
         computeSpeed(tp, drag);
