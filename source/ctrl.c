@@ -86,8 +86,8 @@ void controlAlgorithm(void * input){
         error_prior = error;
         integral_prior = integral;
         
-        printf("no ctrl - vel atual = %f, erro = %f \n", vel_atual, error);
-        printf("thrust no crtl = \n", thrust);
+        //printf("no ctrl - vel atual = %f, erro = %f \n", vel_atual, error);
+        //printf("thrust no crtl = \n", thrust);
         //sleep(10); em NRT
         sched_yield();
     }
