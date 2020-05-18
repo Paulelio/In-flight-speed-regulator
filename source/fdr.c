@@ -48,7 +48,7 @@ int flightDataRecorder(void * input){
         // display the message 
         printf("Dados Recebidos: %s \n",  
                     message.mesg_text);
-        sleep(10);
+        
     }
      
   

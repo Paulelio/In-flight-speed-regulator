@@ -179,9 +179,6 @@ void flightManagement(void * input){
     struct timespec *tp = malloc(sizeof(struct timespec));
     clock_gettime(CLOCK_REALTIME, tp);
 
-    //memcpy(last_time->tv_sec, tp->tv_sec, sizeof(tp->tv_sec));
-    //memcpy(last_time->tv_nsec, tp->tv_nsec, sizeof(tp->tv_nsec));
-
     last_time->tv_sec = tp->tv_sec;
     last_time->tv_nsec = tp->tv_nsec;
 
