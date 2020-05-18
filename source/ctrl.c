@@ -75,9 +75,10 @@ void controlAlgorithm(void * input){
     double thrust;
     double iteration_time; //??
 
-    if (sched_setattrCTRL(pid, &attrCTRL, 0)){
+    sched_setattrCTRL(0, &attrCTRL, 0)
+    /* if (sched_setattrCTRL(0, &attrCTRL, 0)){
         perror("sched_setattr()");
-    }
+    } */
     
     for(;;){
 

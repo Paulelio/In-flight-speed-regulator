@@ -180,9 +180,10 @@ void flightManagement(void * input){
 
     pid_t pid = syscall(SYS_gettid);
 
-    if (sched_setattrFMC(pid, &attrFMC, 0)){
+    sched_setattrFMC(0, &attrFMC, 0)
+    /* if (sched_setattrFMC(0, &attrFMC, 0)){
         perror("sched_setattr()");
-    }
+    } */
 
     for(;;){
         printf("entrou no for\n");
