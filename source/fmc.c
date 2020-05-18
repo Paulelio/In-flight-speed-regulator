@@ -92,8 +92,10 @@ void computeSpeed(struct timespec *time, double drag){
     
     double new_vel = vel + ( (thrust + drag) / ( peso / (10000^2) ) ) * ( ( ( (long) result) + nano_result/1000000000));
     printf("newv vel: %f\n", new_vel);
-    last_time = time; //atualiza os
-    vel = new_vel;    //valores antigos
+    
+    last_time->tv_sec = tp->tv_sec;    //atualiza os
+    last_time->tv_nsec = tp->tv_nsec;  //valores antigos
+    vel = new_vel;    
 }
 
 /** Funcao para calcular o Drag
@@ -178,7 +180,9 @@ void flightManagement(void * input){
     struct timespec *tp = malloc(sizeof(struct timespec));
     clock_gettime(CLOCK_REALTIME, tp);
     tempo_init = tp->tv_sec;
-    last_time = tp;
+    last_time->tv_sec = tp->tv_sec;
+    last_time->tv_nsec = tp->tv_nsec;
+
 
     //set sched attribute
     sched_setattrFMC(0, &attrFMC, 0);
