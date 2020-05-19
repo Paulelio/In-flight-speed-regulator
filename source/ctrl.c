@@ -76,7 +76,6 @@ void controlAlgorithm(void * input){
     sched_setattrCTRL(0, &attrCTRL, 0);
     
     for(;;){
-        // printf("No for do CTRL\n");
         printf("[CTRL] no for\n");
         vel_atual = f_get_speed();
 

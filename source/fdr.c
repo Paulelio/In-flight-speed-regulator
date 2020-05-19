@@ -37,21 +37,28 @@ int flightDataRecorder(void * input){
     // msgget creates a message queue 
     // and returns identifier 
     msgid = msgget(key, 0666 | IPC_CREAT); 
-    // CICLO PARA ESTAR SEMPRE A ESCUTA DA MENSAGEM
-    for(;;){
-        // msgrcv to receive message 
-        //msgrcv(msgid, &message, sizeof(message), 1, 0); 
+    char last_mesg[1024]; 
 
-        while(msgrcv(msgid, &message, sizeof(message), 1, 0) != 0){
-            //write to fdrBlackbox
+    // CICLO PARA ESTAR SEMPRE A ESCUTA DA MENSAGEM
+    
+    // msgrcv to receive message 
+    //msgrcv(msgid, &message, sizeof(message), 1, 0); 
+    
+    while(msgrcv(msgid, &message, sizeof(message), 1, 0) != 0){
+        //write to fdrBlackbox
+        if(strcmp(last_mesg, message.mesg_text) != 0){
             writeToRecord(message.mesg_text);
+            
+            last_mesg = message.mesg_text;
             // display the message 
             printf("[FDR] Dados Recebidos: %s \n", message.mesg_text);
         } 
-        //printf("[FDR] escrevi para ficheiro\n");
-       
-        sleep(10);
-    }
+        else{
+            sleep(3);
+        }            
+    } 
+    //printf("[FDR] escrevi para ficheiro\n");z
+    
      // to destroy the message queue 
     msgctl(msgid, IPC_RMID, NULL); 
     
