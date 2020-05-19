@@ -34,29 +34,27 @@ int flightDataRecorder(void * input){
     // ftok to generate unique key 
     key = ftok("progfile", 65); 
     
-
-    
-    
     // msgget creates a message queue 
     // and returns identifier 
     msgid = msgget(key, 0666 | IPC_CREAT); 
     // CICLO PARA ESTAR SEMPRE A ESCUTA DA MENSAGEM
     for(;;){
         // msgrcv to receive message 
-        msgrcv(msgid, &message, sizeof(message), 1, 0); 
-        writeToRecord(message.mesg_text);
-        //while msgrcv != 0 (message.text).split(',') e write to record.
-        printf("[FDR] escrevi para ficheiro\n");
-        // display the message 
-        printf("[FDR] Dados Recebidos: %s \n",  
-                    message.mesg_text);
+        //msgrcv(msgid, &message, sizeof(message), 1, 0); 
+
+        while(msgrcv(msgid, &message, sizeof(message), 1, 0) != 0){
+            //write to fdrBlackbox
+            writeToRecord(message.mesg_text);
+            // display the message 
+            printf("[FDR] Dados Recebidos: %s \n", message.mesg_text);
+        } 
+        //printf("[FDR] escrevi para ficheiro\n");
+       
         sleep(10);
     }
-     
-  
-    // to destroy the message queue 
+     // to destroy the message queue 
     msgctl(msgid, IPC_RMID, NULL); 
-
+    
     return 0;
 }
 /** funcao para escrever os records para um ficheiro csv
