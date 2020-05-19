@@ -24,8 +24,8 @@ struct mesg_buffer {
  * 
  */ 
 int flightDataRecorder(void * input){
-    printf("Flight Data Recorder \n");
-    printf("A ler do FMC\n");
+    printf("[FDR] Flight Data Recorder \n");
+    printf("[FDR] A ler do FMC\n");
     //read message
     
     key_t key; 
@@ -44,11 +44,11 @@ int flightDataRecorder(void * input){
     for(;;){
         // msgrcv to receive message 
         msgrcv(msgid, &message, sizeof(message), 1, 0); 
-
+        writeToRecord(message.mesg_text)
         //while msgrcv != 0 (message.text).split(',') e write to record.
-        
+        printf("[FDR] escrevi para ficheiro\n");
         // display the message 
-        printf("Dados Recebidos: %s \n",  
+        printf("[FDR] Dados Recebidos: %s \n",  
                     message.mesg_text);
         sleep(10);
     }
@@ -63,10 +63,10 @@ int flightDataRecorder(void * input){
  * a estrutar do ficheiro e do tipo <timestamp,speed,thrust>
  */
 // FALTA DAR SPLIT DA MENSAGEM 
-void writeToRecord(time_t timestamp, double speed, double thrust){
+void writeToRecord(char* recMesg){
 
     fileRecord = fopen("/tmp/fdrBlackbox.csv", "a");
-    fprintf(fileRecord, "%ld, %f, %f\n", timestamp, speed, thrust);
+    fprintf(fileRecord, "%s\n", recMesg);
     fclose(fileRecord);
 
     return;

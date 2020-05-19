@@ -77,11 +77,14 @@ void controlAlgorithm(void * input){
     
     for(;;){
         // printf("No for do CTRL\n");
+        print("[CTRL] no for\n");
         vel_atual = f_get_speed();
+
         error = vel_final - vel_atual;
         integral = integral_prior + error * iteration_time;
         derivative = (error - error_prior) / iteration_time;
         thrust = KP * error + KI * integral + KD * derivative;
+        
         f_set_thrust(thrust);
         error_prior = error;
         integral_prior = integral;

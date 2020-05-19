@@ -73,8 +73,8 @@ void computeSpeed(struct timespec *time, double drag){
     time_t result;
     long nano_result;
 
-    printf("time %ld %ld\n", time->tv_sec, time->tv_nsec);
-    printf("last time %ld %ld\n", last_time->tv_sec, last_time->tv_nsec);
+    printf("[FMC] time %ld %ld\n", time->tv_sec, time->tv_nsec);
+    printf("[FMC] last time %ld %ld\n", last_time->tv_sec, last_time->tv_nsec);
     
     if ((time->tv_nsec - last_time->tv_nsec) < 0) {
         result = time->tv_sec - last_time->tv_sec - 1;
@@ -84,15 +84,15 @@ void computeSpeed(struct timespec *time, double drag){
         nano_result = time->tv_nsec - last_time->tv_nsec;
     }
 
-    printf("resultado da equacao %f\n", (thrust + drag)/(peso/(10000^2)) );
-    printf("tempo na equacao %ld\n", (((long) result) + nano_result/1000000000));
+    printf("[FMC] resultado da equacao %f\n", (thrust + drag)/(peso/(10000^2)) );
+    printf("[FMC] tempo na equacao %ld\n", (((long) result) + nano_result/1000000000));
     
     double new_vel = vel + ( (thrust + drag) / ( peso / (10000^2) ) ) * ( ( ( (long) result) + nano_result/1000000000));
-    printf("newv vel: %f\n", new_vel);
+    printf("[FMC] new vel: %f\n", new_vel);
 
     last_time->tv_sec = time->tv_sec;    //atualiza os
     last_time->tv_nsec = time->tv_nsec;  //valores antigos
-    printf("last time %ld %ld\n", last_time->tv_sec, last_time->tv_nsec);
+    printf("[FMC] last time %ld %ld\n", last_time->tv_sec, last_time->tv_nsec);
 
     vel = new_vel;    
 }
@@ -134,11 +134,7 @@ bool verifySpeedLim(double speed){
  * 
  * 
  */ 
-void flightManagement(void * input){
-    printf("No Flight Management\n");
-
-    
-    
+void flightManagement(void * input){    
     struct sched_attr attrFMC = {
         .size = sizeof(attrFMC),
         .sched_policy = SCHED_DEADLINE,
@@ -153,24 +149,25 @@ void flightManagement(void * input){
     last_time = malloc(sizeof(struct timespec));
 
     int altitude = (*aviao).altitude;
-    vel = (*aviao).vel_init;
-    vel_final = (*aviao).vel_final;
+    vel = (*aviao).vel_init / 3.6; //para m/s
+    vel_final = (*aviao).vel_final / 3.6; //para m/s
+
     //printf("Valores da estrutura: altitude %i, velocidade inicial %d, velocidade final %d \n", altitude, vel_init, vel_final);
 
     double drag = computeDrag(altitude);
-    printf("Drag = %f\n", drag);
+    printf("[FMC] Drag = %f\n", drag);
 
-    //--MESSAGE QUEUE CODE--
-    // write message
-    key_t key; 
-    int msgid;
-    // ftok to generate unique key 
-    key = ftok("progfile", 65); 
-    // msgget creates a message queue 
-    // and returns identifier 
-    msgid = msgget(key, 0666 | IPC_CREAT); 
-    fdr_message.mesg_type = 1;
-    char *buffer = (char *) malloc(1024);
+    //--MESSAGE QUEUE CODE--//
+        // write message
+        key_t key; 
+        int msgid;
+        // ftok to generate unique key 
+        key = ftok("progfile", 65); 
+        // msgget creates a message queue 
+        // and returns identifier 
+        msgid = msgget(key, 0666 | IPC_CREAT); 
+        fdr_message.mesg_type = 1;
+        char *buffer = (char *) malloc(1024);
 
     int cycle_num = 1;
 
@@ -187,10 +184,10 @@ void flightManagement(void * input){
     sched_setattrFMC(0, &attrFMC, 0);
 
     for(;;){
-        printf("No for do FMC\n");
-        printf("Vel mal entra no for = %f\n", vel);
+        printf("[FMC] No for do FMC\n");
+        printf("[FMC] Vel mal entra no for = %f\n", vel);
 
-        printf("Antes do if\n");
+        printf("[FMC] Antes do if\n");
         // Envia mensagem a cada NACQUI ciclos
         if(cycle_num % NACQUI == 0 || verifySpeedLim(vel)){
             //printf("A enviar para o FDR\n");
@@ -198,20 +195,20 @@ void flightManagement(void * input){
 
             long current_timestamp = (unsigned)time(NULL);
             // printf("antes da escrita %s\n", buffer);
-            printf("%ld,%f,%f\n", current_timestamp, vel, drag);
+            printf("[FMC] %ld,%f,%f\n", current_timestamp, vel, drag);
             snprintf(buffer, sizeof(fdr_message.mesg_text), "%d,%f,%f", current_timestamp, vel, drag);
 
-            printf("depois da escrita %s\n", buffer);
+            printf("[FMC] depois da escrita %s\n", buffer);
             strncpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
 
             // msgsnd to send message 
             msgsnd(msgid, &fdr_message, sizeof(fdr_message), 0); 
 
             // display the message 
-            printf("Dados enviados: %s \n", fdr_message.mesg_text); 
+            printf("[FMC] Dados enviados: %s \n", fdr_message.mesg_text); 
 
             if(verifySpeedLim(vel)){
-                printf("Chegou ao limite aceitavel de velocidade\n");
+                printf("[FMC] Chegou ao limite aceitavel de velocidade\n");
                 free(tp);
                 
                 // TEMOS QUE FAZER FREE DOS MALLOCS TOOOOOODOS
@@ -219,7 +216,7 @@ void flightManagement(void * input){
             }
             
         }
-        printf("Antes do computeSpeed o drag tem %f\n", drag);
+        printf("[FMC] Antes do computeSpeed o drag tem %f\n", drag);
         computeSpeed(tp, drag);
         clock_gettime(CLOCK_REALTIME, tp);
         cycle_num ++;
