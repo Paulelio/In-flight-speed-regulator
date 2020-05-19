@@ -77,7 +77,7 @@ void controlAlgorithm(void * input){
     
     for(;;){
         // printf("No for do CTRL\n");
-        print("[CTRL] no for\n");
+        printf("[CTRL] no for\n");
         vel_atual = f_get_speed();
 
         error = vel_final - vel_atual;
