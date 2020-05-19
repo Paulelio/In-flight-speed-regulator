@@ -8,6 +8,7 @@ Paulo Alvares 49460
 #include <sys/ipc.h> 
 #include <sys/msg.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "fdr.h"
 #include "fmc.h"
@@ -49,7 +50,7 @@ int flightDataRecorder(void * input){
         if(strcmp(last_mesg, message.mesg_text) != 0){
             writeToRecord(message.mesg_text);
             
-            last_mesg = message.mesg_text;
+            strcpy(message.mesg_text, last_mesg);
             // display the message 
             printf("[FDR] Dados Recebidos: %s \n", message.mesg_text);
         } 

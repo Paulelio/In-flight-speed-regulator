@@ -91,7 +91,7 @@ void controlAlgorithm(void * input){
         //printf("no ctrl - vel atual = %f, erro = %f \n", vel_atual, error);
         //printf("thrust no crtl = \n", thrust);
         sleep(10); //em NRT
-        sched_yield();
+        sched_yield(); //em RT
     }
 }
  
