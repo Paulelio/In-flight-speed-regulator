@@ -50,7 +50,7 @@ int flightDataRecorder(void * input){
         if(strcmp(last_mesg, message.mesg_text) != 0){
             writeToRecord(message.mesg_text);
             
-            strcpy(message.mesg_text, last_mesg);
+            strncpy(message.mesg_text, last_mesg, sizeof(last_mesg));
             // display the message 
             printf("[FDR] Dados Recebidos: %s \n", message.mesg_text);
         } 
