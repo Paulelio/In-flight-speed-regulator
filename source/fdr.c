@@ -38,7 +38,7 @@ int flightDataRecorder(void * input){
     // msgget creates a message queue 
     // and returns identifier 
     msgid = msgget(key, 0666 | IPC_CREAT); 
-    char last_mesg[1024]; 
+    char* last_mesg = (char *) malloc(1024);
 
     // CICLO PARA ESTAR SEMPRE A ESCUTA DA MENSAGEM
     
@@ -47,7 +47,7 @@ int flightDataRecorder(void * input){
     
     while(msgrcv(msgid, &message, sizeof(message), 1, 0) != 0){
         //write to fdrBlackbox
-        if(strcmp(last_mesg, message.mesg_text) != 0){
+        if(strcmp(message.mesg_text, last_mesg) != 0){
             writeToRecord(message.mesg_text);
             
             strncpy(message.mesg_text, last_mesg, sizeof(last_mesg));
