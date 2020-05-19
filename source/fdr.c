@@ -44,11 +44,13 @@ int flightDataRecorder(void * input){
     for(;;){
         // msgrcv to receive message 
         msgrcv(msgid, &message, sizeof(message), 1, 0); 
-  
+
+        //while msgrcv != 0 (message.text).split(',') e write to record.
+        
         // display the message 
         printf("Dados Recebidos: %s \n",  
                     message.mesg_text);
-        
+        sleep(10);
     }
      
   

@@ -221,7 +221,7 @@ void flightManagement(void * input){
         }
         printf("Antes do computeSpeed o drag tem %f\n", drag);
         computeSpeed(tp, drag);
-
+        clock_gettime(CLOCK_REALTIME, tp);
         cycle_num ++;
         sched_yield();
     }
