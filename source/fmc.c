@@ -196,7 +196,7 @@ void flightManagement(void * input){
             long current_timestamp = (unsigned)time(NULL);
             // printf("antes da escrita %s\n", buffer);
             printf("[FMC] %ld,%f,%f\n", current_timestamp, vel, drag);
-            snprintf(buffer, sizeof(fdr_message.mesg_text), "%d,%f,%f", current_timestamp, vel, drag);
+            snprintf(buffer, sizeof(fdr_message.mesg_text), "%ld,%f,%f", current_timestamp, vel, drag);
 
             printf("[FMC] depois da escrita %s\n", buffer);
             strncpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
