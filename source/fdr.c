@@ -49,7 +49,8 @@ int flightDataRecorder(void * input){
         //write to fdrBlackbox
         if(strcmp(message.mesg_text, last_mesg) != 0){
             writeToRecord(message.mesg_text);
-            
+            printf("last message: %s\n", last_mesg);
+            printf("messafe.mesg_text %s\n", message.mesg_text);
             strncpy(message.mesg_text, last_mesg, sizeof(last_mesg));
             // display the message 
             printf("[FDR] Dados Recebidos: %s \n", message.mesg_text);
