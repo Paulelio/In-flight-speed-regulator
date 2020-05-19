@@ -51,7 +51,7 @@ int flightDataRecorder(void * input){
             writeToRecord(message.mesg_text);
             printf("last message: %s\n", last_mesg);
             printf("messafe.mesg_text %s\n", message.mesg_text);
-            snprintf(last_mesg, message.mesg_text, sizeof(last_mesg));
+            strncpy(last_mesg, message.mesg_text, 1024);
             // display the message 
             printf("[FDR] Dados Recebidos: %s \n", message.mesg_text);
         } 
