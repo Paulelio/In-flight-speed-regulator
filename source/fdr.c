@@ -63,7 +63,7 @@ int flightDataRecorder(void * input){
  * a estrutar do ficheiro e do tipo <timestamp,speed,thrust>
  */
 // FALTA DAR SPLIT DA MENSAGEM 
-void writeToRecord(char* recMesg){
+void writeToRecord(char recMesg[]){
 
     fileRecord = fopen("/tmp/fdrBlackbox.csv", "a");
     fprintf(fileRecord, "%s\n", recMesg);
