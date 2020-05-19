@@ -84,7 +84,7 @@ void controlAlgorithm(void * input){
         integral = integral_prior + error * iteration_time;
         derivative = (error - error_prior) / iteration_time;
         thrust = KP * error + KI * integral + KD * derivative;
-        
+
         f_set_thrust(thrust);
         error_prior = error;
         integral_prior = integral;

@@ -44,7 +44,7 @@ int flightDataRecorder(void * input){
     for(;;){
         // msgrcv to receive message 
         msgrcv(msgid, &message, sizeof(message), 1, 0); 
-        writeToRecord(message.mesg_text)
+        writeToRecord(message.mesg_text);
         //while msgrcv != 0 (message.text).split(',') e write to record.
         printf("[FDR] escrevi para ficheiro\n");
         // display the message 
