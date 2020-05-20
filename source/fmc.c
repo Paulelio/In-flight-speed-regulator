@@ -151,9 +151,9 @@ void flightManagement(void * input){
     struct sched_attr attrFMC = {
         .size = sizeof(attrFMC),
         .sched_policy = SCHED_DEADLINE,
-        .sched_runtime = 6 * 1000 * 1000, // 10 000 000 microsegundos = 10 segundos
+        .sched_runtime = 3 * 1000 * 1000, // 10 000 000 microsegundos = 10 segundos
         .sched_period = 2 * 1000 * 1000 * 1000, //20 000 000 000 nanosegundos = 20 segundos
-        .sched_deadline = 8 * 1000 * 1000 // 15 000 000 microsegundos = 15 segundos -- deadline não pode ser maior que o período!
+        .sched_deadline = 5 * 1000 * 1000 // 15 000 000 microsegundos = 15 segundos -- deadline não pode ser maior que o período!
     };
 
     struct aviao_t * aviao = (struct aviao_t*) input;
