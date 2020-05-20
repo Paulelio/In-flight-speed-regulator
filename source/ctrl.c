@@ -65,7 +65,7 @@ void controlAlgorithm(void * input){
         .sched_policy = SCHED_DEADLINE,
         .sched_runtime = 10 * 1000 * 1000,
         .sched_period = 2 * 10 * 1000 * 1000 * 1000,
-        .sched_deadline = 10 * 1000 * 1000
+        .sched_deadline = 11 * 1000 * 1000
     };
 
     //--Inicializacao shared memory--//
@@ -109,7 +109,7 @@ void controlAlgorithm(void * input){
     semThrust = sem_open("sem_Thrust", O_CREAT);
 
     sched_setattrCTRL(0, &attrCTRL, 0);
-    //sleep(10);
+    sleep(1);
     for(;;){
         printf("[CTRL] no for\n");
         
@@ -139,11 +139,5 @@ void controlAlgorithm(void * input){
         //sleep(10); //em NRT
         sched_yield(); //em RT
     }
-
-    sem_close(semSpeed);
-    sem_close(semThrust);
-
-    sem_unlink("sem_Speed");
-    sem_unlink("sem_Thrust");
 }
  

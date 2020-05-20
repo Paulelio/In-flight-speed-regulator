@@ -12,7 +12,6 @@ Paulo Alvares 49460
 #include <stdlib.h>
 
 #include "fdr.h"
-#include "fmc.h"
 
 FILE *fileRecord;
 
