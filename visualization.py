@@ -20,22 +20,36 @@ def openFile(filename):
 
 def createGraph(record):
     
-    timeAxis = []
-    speedAxis = []
-    thrustAxis = []
+    time = []
+    speed = []
+    thrust = []
     
     for line in record:
         temp = []
         temp = line.split(",")
 
-        timeAxis.append(temp[0])
-        speedAxis.append(temp[1])
-        thrustAxis.append(temp[2])
+        time.append(int(temp[0]))
+        speed.append(float(temp[1]))
+        thrust.append(float(temp[2]))
     
+    for i in range(0, len(time)): 
+        time[i] = int(time[i]) 
+    for i in range(0, len(speed)): 
+        speed[i] = float(speed[i]) 
+    for i in range(0, len(thrust)): 
+        thrust[i] = int(thrust[i]) 
+
+    print("time: ", time)
+    print("speed: ", speed)
+    print("thrust: ", thrust)
+    
+    timeAxis = sorted(time, reverse=True)
+    speedAxis = sorted(speed, reverse=True)
+    thrustAxis = sorted(thrust, reverse=True)
+
     print("time: ", timeAxis)
     print("speed: ", speedAxis)
     print("thrust: ", thrustAxis)
-    
 
     plt.subplot(2, 1, 1)
     plt.plot(timeAxis, speedAxis, "o-", label = "Speed Variation")
