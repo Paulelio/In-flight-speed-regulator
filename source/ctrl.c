@@ -127,7 +127,7 @@ void controlAlgorithm(void * input){
         thrust = KP * error + KI * integral + KD * derivative;
 
         //sem_wait(semThrust);
-        shmp->thrust = thrust *10;
+        shmp->thrust = thrust;
         printf("[CTRL] Thrust: %f\n", thrust);
         //sem_post(semThrust);
 
