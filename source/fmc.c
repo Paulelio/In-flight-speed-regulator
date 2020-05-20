@@ -213,9 +213,7 @@ void flightManagement(void * input){
     semSpeed = sem_open("sem_Speed", O_CREAT);
     semThrust = sem_open("sem_Thrust", O_CREAT);
 
-    sem_wait(semThrust);
-    shmp->speed = vel;
-    sem_post(semThrust);
+    
     //printf("Adquirir timespec\n");
     //time struct
     struct timespec *tp = malloc(sizeof(struct timespec));
