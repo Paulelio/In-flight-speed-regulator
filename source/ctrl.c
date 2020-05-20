@@ -139,7 +139,7 @@ void controlAlgorithm(void * input){
         //printf("thrust no crtl = \n", thrust);
         //sleep(10); //em NRT
         //sched_yield(); //em RT
-        sleep(5);
+        //sleep(5);
     }
 }
  
