@@ -63,9 +63,9 @@ void controlAlgorithm(void * input){
     struct sched_attr attrCTRL = {
         .size = sizeof (attrCTRL),
         .sched_policy = SCHED_DEADLINE,
-        .sched_runtime = 3 * 1000 * 1000,
-        .sched_period = 2 * 1000 * 1000 * 1000,
-        .sched_deadline = 5 * 1000 * 1000,
+        .sched_runtime = 15 * 1000 * 1000,
+        .sched_period = 25 * 1000 * 1000 * 1000,
+        .sched_deadline = 16 * 1000 * 1000,
     };
 
     //--Inicializacao shared memory--//
