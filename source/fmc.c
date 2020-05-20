@@ -267,7 +267,7 @@ void flightManagement(void * input){
         thrust = shmp->thrust;
         //sem_post(semThrust);
         
-        computeSpeed(tp, drag);
+        computeSpeed(drag);
         shmp->speed = vel;
         //sem_post(semThrust);
 
