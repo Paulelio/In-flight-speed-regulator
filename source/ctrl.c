@@ -109,7 +109,7 @@ void controlAlgorithm(void * input){
     semThrust = sem_open("sem_Thrust", O_CREAT);
 
     sched_setattrCTRL(0, &attrCTRL, 0);
-    
+    sleep(10);
     for(;;){
         printf("[CTRL] no for\n");
         
@@ -126,10 +126,10 @@ void controlAlgorithm(void * input){
         derivative = (error - error_prior) / iteration_time;
         thrust = KP * error + KI * integral + KD * derivative;
 
-        //sem_wait(semThrust);
+        sem_wait(semThrust);
         shmp->thrust = thrust;
         printf("[CTRL] Thrust: %f\n", thrust);
-        //sem_post(semThrust);
+        sem_post(semThrust);
 
         error_prior = error;
         integral_prior = integral;
