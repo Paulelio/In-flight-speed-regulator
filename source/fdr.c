@@ -59,7 +59,7 @@ int flightDataRecorder(void * input){
     
     // msgrcv to receive message 
     //msgrcv(msgid, &message, sizeof(message), 1, 0); 
-    
+    sleep(10);
     while(msgrcv(msgid, &message, sizeof(message), 1, 0) != 0){
         //write to fdrBlackbox
         if(strcmp(message.mesg_text, last_mesg) != 0){
