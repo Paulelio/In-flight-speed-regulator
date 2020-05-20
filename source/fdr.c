@@ -20,6 +20,20 @@ struct mesg_buffer {
     char mesg_text[1024]; 
 } message; 
 
+/** funcao para escrever os records para um ficheiro csv
+ * a estrutar do ficheiro e do tipo <timestamp,speed,thrust>
+ */
+// FALTA DAR SPLIT DA MENSAGEM 
+void writeToRecord(char recMesg[]){
+
+    fileRecord = fopen("fdrBlackbox.csv", "a");
+    fprintf(fileRecord, "%s\n", recMesg);
+    printf("[FDR] - recebido: %s\n",recMesg);
+    fclose(fileRecord);
+
+    return;
+}
+
 /** Funcao principal do FDR
  * 
  * 
@@ -66,16 +80,4 @@ int flightDataRecorder(void * input){
     
     return 0;
 }
-/** funcao para escrever os records para um ficheiro csv
- * a estrutar do ficheiro e do tipo <timestamp,speed,thrust>
- */
-// FALTA DAR SPLIT DA MENSAGEM 
-void writeToRecord(char recMesg[]){
 
-    fileRecord = fopen("fdrBlackbox.csv", "a");
-    fprintf(fileRecord, "%s\n", recMesg);
-    printf("[FDR] - recebido: %s\n",recMesg);
-    fclose(fileRecord);
-
-    return;
-}
