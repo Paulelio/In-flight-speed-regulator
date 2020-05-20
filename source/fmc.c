@@ -27,7 +27,7 @@ Paulo Alvares 49460
 #define NACQUI 1 //valor de quantos em quantos ciclos vai ser enviada info para o fdr
 #define LIMIT_INTERVAL 0.05 //valor de intervalo aceitavel da velocidade final
 #define SAMPLE_INT = 30000 //intervalo entre medicoes 30s (30000 ms)
-
+#define SHM_KEY 0x1234
 /** Funcoes para uso de relogios
  * int clock_getres(clockid_t clock_id, struct timespec *res);
  * int clock_gettime(clockid_t clock_id, struct timespec *tp);
@@ -255,8 +255,8 @@ void flightManagement(void * input){
                 sem_close(semSpeed);
                 sem_close(semThrust);
 
-                sem_unlink(semSpeed);
-                sem_unlink(semThrust);
+                sem_unlink("sem_Speed");
+                sem_unlink("sem_Thrust");
                 // TEMOS QUE FAZER FREE DOS MALLOCS TOOOOOODOS
                 return;
             }

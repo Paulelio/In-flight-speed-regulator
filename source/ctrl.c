@@ -115,6 +115,8 @@ void controlAlgorithm(void * input){
         vel_atual = shmp->speed;
         sem_post(semSpeed);
 
+        //adicionar if para terminar com speed > x valor
+
         error = vel_final - vel_atual;
         integral = integral_prior + error * iteration_time;
         derivative = (error - error_prior) / iteration_time;
@@ -132,5 +134,11 @@ void controlAlgorithm(void * input){
         sleep(10); //em NRT
         sched_yield(); //em RT
     }
+
+    sem_close(semSpeed);
+    sem_close(semThrust);
+
+    sem_unlink("sem_Speed");
+    sem_unlink("sem_Thrust");
 }
  
