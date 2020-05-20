@@ -64,7 +64,7 @@ void controlAlgorithm(void * input){
         .size = sizeof (attrCTRL),
         .sched_policy = SCHED_DEADLINE,
         .sched_runtime = 3 * 1000 * 1000,
-        .sched_period = 1 * 1000 * 1000 * 1000,
+        .sched_period = 2 * 1000 * 1000 * 1000,
         .sched_deadline = 5 * 1000 * 1000,
     };
 
@@ -126,7 +126,7 @@ void controlAlgorithm(void * input){
         derivative = (error - error_prior) / iteration_time;
         thrust = KP * error + KI * integral + KD * derivative;
         printf("[CTRL] antes do sem da thrust\n");
-        
+
         sem_wait(semThrust);
         shmp->thrust = thrust;
         printf("[CTRL] Thrust: %f\n", thrust);
@@ -139,6 +139,7 @@ void controlAlgorithm(void * input){
         //printf("thrust no crtl = \n", thrust);
         //sleep(10); //em NRT
         sched_yield(); //em RT
+        sleep(5);
     }
 }
  
