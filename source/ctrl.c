@@ -98,9 +98,9 @@ void controlAlgorithm(void * input){
     double error_prior = 0.0;
     double integral_prior = 0.0;
 
-    double vel_atual;
-    double vel_final;
-    double thrust;
+    double vel_atual = 0.0;
+    double vel_final = (double) input / 3.6;
+    double thrust = 0.0;
     double iteration_time = 1.0; //??
 
     semSpeed = sem_open("sem_Speed", O_CREAT);
