@@ -23,11 +23,13 @@ Paulo Alvares 49460
 #include "fmc.h"
 
 #define peso 79000
-#define period 1 //in milliseconds 
+#define period 10
 #define NACQUI 1 //valor de quantos em quantos ciclos vai ser enviada info para o fdr
 #define LIMIT_INTERVAL 0.05 //valor de intervalo aceitavel da velocidade final
 #define SAMPLE_INT = 30000 //intervalo entre medicoes 30s (30000 ms)
 #define SHM_KEY 0x1234
+
+
 /** Funcoes para uso de relogios
  * int clock_getres(clockid_t clock_id, struct timespec *res);
  * int clock_gettime(clockid_t clock_id, struct timespec *tp);
@@ -80,8 +82,8 @@ int sched_setattrFMC(pid_t pid,
  *             drag 
  * Returns: velocidade resultante
  */ 
-void computeSpeed(struct timespec *time, double drag){
-    time_t result;
+void computeSpeed(double drag){ //struct timespec *time,
+    /* time_t result;
     long nano_result;
 
     printf("[FMC] time %ld %ld\n", time->tv_sec, time->tv_nsec);
@@ -93,21 +95,21 @@ void computeSpeed(struct timespec *time, double drag){
     } else {
         result = time->tv_sec - last_time->tv_sec;
         nano_result = time->tv_nsec - last_time->tv_nsec;
-    }
+    } */
 
     printf("[FMC] resultado da equacao %f\n", (thrust + drag)/(peso/(10000)) );
-    printf("[FMC] tempo na equacao %ld\n", (((long) result) + nano_result/1000000000));
+    //printf("[FMC] tempo na equacao %ld\n", (((long) result) + nano_result/1000000000));
 
     //sem_wait(semSpeed);
-    double new_vel = vel + ( (thrust + drag) / ( peso / 10000 ) ) * ( ( ( (long) result) + nano_result/1000000000)); // TIREI O ^2 do (peso /(10000)^2)
+    double new_vel = vel + ( (thrust + drag) / ( peso / 10000 ) ) * period; // TIREI O ^2 do (peso /(10000)^2)
     printf("[FMC] dento do sem\n");
     printf("[FMC] new vel: %f\n", new_vel);
     vel = new_vel;  
     //sem_post(semSpeed);
 
-    last_time->tv_sec = time->tv_sec;    //atualiza os
-    last_time->tv_nsec = time->tv_nsec;  //valores antigos
-    printf("[FMC] last time %ld %ld\n", last_time->tv_sec, last_time->tv_nsec);
+    //last_time->tv_sec = time->tv_sec;    //atualiza os
+    //last_time->tv_nsec = time->tv_nsec;  //valores antigos
+    //printf("[FMC] last time %ld %ld\n", last_time->tv_sec, last_time->tv_nsec);
 }
 
 /** Funcao para calcular o Drag
@@ -161,6 +163,8 @@ void flightManagement(void * input){
     int altitude = (*aviao).altitude;
     vel = (*aviao).vel_init / 3.6; //para m/s
     vel_final = (*aviao).vel_final / 3.6; //para m/s
+
+    
     double drag = computeDrag(altitude);
     printf("[FMC] Drag = %f\n", drag);
     //printf("Valores da estrutura: altitude %i, velocidade inicial %d, velocidade final %d \n", altitude, vel_init, vel_final);
@@ -203,11 +207,15 @@ void flightManagement(void * input){
         fdr_message.mesg_type = 1;
         char *buffer = (char *) malloc(1024);
 
+    
     int cycle_num = 1;
 
     semSpeed = sem_open("sem_Speed", O_CREAT);
     semThrust = sem_open("sem_Thrust", O_CREAT);
 
+    sem_wait(semThrust);
+    shmp->speed = vel;
+    sem_post(semThrust);
     //printf("Adquirir timespec\n");
     //time struct
     struct timespec *tp = malloc(sizeof(struct timespec));
@@ -215,8 +223,8 @@ void flightManagement(void * input){
 
     clock_gettime(CLOCK_REALTIME, tp);
 
-    last_time->tv_sec = tp->tv_sec;
-    last_time->tv_nsec = tp->tv_nsec;
+    /* last_time->tv_sec = tp->tv_sec;
+    last_time->tv_nsec = tp->tv_nsec; */
 
 
     //set sched attribute
@@ -266,7 +274,7 @@ void flightManagement(void * input){
         thrust = shmp->thrust;
         //sem_post(semThrust);
         
-        computeSpeed(tp, drag);
+        computeSpeed(drag);
         shmp->speed = vel;
         sem_post(semThrust);
 

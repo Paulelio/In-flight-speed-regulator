@@ -19,9 +19,9 @@ Paulo Alvares 49460
 
 #include "ctrl.h"
 
-#define KP 13
-#define KI 1
-#define KD 1.0
+#define KP 10
+#define KI 0
+#define KD 1.5
 
 #define SHM_KEY 0x1234
 
