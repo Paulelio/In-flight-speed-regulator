@@ -98,16 +98,12 @@ void computeSpeed(struct timespec *time, double drag){
     printf("[FMC] resultado da equacao %f\n", (thrust + drag)/(peso/(10000)) );
     printf("[FMC] tempo na equacao %ld\n", (((long) result) + nano_result/1000000000));
 
-    //lock
-    //pthread_mutex_lock(&lockSpeed); 
-    sem_wait(semSpeed);
+    //sem_wait(semSpeed);
     double new_vel = vel + ( (thrust + drag) / ( peso / 10000 ) ) * ( ( ( (long) result) + nano_result/1000000000)); // TIREI O ^2 do (peso /(10000)^2)
-    //pthread_mutex_unlock(&lockSpeed); 
-    //unlock
     printf("[FMC] dento do sem\n");
     printf("[FMC] new vel: %f\n", new_vel);
     vel = new_vel;  
-    sem_post(semSpeed);
+    //sem_post(semSpeed);
 
     last_time->tv_sec = time->tv_sec;    //atualiza os
     last_time->tv_nsec = time->tv_nsec;  //valores antigos
@@ -266,20 +262,17 @@ void flightManagement(void * input){
         }
         printf("[FMC] Antes do computeSpeed o drag tem %f\n", drag);
 
-        //lock
-        //pthread_mutex_lock(&lockThrust);
         sem_wait(semThrust);
         thrust = shmp->thrust;
-        sem_post(semThrust);
-        //pthread_mutex_unlock(&lockThrust); 
-        //unlock
-
+        //sem_post(semThrust);
+        
         computeSpeed(tp, drag);
         shmp->speed = vel;
+        sem_post(semThrust);
 
         clock_gettime(CLOCK_REALTIME, tp);
         cycle_num ++;
-        //sched_yield();
+        sched_yield();
     }
     
 }
