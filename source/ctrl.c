@@ -63,9 +63,9 @@ void controlAlgorithm(void * input){
     struct sched_attr attrCTRL = {
         .size = sizeof (attrCTRL),
         .sched_policy = SCHED_DEADLINE,
-        .sched_runtime = 10 * 1000 * 1000,
-        .sched_period = 2 * 10 * 1000 * 1000 * 1000,
-        .sched_deadline = 11 * 1000 * 1000
+        .sched_runtime = 3 * 1000 * 1000,
+        .sched_period = 1 * 1000 * 1000 * 1000,
+        .sched_deadline = 5 * 1000 * 1000,
     };
 
     //--Inicializacao shared memory--//
@@ -109,7 +109,7 @@ void controlAlgorithm(void * input){
     semThrust = sem_open("sem_Thrust", O_CREAT);
 
     sched_setattrCTRL(0, &attrCTRL, 0);
-    sleep(1);
+
     for(;;){
         printf("[CTRL] no for\n");
         
@@ -138,6 +138,7 @@ void controlAlgorithm(void * input){
         //printf("thrust no crtl = \n", thrust);
         //sleep(10); //em NRT
         sched_yield(); //em RT
+        sleep(10); //em NRT
     }
 }
  
