@@ -17,6 +17,8 @@ Paulo Alvares 49460
 #include <sys/msg.h>
 #include <string.h>
 #include <sys/shm.h>
+#include <fcntl.h> 
+#include <semaphore.h>
 
 #include "fmc.h"
 

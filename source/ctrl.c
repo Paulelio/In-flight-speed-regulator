@@ -15,6 +15,7 @@ Paulo Alvares 49460
 #include <semaphore.h>
 #include <sys/shm.h>
 #include <sys/ipc.h>
+#include <fcntl.h> 
 
 #include "ctrl.h"
 
