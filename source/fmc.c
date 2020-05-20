@@ -183,6 +183,9 @@ void flightManagement(void * input){
     semSpeed = sem_open("sem_Speed", O_CREAT);
     semThrust = sem_open("sem_Thrust", O_CREAT);
 
+    shmp->thrust = 0;
+    shmp->speed = vel;
+
     struct timespec *tp = malloc(sizeof(struct timespec));
     last_time = malloc(sizeof(struct timespec));
 
@@ -229,7 +232,7 @@ void flightManagement(void * input){
             }
             
         }
-        printf("[FMC] Antes do computeSpeed o drag tem %f\n", drag);
+        printf("[FMC] Antes do computeSpeed\n");
 
         sem_wait(semThrust);
         

@@ -108,13 +108,11 @@ void controlAlgorithm(void * input){
         printf("[CTRL] no for\n");
         
         //sem_wait(semThrust);
-        //sem_wait(semSpeed);
+        
         
         vel_atual = shmp->speed;
         printf("[CTRL] Vel: %f\n", vel_atual);
-        //sem_post(semSpeed);
         
-        //adicionar if para terminar com speed > x valor
         printf("[CTRL] antes do PID\n");
         error = vel_final - vel_atual;
         integral = integral_prior + error * iteration_time;
@@ -122,7 +120,6 @@ void controlAlgorithm(void * input){
         thrust = KP * error + KI * integral + KD * derivative;
         printf("[CTRL] antes do sem da thrust\n");
 
-        //sem_wait(semThrust);
         shmp->thrust = thrust;
         printf("[CTRL] Thrust: %f\n", thrust);
         //sem_post(semThrust);
@@ -130,8 +127,6 @@ void controlAlgorithm(void * input){
         error_prior = error;
         integral_prior = integral;
         
-        //printf("no ctrl - vel atual = %f, erro = %f \n", vel_atual, error);
-        //printf("thrust no crtl = \n", thrust);
         //sleep(10); //em NRT
         sched_yield(); //em RT
         //sleep(5);
