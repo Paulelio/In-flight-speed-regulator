@@ -155,8 +155,8 @@ void flightManagement(void * input){
     struct sched_attr attrFMC = {
         .size = sizeof(attrFMC),
         .sched_policy = SCHED_DEADLINE,
-        .sched_runtime = 10 * 1000 * 1000, // 10 000 000 microsegundos = 10 segundos
-        .sched_period = 2 * 1000 * 1000 * 1000 * 1000, //1 000 000 000 nanosegundos = 1 segundos
+        .sched_runtime = 5 * 1000 * 1000, // 10 000 000 microsegundos = 10 segundos
+        .sched_period = 2 * 10 * 1000 * 1000 * 1000, //1 000 000 000 nanosegundos = 1 segundos
         .sched_deadline = 11 * 1000 * 1000 // 11 000 000 microsegundos = 11 segundos -- deadline não pode ser maior que o período!
     };
 
@@ -253,6 +253,7 @@ void flightManagement(void * input){
             if(verifySpeedLim(vel)){
                 printf("[FMC] Chegou ao limite aceitavel de velocidade\n");
                 free(tp);
+                free(buffer);
                 sem_close(semSpeed);
                 sem_close(semThrust);
 

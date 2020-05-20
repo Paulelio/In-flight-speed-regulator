@@ -63,8 +63,8 @@ void controlAlgorithm(void * input){
     struct sched_attr attrCTRL = {
         .size = sizeof (attrCTRL),
         .sched_policy = SCHED_DEADLINE,
-        .sched_runtime = 10 * 1000 * 1000,
-        .sched_period = 2 * 1000 * 1000 * 1000 * 1000,
+        .sched_runtime = 5 * 1000 * 1000,
+        .sched_period = 2 * 10 * 1000 * 1000 * 1000,
         .sched_deadline = 11 * 1000 * 1000
     };
 
@@ -136,7 +136,7 @@ void controlAlgorithm(void * input){
         
         //printf("no ctrl - vel atual = %f, erro = %f \n", vel_atual, error);
         //printf("thrust no crtl = \n", thrust);
-        sleep(10); //em NRT
+        //sleep(10); //em NRT
         sched_yield(); //em RT
     }
 
