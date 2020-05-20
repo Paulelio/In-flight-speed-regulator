@@ -69,6 +69,7 @@ void controlAlgorithm(void * input){
     };
 
     //--Inicializacao shared memory--//
+     printf("[CTRL] Shared memory\n");
     int shmid;
     struct shmseg *shmp;
     shmid = shmget(SHM_KEY, sizeof(struct shmseg), 0644|IPC_CREAT);
@@ -84,7 +85,7 @@ void controlAlgorithm(void * input){
       perror("Shared memory attach");
       return;
     }
-
+    printf("[CTRL] Acabou shared memory\n");
     //while(1)
     //buscar speed
     //computar thrust
@@ -110,7 +111,7 @@ void controlAlgorithm(void * input){
     
     for(;;){
         printf("[CTRL] no for\n");
-
+        
         sem_wait(semSpeed);
         vel_atual = shmp->speed;
         sem_post(semSpeed);
