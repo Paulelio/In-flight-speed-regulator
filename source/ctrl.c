@@ -100,9 +100,12 @@ void controlAlgorithm(void * input){
     double integral_prior = 0.0;
 
     double vel_atual = 0.0;
+    printf("[CTRL] antes dos casts\n");
     double vel_final = *(double *) input / 3.6;
+    printf("[CTRL] depois dos casts\n");
     double thrust = 0.0;
     double iteration_time = 1.0; //??
+    
     printf("[CTRL] antes dos sems\n");
     semSpeed = sem_open("sem_Speed", O_CREAT);
     semThrust = sem_open("sem_Thrust", O_CREAT);
