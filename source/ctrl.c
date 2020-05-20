@@ -109,7 +109,7 @@ void controlAlgorithm(void * input){
     semThrust = sem_open("sem_Thrust", O_CREAT);
 
     sched_setattrCTRL(0, &attrCTRL, 0);
-    sleep(10);
+    //sleep(10);
     for(;;){
         printf("[CTRL] no for\n");
         

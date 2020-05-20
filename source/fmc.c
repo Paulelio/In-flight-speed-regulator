@@ -104,6 +104,7 @@ void computeSpeed(struct timespec *time, double drag){
     double new_vel = vel + ( (thrust + drag) / ( peso / 10000 ) ) * ( ( ( (long) result) + nano_result/1000000000)); // TIREI O ^2 do (peso /(10000)^2)
     //pthread_mutex_unlock(&lockSpeed); 
     //unlock
+    printf("[FMC] dento do sem\n");
     printf("[FMC] new vel: %f\n", new_vel);
     vel = new_vel;  
     sem_post(semSpeed);

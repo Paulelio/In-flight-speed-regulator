@@ -85,7 +85,8 @@ int main(int argc, char** argv) {
 	}
 	
 	//FAZER AQUI A CRIAÇÃO DA SHARED MEMORY
-
+	semSpeed = sem_open("sem_Speed", O_CREAT);
+    semThrust = sem_open("sem_Thrust", O_CREAT);
 	// NAO SE PODE FAZER SHARED MEMORY DEPOIS DESTE COMENTARIO
 	mlockall(MCL_FUTURE || MCL_CURRENT); // TEMPORARIO!!!!! comeca o bloqueio de parte ou todos os virtual address space dos processos para a RAM 
 	
