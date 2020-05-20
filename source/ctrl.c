@@ -126,6 +126,7 @@ void controlAlgorithm(void * input){
         derivative = (error - error_prior) / iteration_time;
         thrust = KP * error + KI * integral + KD * derivative;
         printf("[CTRL] antes do sem da thrust\n");
+        
         sem_wait(semThrust);
         shmp->thrust = thrust;
         printf("[CTRL] Thrust: %f\n", thrust);
@@ -138,7 +139,6 @@ void controlAlgorithm(void * input){
         //printf("thrust no crtl = \n", thrust);
         //sleep(10); //em NRT
         sched_yield(); //em RT
-        sleep(10); //em NRT
     }
 }
  
