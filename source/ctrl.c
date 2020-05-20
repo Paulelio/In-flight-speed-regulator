@@ -120,12 +120,12 @@ void controlAlgorithm(void * input){
         sem_post(semSpeed);
         
         //adicionar if para terminar com speed > x valor
-
+        printf("[CTRL] antes do PID\n");
         error = vel_final - vel_atual;
         integral = integral_prior + error * iteration_time;
         derivative = (error - error_prior) / iteration_time;
         thrust = KP * error + KI * integral + KD * derivative;
-
+        printf("[CTRL] antes do sem da thrust\n");
         sem_wait(semThrust);
         shmp->thrust = thrust;
         printf("[CTRL] Thrust: %f\n", thrust);
