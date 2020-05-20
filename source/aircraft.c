@@ -14,6 +14,7 @@ Funcao main que inicializa e coordena o sistema
 #include <pthread.h> 
 #include <semaphore.h>
 #include <linux/sched.h>
+#include <sys/mman.h>
 #include <stdint.h>
 #include <sys/syscall.h>
 
