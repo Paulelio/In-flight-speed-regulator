@@ -157,7 +157,7 @@ void flightManagement(void * input){
         .sched_policy = SCHED_DEADLINE,
         .sched_runtime = 7 * 1000 * 1000, // 10 000 000 microsegundos = 10 segundos
         .sched_period = 2 * 10 * 1000 * 1000 * 1000, //20 000 000 000 nanosegundos = 20 segundos
-        .sched_deadline = 12 * 1000 * 1000 // 15 000 000 microsegundos = 15 segundos -- deadline não pode ser maior que o período!
+        .sched_deadline = 9 * 1000 * 1000 // 15 000 000 microsegundos = 15 segundos -- deadline não pode ser maior que o período!
     };
 
     struct aviao_t * aviao = (struct aviao_t*) input;
