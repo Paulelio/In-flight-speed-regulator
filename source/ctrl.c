@@ -99,7 +99,7 @@ void controlAlgorithm(void * input){
     double integral_prior = 0.0;
 
     double vel_atual = 0.0;
-    double vel_final = (double) input / 3.6;
+    double vel_final = *(double *) input / 3.6;
     double thrust = 0.0;
     double iteration_time = 1.0; //??
 

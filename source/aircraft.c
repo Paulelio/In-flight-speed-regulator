@@ -106,7 +106,7 @@ int main(int argc, char** argv) {
 	//adicionar argumentos de inicializacao - altitude e velocidades
 
 	//thread do Control Algorithm-RT
-	pthread_create(&ctrl_thread, NULL, (void*) &controlAlgorithm, (void *) aviao->vel_final);
+	pthread_create(&ctrl_thread, NULL, (void*) &controlAlgorithm, (void *) vel_final);
 	//thread do Control Algorithm-NRT para teste
 	//pthread_create(&ctrl_thread, NULL, (void*) &controlAlgorithmNRT, NULL);
 
