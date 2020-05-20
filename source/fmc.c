@@ -279,7 +279,7 @@ void flightManagement(void * input){
 
         clock_gettime(CLOCK_REALTIME, tp);
         cycle_num ++;
-        sched_yield();
+        //sched_yield();
     }
     
 }
