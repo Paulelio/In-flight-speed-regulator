@@ -22,7 +22,8 @@ Funcao main que inicializa e coordena o sistema
 #include "ctrl.h"
 #include "fdr.h"
 
-
+sem_t *semSpeed;
+sem_t *semThrust
 
 /** Tabela 1
  * Valores minimos e maximos para as variaveis
