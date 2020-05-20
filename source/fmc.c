@@ -273,6 +273,8 @@ void flightManagement(void * input){
         //unlock
 
         computeSpeed(tp, drag);
+        shmp->speed = vel;
+
         clock_gettime(CLOCK_REALTIME, tp);
         cycle_num ++;
         sched_yield();
