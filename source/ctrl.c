@@ -127,6 +127,7 @@ void controlAlgorithm(void * input){
 
         //sem_wait(semThrust);
         shmp->thrust = thrust;
+         printf("[CTRL] Thrust: %f\n", thrust);
         //sem_post(semThrust);
 
         error_prior = error;
