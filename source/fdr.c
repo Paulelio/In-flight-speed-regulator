@@ -9,6 +9,7 @@ Paulo Alvares 49460
 #include <sys/msg.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "fdr.h"
 #include "fmc.h"
