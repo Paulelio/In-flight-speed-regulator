@@ -60,8 +60,8 @@ struct sched_attr {
     uint64_t sched_period;
 };
 
-pthread_mutex_t lockSpeed; //lock para a Speed
-pthread_mutex_t lockThrust; //lock para a Thrust
+sem_t *semSpeed;
+sem_t *semThrust;
 
 /**
  * Funcao set attribute para scheduling
@@ -98,13 +98,13 @@ void computeSpeed(struct timespec *time, double drag){
 
     //lock
     //pthread_mutex_lock(&lockSpeed); 
-    sem_wait(&sem_name);
+    sem_wait(semSpeed);
     double new_vel = vel + ( (thrust + drag) / ( peso / (10000^2) ) ) * ( ( ( (long) result) + nano_result/1000000000));
     //pthread_mutex_unlock(&lockSpeed); 
     //unlock
     printf("[FMC] new vel: %f\n", new_vel);
     vel = new_vel;  
-    sem_post(&sem_name);
+    sem_post(semSpeed);
 
     last_time->tv_sec = time->tv_sec;    //atualiza os
     last_time->tv_nsec = time->tv_nsec;  //valores antigos
@@ -165,16 +165,16 @@ void flightManagement(void * input){
     double drag = computeDrag(altitude);
     printf("[FMC] Drag = %f\n", drag);
     //printf("Valores da estrutura: altitude %i, velocidade inicial %d, velocidade final %d \n", altitude, vel_init, vel_final);
-
+/* 
     if (pthread_mutex_init(&lockSpeed, NULL) != 0) { 
         printf("A inicializacao do mutex do Speed falhou\n"); 
-        return 1; 
+        return; 
     }
 
     if (pthread_mutex_init(&lockThrust, NULL) != 0) { 
         printf("A inicializacao do mutex do Thrust falhou\n"); 
-        return 1; 
-    } 
+        return; 
+    }  */
     //--Inicializacao shared memory--//
         int shmid;
         struct shmseg *shmp;
@@ -182,14 +182,14 @@ void flightManagement(void * input){
 
         if (shmid == -1) {
             perror("Shared memory");
-            return 1;
+            return;
         }
    
         // Attach to the segment to get a pointer to it.
         shmp = shmat(shmid, NULL, 0);
         if (shmp == (void *) -1) {
             perror("Shared memory attach");
-            return 1;
+            return;
         }
 
     //--MESSAGE QUEUE CODE--//
@@ -205,6 +205,9 @@ void flightManagement(void * input){
         char *buffer = (char *) malloc(1024);
 
     int cycle_num = 1;
+
+    semSpeed = sem_open("sem_Speed", O_CREAT);
+    semThrust = sem_open("sem_Thrust", O_CREAT);
 
     //printf("Adquirir timespec\n");
     //time struct
@@ -247,8 +250,11 @@ void flightManagement(void * input){
             if(verifySpeedLim(vel)){
                 printf("[FMC] Chegou ao limite aceitavel de velocidade\n");
                 free(tp);
-                pthread_mutex_destroy(&lockSpeed);
-                pthread_mutex_destroy(&lockThrust);
+                sem_close(semSpeed);
+                sem_close(semThrust);
+
+                sem_unlink(semSpeed);
+                sem_unlink(semThrust);
                 // TEMOS QUE FAZER FREE DOS MALLOCS TOOOOOODOS
                 return;
             }
@@ -258,9 +264,9 @@ void flightManagement(void * input){
 
         //lock
         //pthread_mutex_lock(&lockThrust);
-        sem_wait(&sem_name);
+        sem_wait(semThrust);
         thrust = shmp->thrust;
-        sem_post(&sem_name);
+        sem_post(semThrust);
         //pthread_mutex_unlock(&lockThrust); 
         //unlock
 

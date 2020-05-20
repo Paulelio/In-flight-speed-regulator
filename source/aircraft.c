@@ -17,13 +17,10 @@ Funcao main que inicializa e coordena o sistema
 #include <stdint.h>
 #include <sys/syscall.h>
 
-
-
 #include "fmc.h"
 #include "ctrl.h"
 #include "fdr.h"
 
-sem_t sem_name; 
 
 
 /** Tabela 1
@@ -60,8 +57,6 @@ bool verifyHeight(int h){
 	return true;
 }
 
-
-
 int main(int argc, char** argv) {
 
 	if(argc != 4){
@@ -88,9 +83,6 @@ int main(int argc, char** argv) {
 	}
 	
 	//FAZER AQUI A CRIAÇÃO DA SHARED MEMORY
-
-	sem_init(&sem_name, 0, 1);
-
 
 	// NAO SE PODE FAZER SHARED MEMORY DEPOIS DESTE COMENTARIO
 	mlockall(MCL_FUTURE || MCL_CURRENT); // TEMPORARIO!!!!! comeca o bloqueio de parte ou todos os virtual address space dos processos para a RAM 
