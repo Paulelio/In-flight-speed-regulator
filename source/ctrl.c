@@ -101,23 +101,22 @@ void controlAlgorithm(void * input){
     double vel_atual = 0.0;
     
     double vel_final = ((intptr_t)input) / 3.6;
-    printf("[CTRL] depois dos casts %f\n", vel_final);
     double thrust = 0.0;
     double iteration_time = 1.0; //??
     
-    printf("[CTRL] antes dos sems\n");
+    
     semSpeed = sem_open("sem_Speed", O_CREAT);
     semThrust = sem_open("sem_Thrust", O_CREAT);
-    printf("[CTRL] criou os sems\n");
+
     sched_setattrCTRL(0, &attrCTRL, 0);
     
     for(;;){
         printf("[CTRL] no for\n");
         
-        sem_wait(semSpeed);
-        printf("[CTRL] no sem\n");
+        //sem_wait(semSpeed);
+        
         vel_atual = shmp->speed;
-        sem_post(semSpeed);
+        //sem_post(semSpeed);
         
         //adicionar if para terminar com speed > x valor
 
@@ -126,9 +125,9 @@ void controlAlgorithm(void * input){
         derivative = (error - error_prior) / iteration_time;
         thrust = KP * error + KI * integral + KD * derivative;
 
-        sem_wait(semThrust);
+        //sem_wait(semThrust);
         shmp->thrust = thrust;
-        sem_post(semThrust);
+        //sem_post(semThrust);
 
         error_prior = error;
         integral_prior = integral;
@@ -139,10 +138,10 @@ void controlAlgorithm(void * input){
         sched_yield(); //em RT
     }
 
-    sem_close(semSpeed);
+    /* sem_close(semSpeed);
     sem_close(semThrust);
 
     sem_unlink("sem_Speed");
-    sem_unlink("sem_Thrust");
+    sem_unlink("sem_Thrust"); */
 }
  

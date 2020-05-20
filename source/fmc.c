@@ -100,13 +100,13 @@ void computeSpeed(struct timespec *time, double drag){
 
     //lock
     //pthread_mutex_lock(&lockSpeed); 
-    sem_wait(semSpeed);
+    //sem_wait(semSpeed);
     double new_vel = vel + ( (thrust + drag) / ( peso / (10000^2) ) ) * ( ( ( (long) result) + nano_result/1000000000));
     //pthread_mutex_unlock(&lockSpeed); 
     //unlock
     printf("[FMC] new vel: %f\n", new_vel);
     vel = new_vel;  
-    sem_post(semSpeed);
+    //sem_post(semSpeed);
 
     last_time->tv_sec = time->tv_sec;    //atualiza os
     last_time->tv_nsec = time->tv_nsec;  //valores antigos
@@ -252,11 +252,11 @@ void flightManagement(void * input){
             if(verifySpeedLim(vel)){
                 printf("[FMC] Chegou ao limite aceitavel de velocidade\n");
                 free(tp);
-                sem_close(semSpeed);
+                /* sem_close(semSpeed);
                 sem_close(semThrust);
 
                 sem_unlink("sem_Speed");
-                sem_unlink("sem_Thrust");
+                sem_unlink("sem_Thrust"); */
                 // TEMOS QUE FAZER FREE DOS MALLOCS TOOOOOODOS
                 return;
             }
@@ -266,9 +266,9 @@ void flightManagement(void * input){
 
         //lock
         //pthread_mutex_lock(&lockThrust);
-        sem_wait(semThrust);
+        //sem_wait(semThrust);
         thrust = shmp->thrust;
-        sem_post(semThrust);
+        //sem_post(semThrust);
         //pthread_mutex_unlock(&lockThrust); 
         //unlock
 
