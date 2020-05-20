@@ -19,9 +19,9 @@ Paulo Alvares 49460
 
 #include "ctrl.h"
 
-#define KP 10
-#define KI 0
-#define KD 1.5
+#define KP 13
+#define KI 1
+#define KD 1.0
 
 #define SHM_KEY 0x1234
 
@@ -116,6 +116,7 @@ void controlAlgorithm(void * input){
         //sem_wait(semSpeed);
         
         vel_atual = shmp->speed;
+        printf("[CTRL] Vel: %f\n", vel_atual);
         //sem_post(semSpeed);
         
         //adicionar if para terminar com speed > x valor
@@ -127,7 +128,7 @@ void controlAlgorithm(void * input){
 
         //sem_wait(semThrust);
         shmp->thrust = thrust;
-         printf("[CTRL] Thrust: %f\n", thrust);
+        printf("[CTRL] Thrust: %f\n", thrust);
         //sem_post(semThrust);
 
         error_prior = error;
