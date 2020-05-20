@@ -267,9 +267,9 @@ void flightManagement(void * input){
 
         //lock
         //pthread_mutex_lock(&lockThrust);
-        //sem_wait(semThrust);
+        sem_wait(semThrust);
         thrust = shmp->thrust;
-        //sem_post(semThrust);
+        sem_post(semThrust);
         //pthread_mutex_unlock(&lockThrust); 
         //unlock
 

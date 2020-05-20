@@ -113,11 +113,11 @@ void controlAlgorithm(void * input){
     for(;;){
         printf("[CTRL] no for\n");
         
-        //sem_wait(semSpeed);
+        sem_wait(semSpeed);
         
         vel_atual = shmp->speed;
         printf("[CTRL] Vel: %f\n", vel_atual);
-        //sem_post(semSpeed);
+        sem_post(semSpeed);
         
         //adicionar if para terminar com speed > x valor
 
@@ -140,10 +140,10 @@ void controlAlgorithm(void * input){
         sched_yield(); //em RT
     }
 
-    /* sem_close(semSpeed);
+    sem_close(semSpeed);
     sem_close(semThrust);
 
     sem_unlink("sem_Speed");
-    sem_unlink("sem_Thrust"); */
+    sem_unlink("sem_Thrust");
 }
  
