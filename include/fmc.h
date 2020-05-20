@@ -26,7 +26,7 @@ void flightManagement(void* input);
  * baseada na funcao V(Ti) = V(Ti-1) + ((T+D)/Mmod) * (Ti - Ti-1)
  * onde Mmod = peso/10000^2
  */
-void computeSpeed(struct timespec *time, double drag);
+void computeSpeed(double drag); //struct timespec *time, 
 
 double computeDrag(int h);
 #endif

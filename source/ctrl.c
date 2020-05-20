@@ -63,9 +63,9 @@ void controlAlgorithm(void * input){
     struct sched_attr attrCTRL = {
         .size = sizeof (attrCTRL),
         .sched_policy = SCHED_DEADLINE,
-        .sched_runtime = 15 * 1000 * 1000,
-        .sched_period = 25 * 1000 * 1000 * 1000,
-        .sched_deadline = 16 * 1000 * 1000,
+        .sched_runtime = 15 * 100 * 1000,
+        .sched_period = 1 * 1000 * 1000 * 1000,
+        .sched_deadline = 16 * 100 * 1000,
     };
 
     //--Inicializacao shared memory--//
@@ -84,12 +84,6 @@ void controlAlgorithm(void * input){
       perror("Shared memory attach");
       return;
     }
-    
-    //while(1)
-    //buscar speed
-    //computar thrust
-    //guardar thrust para fmc
-    //sleep periodo
 
     double error;
     double integral;
@@ -113,7 +107,7 @@ void controlAlgorithm(void * input){
     for(;;){
         printf("[CTRL] no for\n");
         
-        sem_wait(semThrust);
+        //sem_wait(semThrust);
         //sem_wait(semSpeed);
         
         vel_atual = shmp->speed;
@@ -131,7 +125,7 @@ void controlAlgorithm(void * input){
         //sem_wait(semThrust);
         shmp->thrust = thrust;
         printf("[CTRL] Thrust: %f\n", thrust);
-        sem_post(semThrust);
+        //sem_post(semThrust);
 
         error_prior = error;
         integral_prior = integral;

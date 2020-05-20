@@ -80,8 +80,8 @@ int sched_setattrFMC(pid_t pid,
  *             drag 
  * Returns: velocidade resultante
  */ 
-void computeSpeed(struct timespec *time, double drag){
-    time_t result;
+void computeSpeed(double drag){ //struct timespec *time, 
+/*     time_t result;
     long nano_result;
 
     printf("[FMC] time %ld %ld\n", time->tv_sec, time->tv_nsec);
@@ -97,17 +97,17 @@ void computeSpeed(struct timespec *time, double drag){
 
     printf("[FMC] resultado da equacao %f\n", (thrust + drag)/(peso/(10000)) );
     printf("[FMC] tempo na equacao %ld\n", (((long) result) + nano_result/1000000000));
-
+ */
     //sem_wait(semSpeed);
-    double new_vel = vel + ( (thrust + drag) / ( peso / 10000 ) ) * ( ( ( (long) result) + nano_result/1000000000)); // TIREI O ^2 do (peso /(10000)^2)
+    double new_vel = vel + ( (thrust + drag) / ( peso / 10000 ) ) * period; //( ( (long) result) + nano_result/1000000000)); // TIREI O ^2 do (peso /(10000)^2)
     printf("[FMC] dento do sem\n");
     printf("[FMC] new vel: %f\n", new_vel);
     vel = new_vel;  
     //sem_post(semSpeed);
 
-    last_time->tv_sec = time->tv_sec;    //atualiza os
+/*     last_time->tv_sec = time->tv_sec;    //atualiza os
     last_time->tv_nsec = time->tv_nsec;  //valores antigos
-    printf("[FMC] last time %ld %ld\n", last_time->tv_sec, last_time->tv_nsec);
+    printf("[FMC] last time %ld %ld\n", last_time->tv_sec, last_time->tv_nsec); */
 }
 
 /** Funcao para calcular o Drag
@@ -151,9 +151,9 @@ void flightManagement(void * input){
     struct sched_attr attrFMC = {
         .size = sizeof(attrFMC),
         .sched_policy = SCHED_DEADLINE,
-        .sched_runtime = 10 * 1000 * 1000, // 10 000 000 microsegundos = 10 segundos
-        .sched_period = 20 * 1000 * 1000 * 1000, //20 000 000 000 nanosegundos = 20 segundos
-        .sched_deadline = 15 * 1000 * 1000 // 15 000 000 microsegundos = 15 segundos -- deadline não pode ser maior que o período!
+        .sched_runtime = 10 * 100 * 1000, // 10 000 000 microsegundos = 10 segundos
+        .sched_period = 1 * 1000 * 1000 * 1000, //20 000 000 000 nanosegundos = 20 segundos
+        .sched_deadline = 15 * 100 * 1000 // 15 000 000 microsegundos = 15 segundos -- deadline não pode ser maior que o período!
     };
 
     struct aviao_t * aviao = (struct aviao_t*) input;
@@ -161,6 +161,7 @@ void flightManagement(void * input){
     int altitude = (*aviao).altitude;
     vel = (*aviao).vel_init / 3.6; //para m/s
     vel_final = (*aviao).vel_final / 3.6; //para m/s
+
     double drag = computeDrag(altitude);
     printf("[FMC] Drag = %f\n", drag);
     //printf("Valores da estrutura: altitude %i, velocidade inicial %d, velocidade final %d \n", altitude, vel_init, vel_final);
@@ -215,9 +216,9 @@ void flightManagement(void * input){
 
     clock_gettime(CLOCK_REALTIME, tp);
 
-    last_time->tv_sec = tp->tv_sec;
+/*     last_time->tv_sec = tp->tv_sec;
     last_time->tv_nsec = tp->tv_nsec;
-
+ */
 
     //set sched attribute
     sched_setattrFMC(0, &attrFMC, 0);
@@ -262,13 +263,13 @@ void flightManagement(void * input){
         }
         printf("[FMC] Antes do computeSpeed o drag tem %f\n", drag);
 
-        sem_wait(semThrust);
+        //sem_wait(semThrust);
         thrust = shmp->thrust;
         //sem_post(semThrust);
         
         computeSpeed(tp, drag);
         shmp->speed = vel;
-        sem_post(semThrust);
+        //sem_post(semThrust);
 
         clock_gettime(CLOCK_REALTIME, tp);
         cycle_num ++;
