@@ -95,7 +95,7 @@ void computeSpeed(struct timespec *time, double drag){
         nano_result = time->tv_nsec - last_time->tv_nsec;
     }
 
-    printf("[FMC] resultado da equacao %f\n", (thrust + drag)/(peso/(10000^2)) );
+    printf("[FMC] resultado da equacao %f\n", (thrust + drag)/(peso/(10000)) );
     printf("[FMC] tempo na equacao %ld\n", (((long) result) + nano_result/1000000000));
 
     //lock
