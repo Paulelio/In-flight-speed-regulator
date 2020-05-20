@@ -31,18 +31,22 @@ def createGraph(record):
         timeAxis.append(temp[0])
         speedAxis.append(temp[1])
         thrustAxis.append(temp[2])
-
+    
     print("time: ", timeAxis)
     print("speed: ", speedAxis)
     print("thrust: ", thrustAxis)
-    plt.plot(timeAxis, speedAxis, label = "Speed Variation")
-    plt.plot(timeAxis, thrustAxis, label = "Thrust Variation")
     
-    plt.ylabel("Speed (v) and Thrust (T)")
-    plt.xlabel("Time (t)")
+
+    plt.subplot(2, 1, 1)
+    plt.plot(timeAxis, speedAxis, "o-", label = "Speed Variation")
+    plt.ylabel("Thrust (T)")
+    
     plt.title("Comparison between Speed and Thrust according to time")
-    
-    plt.legend()
+
+    plt.subplot(2, 1, 2)
+    plt.plot(timeAxis, thrustAxis, ".-", label = "Thrust Variation")
+    plt.ylabel("Speed (v)")
+    plt.xlabel("Time (t)")
     
     plt.show()
 
