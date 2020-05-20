@@ -106,7 +106,7 @@ void controlAlgorithm(void * input){
 
     semSpeed = sem_open("sem_Speed", O_CREAT);
     semThrust = sem_open("sem_Thrust", O_CREAT);
-
+    printf("[CTRL] criou os sems\n");
     sched_setattrCTRL(0, &attrCTRL, 0);
     
     for(;;){
