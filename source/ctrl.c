@@ -101,7 +101,7 @@ void controlAlgorithm(void * input){
 
     double vel_atual = 0.0;
     printf("[CTRL] antes dos casts\n");
-    double vel_final = *(double *) input / 3.6;
+    double vel_final = ((intptr_t)input) / 3.6;
     printf("[CTRL] depois dos casts\n");
     double thrust = 0.0;
     double iteration_time = 1.0; //??
