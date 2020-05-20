@@ -63,7 +63,7 @@ void controlAlgorithm(void * input){
     struct sched_attr attrCTRL = {
         .size = sizeof (attrCTRL),
         .sched_policy = SCHED_DEADLINE,
-        .sched_runtime = 5 * 1000 * 1000,
+        .sched_runtime = 10 * 1000 * 1000,
         .sched_period = 2 * 10 * 1000 * 1000 * 1000,
         .sched_deadline = 10 * 1000 * 1000
     };
