@@ -76,8 +76,8 @@ int sched_setattrFMC(pid_t pid,
 
 /** Funcao para calcular a velocidade
  * Calcula a velocidade num certo instante de tempo com um certo thrust
- * Parameters: time - instante de tempo
- *             drag 
+ * Parameters: drag
+ *              
  * Returns: velocidade resultante
  */ 
 void computeSpeed(double drag){
@@ -206,7 +206,7 @@ void flightManagement(void * input){
             
             //lock -- talvez n seja necessario pq eh read
             printf("[FMC] %ld,%f,%f\n", current_timestamp, vel, thrust);
-            snprintf(buffer, sizeof(fdr_message.mesg_text), "%ld,%f,%f", current_timestamp, vel, thrust);
+            snprintf(buffer, sizeof(fdr_message.mesg_text), "%ld,%f,%f", current_timestamp, vel, shmp->thrust);
             //unlock
 
             printf("[FMC] depois da escrita %s\n", buffer);
@@ -234,6 +234,7 @@ void flightManagement(void * input){
         }
         printf("[FMC] Antes do computeSpeed\n");
 
+        sched_yield();
         sem_wait(semThrust);
         
         thrust = shmp->thrust;
@@ -246,7 +247,7 @@ void flightManagement(void * input){
 
         clock_gettime(CLOCK_REALTIME, tp);
         cycle_num ++;
-        sched_yield();
+        //sched_yield();
     }
     
 }
