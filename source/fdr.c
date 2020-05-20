@@ -29,15 +29,15 @@ int flightDataRecorder(void * input){
     printf("[FDR] A ler do FMC\n");
     //read message
     
-    key_t key; 
+    key_t keyFDR; 
     int msgid; 
     
     // ftok to generate unique key 
-    key = ftok("progfile", 65); 
+    keyFDR = ftok("progfile", 65); 
     
     // msgget creates a message queue 
     // and returns identifier 
-    msgid = msgget(key, 0666 | IPC_CREAT); 
+    msgid = msgget(keyFDR, 0666 | IPC_CREAT); 
     char *last_mesg = (char *) malloc(1024);
 
     // CICLO PARA ESTAR SEMPRE A ESCUTA DA MENSAGEM

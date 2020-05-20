@@ -15,7 +15,8 @@ Paulo Alvares 49460
 #include <sys/syscall.h>
 #include <sys/ipc.h> 
 #include <sys/msg.h>
-#include <string.h> 
+#include <string.h>
+#include <sys/shm.h>
 
 #include "fmc.h"
 
@@ -38,6 +39,11 @@ long tempo_init;
 
 struct timespec *last_time;
 
+struct shmseg {
+   double speed;
+   double thrust;
+};
+
 struct mesg_buffer { 
     long mesg_type; 
     char mesg_text[1024];
@@ -53,6 +59,9 @@ struct sched_attr {
     uint64_t sched_deadline;
     uint64_t sched_period;
 };
+
+pthread_mutex_t lockSpeed; //lock para a Speed
+pthread_mutex_t lockThrust; //lock para a Thrust
 
 /**
  * Funcao set attribute para scheduling
@@ -86,15 +95,20 @@ void computeSpeed(struct timespec *time, double drag){
 
     printf("[FMC] resultado da equacao %f\n", (thrust + drag)/(peso/(10000^2)) );
     printf("[FMC] tempo na equacao %ld\n", (((long) result) + nano_result/1000000000));
-    
+
+    //lock
+    //pthread_mutex_lock(&lockSpeed); 
+    sem_wait(&sem_name);
     double new_vel = vel + ( (thrust + drag) / ( peso / (10000^2) ) ) * ( ( ( (long) result) + nano_result/1000000000));
+    //pthread_mutex_unlock(&lockSpeed); 
+    //unlock
     printf("[FMC] new vel: %f\n", new_vel);
+    vel = new_vel;  
+    sem_post(&sem_name);
 
     last_time->tv_sec = time->tv_sec;    //atualiza os
     last_time->tv_nsec = time->tv_nsec;  //valores antigos
     printf("[FMC] last time %ld %ld\n", last_time->tv_sec, last_time->tv_nsec);
-
-    vel = new_vel;    
 }
 
 /** Funcao para calcular o Drag
@@ -142,30 +156,51 @@ void flightManagement(void * input){
         .sched_period = 2 * 1000 * 1000 * 1000 * 1000, //1 000 000 000 nanosegundos = 1 segundos
         .sched_deadline = 11 * 1000 * 1000 // 11 000 000 microsegundos = 11 segundos -- deadline não pode ser maior que o período!
     };
-	//printf("Debug attributes %d %d %d %d",attr->sched_runtime, attr->sched_period, attr->sched_deadline, attr->size);
 
     struct aviao_t * aviao = (struct aviao_t*) input;
- 
-    last_time = malloc(sizeof(struct timespec));
 
     int altitude = (*aviao).altitude;
     vel = (*aviao).vel_init / 3.6; //para m/s
     vel_final = (*aviao).vel_final / 3.6; //para m/s
-
-    //printf("Valores da estrutura: altitude %i, velocidade inicial %d, velocidade final %d \n", altitude, vel_init, vel_final);
-
     double drag = computeDrag(altitude);
     printf("[FMC] Drag = %f\n", drag);
+    //printf("Valores da estrutura: altitude %i, velocidade inicial %d, velocidade final %d \n", altitude, vel_init, vel_final);
+
+    if (pthread_mutex_init(&lockSpeed, NULL) != 0) { 
+        printf("A inicializacao do mutex do Speed falhou\n"); 
+        return 1; 
+    }
+
+    if (pthread_mutex_init(&lockThrust, NULL) != 0) { 
+        printf("A inicializacao do mutex do Thrust falhou\n"); 
+        return 1; 
+    } 
+    //--Inicializacao shared memory--//
+        int shmid;
+        struct shmseg *shmp;
+        shmid = shmget(SHM_KEY, sizeof(struct shmseg), 0644|IPC_CREAT);
+
+        if (shmid == -1) {
+            perror("Shared memory");
+            return 1;
+        }
+   
+        // Attach to the segment to get a pointer to it.
+        shmp = shmat(shmid, NULL, 0);
+        if (shmp == (void *) -1) {
+            perror("Shared memory attach");
+            return 1;
+        }
 
     //--MESSAGE QUEUE CODE--//
         // write message
-        key_t key; 
+        key_t keyFDR; 
         int msgid;
         // ftok to generate unique key 
-        key = ftok("progfile", 65); 
+        keyFDR = ftok("progfile", 65); 
         // msgget creates a message queue 
         // and returns identifier 
-        msgid = msgget(key, 0666 | IPC_CREAT); 
+        msgid = msgget(keyFDR, 0666 | IPC_CREAT); 
         fdr_message.mesg_type = 1;
         char *buffer = (char *) malloc(1024);
 
@@ -174,6 +209,8 @@ void flightManagement(void * input){
     //printf("Adquirir timespec\n");
     //time struct
     struct timespec *tp = malloc(sizeof(struct timespec));
+    last_time = malloc(sizeof(struct timespec));
+
     clock_gettime(CLOCK_REALTIME, tp);
 
     last_time->tv_sec = tp->tv_sec;
@@ -189,14 +226,14 @@ void flightManagement(void * input){
 
         printf("[FMC] Antes do if\n");
         // Envia mensagem a cada NACQUI ciclos
-        if(cycle_num % NACQUI == 0 || verifySpeedLim(vel)){
-            //printf("A enviar para o FDR\n");
-            //printf("A escrever dados: \n");
 
+        if(cycle_num % NACQUI == 0 || verifySpeedLim(vel)){
             long current_timestamp = (unsigned)time(NULL);
-            // printf("antes da escrita %s\n", buffer);
+            
+            //lock -- talvez n seja necessario pq eh read
             printf("[FMC] %ld,%f,%f\n", current_timestamp, vel, drag);
             snprintf(buffer, sizeof(fdr_message.mesg_text), "%ld,%f,%f", current_timestamp, vel, drag);
+            //unlock
 
             printf("[FMC] depois da escrita %s\n", buffer);
             strncpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
@@ -210,13 +247,23 @@ void flightManagement(void * input){
             if(verifySpeedLim(vel)){
                 printf("[FMC] Chegou ao limite aceitavel de velocidade\n");
                 free(tp);
-                
+                pthread_mutex_destroy(&lockSpeed);
+                pthread_mutex_destroy(&lockThrust);
                 // TEMOS QUE FAZER FREE DOS MALLOCS TOOOOOODOS
                 return;
             }
             
         }
         printf("[FMC] Antes do computeSpeed o drag tem %f\n", drag);
+
+        //lock
+        //pthread_mutex_lock(&lockThrust);
+        sem_wait(&sem_name);
+        thrust = shmp->thrust;
+        sem_post(&sem_name);
+        //pthread_mutex_unlock(&lockThrust); 
+        //unlock
+
         computeSpeed(tp, drag);
         clock_gettime(CLOCK_REALTIME, tp);
         cycle_num ++;

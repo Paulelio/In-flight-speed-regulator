@@ -12,6 +12,9 @@ Paulo Alvares 49460
 #include <linux/sched.h>
 #include <stdint.h>
 #include <sys/syscall.h>
+#include <semaphore.h>
+#include <sys/shm.h>
+#include <sys/ipc.h>
 
 #include "ctrl.h"
 #include "fmc.h"
@@ -19,6 +22,13 @@ Paulo Alvares 49460
 #define KP 10
 #define KI 0
 #define KD 1.5
+
+#define SHM_KEY 0x1234
+
+struct shmseg {
+   double speed;
+   double thrust;
+};
 
 struct sched_attr {
     uint32_t size;
@@ -30,6 +40,9 @@ struct sched_attr {
     uint64_t sched_deadline;
     uint64_t sched_period;
 };
+
+pthread_mutex_t lockSpeed; //lock para a Speed
+pthread_mutex_t lockThrust; //lock para a Thrust
 
 /**
  * Funcao set attribute para scheduling
@@ -55,6 +68,23 @@ void controlAlgorithm(void * input){
         .sched_deadline = 11 * 1000 * 1000
     };
 
+    //--Inicializacao shared memory--//
+    int shmid;
+    struct shmseg *shmp;
+    shmid = shmget(SHM_KEY, sizeof(struct shmseg), 0644|IPC_CREAT);
+
+    if (shmid == -1) {
+      perror("Shared memory");
+      return 1;
+    }
+   
+    // Attach to the segment to get a pointer to it.
+    shmp = shmat(shmid, NULL, 0);
+    if (shmp == (void *) -1) {
+      perror("Shared memory attach");
+      return 1;
+    }
+
     //while(1)
     //buscar speed
     //computar thrust
@@ -77,14 +107,20 @@ void controlAlgorithm(void * input){
     
     for(;;){
         printf("[CTRL] no for\n");
-        vel_atual = f_get_speed();
+
+        sem_wait(&sem_name);
+        vel_atual = shmp->speed;
+        sem_post(&sem_name);
 
         error = vel_final - vel_atual;
         integral = integral_prior + error * iteration_time;
         derivative = (error - error_prior) / iteration_time;
         thrust = KP * error + KI * integral + KD * derivative;
 
-        f_set_thrust(thrust);
+        sem_wait(&sem_name);
+        shmp->thrust = thrust;
+        sem_post(&sem_name);
+
         error_prior = error;
         integral_prior = integral;
         
