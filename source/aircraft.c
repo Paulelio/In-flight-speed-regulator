@@ -123,11 +123,11 @@ int main(int argc, char** argv) {
 	pthread_join(ctrl_thread, NULL);
 	pthread_join(fdr_thread, NULL);
 
-/* 	sem_close(semSpeed);
+	sem_close(semSpeed);
     sem_close(semThrust);
 
     sem_unlink("sem_Speed");
-    sem_unlink("sem_Thrust"); */
+    sem_unlink("sem_Thrust");
 
 	free(aviao);
 }

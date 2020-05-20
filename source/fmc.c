@@ -80,34 +80,16 @@ int sched_setattrFMC(pid_t pid,
  *             drag 
  * Returns: velocidade resultante
  */ 
-void computeSpeed(double drag){ //struct timespec *time, 
-/*     time_t result;
-    long nano_result;
+void computeSpeed(double drag){
 
-    printf("[FMC] time %ld %ld\n", time->tv_sec, time->tv_nsec);
-    printf("[FMC] last time %ld %ld\n", last_time->tv_sec, last_time->tv_nsec);
-    
-    if ((time->tv_nsec - last_time->tv_nsec) < 0) {
-        result = time->tv_sec - last_time->tv_sec - 1;
-        nano_result = (time->tv_nsec - last_time->tv_nsec) + 1000000000;
-    } else {
-        result = time->tv_sec - last_time->tv_sec;
-        nano_result = time->tv_nsec - last_time->tv_nsec;
-    }
+    sem_wait(semSpeed);
 
-    printf("[FMC] resultado da equacao %f\n", (thrust + drag)/(peso/(10000)) );
-    printf("[FMC] tempo na equacao %ld\n", (((long) result) + nano_result/1000000000));
- */
-    //sem_wait(semSpeed);
-    double new_vel = vel + ( (thrust + drag) / ( peso / 10000 ) ) * period; //( ( (long) result) + nano_result/1000000000)); // TIREI O ^2 do (peso /(10000)^2)
-    printf("[FMC] dento do sem\n");
+    double new_vel = vel + ( (thrust + drag) / ( peso / 10000 ) ) * period;
     printf("[FMC] new vel: %f\n", new_vel);
     vel = new_vel;  
-    //sem_post(semSpeed);
+    
+    sem_post(semSpeed);
 
-/*     last_time->tv_sec = time->tv_sec;    //atualiza os
-    last_time->tv_nsec = time->tv_nsec;  //valores antigos
-    printf("[FMC] last time %ld %ld\n", last_time->tv_sec, last_time->tv_nsec); */
 }
 
 /** Funcao para calcular o Drag
@@ -165,16 +147,8 @@ void flightManagement(void * input){
     double drag = computeDrag(altitude);
     printf("[FMC] Drag = %f\n", drag);
     //printf("Valores da estrutura: altitude %i, velocidade inicial %d, velocidade final %d \n", altitude, vel_init, vel_final);
-/* 
-    if (pthread_mutex_init(&lockSpeed, NULL) != 0) { 
-        printf("A inicializacao do mutex do Speed falhou\n"); 
-        return; 
-    }
-
-    if (pthread_mutex_init(&lockThrust, NULL) != 0) { 
-        printf("A inicializacao do mutex do Thrust falhou\n"); 
-        return; 
-    }  */
+    
+    
     //--Inicializacao shared memory--//
         int shmid;
         struct shmseg *shmp;
@@ -209,16 +183,10 @@ void flightManagement(void * input){
     semSpeed = sem_open("sem_Speed", O_CREAT);
     semThrust = sem_open("sem_Thrust", O_CREAT);
 
-    //printf("Adquirir timespec\n");
-    //time struct
     struct timespec *tp = malloc(sizeof(struct timespec));
     last_time = malloc(sizeof(struct timespec));
 
     clock_gettime(CLOCK_REALTIME, tp);
-
-/*     last_time->tv_sec = tp->tv_sec;
-    last_time->tv_nsec = tp->tv_nsec;
- */
 
     //set sched attribute
     sched_setattrFMC(0, &attrFMC, 0);
@@ -228,9 +196,9 @@ void flightManagement(void * input){
         printf("[FMC] Vel mal entra no for = %f\n", vel);
 
         printf("[FMC] Antes do if\n");
+        
         // Envia mensagem a cada NACQUI ciclos
-
-        if(cycle_num % NACQUI == 0 || verifySpeedLim(vel)){
+        if(cycle_num % NACQUI == 0){
             long current_timestamp = (unsigned)time(NULL);
             
             //lock -- talvez n seja necessario pq eh read
@@ -263,13 +231,15 @@ void flightManagement(void * input){
         }
         printf("[FMC] Antes do computeSpeed o drag tem %f\n", drag);
 
-        //sem_wait(semThrust);
+        sem_wait(semThrust);
+        
         thrust = shmp->thrust;
         //sem_post(semThrust);
-        
+        printf("[FMC] new thrust: %ld\n", thrust);
         computeSpeed(drag);
         shmp->speed = vel;
-        //sem_post(semThrust);
+        
+        sem_post(semThrust);
 
         clock_gettime(CLOCK_REALTIME, tp);
         cycle_num ++;
