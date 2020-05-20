@@ -69,7 +69,6 @@ void controlAlgorithm(void * input){
     };
 
     //--Inicializacao shared memory--//
-     printf("[CTRL] Shared memory\n");
     int shmid;
     struct shmseg *shmp;
     shmid = shmget(SHM_KEY, sizeof(struct shmseg), 0644|IPC_CREAT);
@@ -85,7 +84,7 @@ void controlAlgorithm(void * input){
       perror("Shared memory attach");
       return;
     }
-    printf("[CTRL] Acabou shared memory\n");
+    
     //while(1)
     //buscar speed
     //computar thrust
@@ -100,9 +99,9 @@ void controlAlgorithm(void * input){
     double integral_prior = 0.0;
 
     double vel_atual = 0.0;
-    printf("[CTRL] antes dos casts\n");
+    
     double vel_final = ((intptr_t)input) / 3.6;
-    printf("[CTRL] depois dos casts\n");
+    printf("[CTRL] depois dos casts %f\n", vel_final);
     double thrust = 0.0;
     double iteration_time = 1.0; //??
     
@@ -116,9 +115,10 @@ void controlAlgorithm(void * input){
         printf("[CTRL] no for\n");
         
         sem_wait(semSpeed);
+        printf("[CTRL] no sem\n");
         vel_atual = shmp->speed;
         sem_post(semSpeed);
-
+        
         //adicionar if para terminar com speed > x valor
 
         error = vel_final - vel_atual;
