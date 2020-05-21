@@ -19,7 +19,7 @@ Paulo Alvares 49460
 
 #include "ctrl.h"
 
-#define KP 13
+#define KP 13 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
 #define KI 1
 #define KD 1.0
 
@@ -63,9 +63,9 @@ void controlAlgorithm(void * input){
     struct sched_attr attrCTRL = {
         .size = sizeof (attrCTRL),
         .sched_policy = SCHED_DEADLINE,
-        .sched_runtime = 9 * 10 * 1000,
-        .sched_period = 1 * 1000 * 1000 * 1000,
-        .sched_deadline = 14 * 10 * 1000,
+        .sched_runtime = 9 * 1000,
+        .sched_period = 100 * 1000 * 1000,
+        .sched_deadline = 14 * 1000,
     };
 
     //--Inicializacao shared memory--//
@@ -96,7 +96,7 @@ void controlAlgorithm(void * input){
     
     double vel_final = ((intptr_t)input) / 3.6;
     double thrust = 0.0;
-    double iteration_time = 1.0; //??
+    double iteration_time = 0.1; //1cs
     
     
     semSpeed = sem_open("sem_Speed", O_CREAT);
@@ -129,5 +129,5 @@ void controlAlgorithm(void * input){
         sched_yield(); //em RT
         //sleep(5);
     }
-}
+} 
  

@@ -10,6 +10,9 @@ Coisas a fazer:
     ✔ Criar threads co prints para verificar se a execução está a funcionar @done(20-05-08 20:09)
     ✔ message queue @done(20-05-16 18:27)
     ✔ Alterar o grafico para os valores corresponderem diretamente e não pelo sort @done(20-05-21 14:40)
+    ☐ Periodos na ordem dos 10 milissegundos ou mais baixos
+    ☐ 
+
 DÚVIDAS:
     ✔ Como fazer o calculo do thrust no control algorithm, uma vez que não temos a informação do drag neste componente? @done(20-05-08 17:37) Utilizar percentagens das diferenças entre as velocidades dadas inicialmente
     ✔ Como correr o xenomai? @done(20-05-08 17:20)

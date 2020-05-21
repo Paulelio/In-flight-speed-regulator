@@ -23,7 +23,7 @@ Paulo Alvares 49460
 #include "fmc.h"
 
 #define peso 79000
-#define period 1 //in milliseconds 
+#define period 1 //segundos
 #define NACQUI 1 //valor de quantos em quantos ciclos vai ser enviada info para o fdr
 #define LIMIT_INTERVAL 0.05 //valor de intervalo aceitavel da velocidade final
 #define SAMPLE_INT = 30000 //intervalo entre medicoes 30s (30000 ms)
@@ -133,9 +133,9 @@ void flightManagement(void * input){
     struct sched_attr attrFMC = {
         .size = sizeof(attrFMC),
         .sched_policy = SCHED_DEADLINE,
-        .sched_runtime = 10 * 10 * 1000, // 10 000 000 microsegundos = 10 segundos
-        .sched_period = 1 * 1000 * 1000 * 1000, //20 000 000 000 nanosegundos = 20 segundos
-        .sched_deadline = 21 * 10 * 1000 // 15 000 000 microsegundos = 15 segundos -- deadline não pode ser maior que o período!
+        .sched_runtime = 10 * 1000, // 10 0 000 microsegundos = 10 segundos
+        .sched_period = 100 * 1000 * 1000, //20 000 000 000 nanosegundos = 20 segundos
+        .sched_deadline = 21 * 1000, // 15 000 000 microsegundos = 15 segundos -- deadline não pode ser maior que o período!
     };
 
     struct aviao_t * aviao = (struct aviao_t*) input;
