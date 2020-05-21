@@ -42,7 +42,10 @@ def createGraph(record):
     print("time: ", time)
     print("speed: ", speed)
     print("thrust: ", thrust)
-
+    print("Time instances: ", len(time))
+    print("Speed instances: ", len(speed))
+    print("Thrust instances: ", len(thrust))
+    
     plt.subplot(2, 1, 1)
     plt.plot(time, speed, "o-", label = "Speed Variation")
     plt.ylabel("Speed (v)")
