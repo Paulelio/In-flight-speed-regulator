@@ -26,3 +26,4 @@ $(OBJ_dir)/%.o: $(SRC_dir)/%.c $($@)
 clean:
 	@rm -f $(addprefix $(OBJ_dir)/,$(OBJETOS))
 	@rm -f $(addprefix $(BIN_dir)/,aircraft)
+	@rm -f fdrBlackbox.csv

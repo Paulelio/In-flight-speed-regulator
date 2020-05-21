@@ -19,7 +19,7 @@ Paulo Alvares 49460
 
 #include "ctrl.h"
 
-#define KP 6.0 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
+#define KP 7.0 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
 #define KI 0.02
 #define KD 1.50
 
@@ -96,7 +96,7 @@ void controlAlgorithm(void * input){
     
     double vel_final = ((intptr_t)input) / 3.6;
     double thrust = 0.0;
-    double iteration_time = 0.1; //1cs
+    double iteration_time = 0.07; //1cs
     
     
     semSpeed = sem_open("sem_Speed", O_CREAT);

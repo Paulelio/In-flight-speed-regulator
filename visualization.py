@@ -42,15 +42,6 @@ def createGraph(record):
     print("time: ", time)
     print("speed: ", speed)
     print("thrust: ", thrust)
-    
-    """ 
-    timeAxis = sorted(time, reverse=True)
-    speedAxis = sorted(speed, reverse=True)
-    thrustAxis = sorted(thrust, reverse=True)
-
-    print("time: ", timeAxis)
-    print("speed: ", speedAxis)
-    print("thrust: ", thrustAxis) """
 
     plt.subplot(2, 1, 1)
     plt.plot(time, speed, "o-", label = "Speed Variation")
