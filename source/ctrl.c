@@ -126,6 +126,17 @@ void controlAlgorithm(void * input){
         //sleep(10); //em NRT
         sched_yield(); //em RT
         //sleep(5);
+
+        /* 
+        
+        erro = vel_final - vel_atual
+        txVar = erro/vel_atual
+        if(txVar > 0)
+            thrust = 242000 * (1-txVar)
+        else if(txVar < 0)
+            thrust = 242000 * txVar
+        
+         */
     }
 } 
  
