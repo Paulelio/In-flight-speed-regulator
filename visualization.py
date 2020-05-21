@@ -37,29 +37,30 @@ def createGraph(record):
     for i in range(0, len(speed)): 
         speed[i] = float(speed[i]) 
     for i in range(0, len(thrust)): 
-        thrust[i] = int(thrust[i]) 
+        thrust[i] = float(thrust[i]) 
 
     print("time: ", time)
     print("speed: ", speed)
     print("thrust: ", thrust)
     
+    """ 
     timeAxis = sorted(time, reverse=True)
     speedAxis = sorted(speed, reverse=True)
     thrustAxis = sorted(thrust, reverse=True)
 
     print("time: ", timeAxis)
     print("speed: ", speedAxis)
-    print("thrust: ", thrustAxis)
+    print("thrust: ", thrustAxis) """
 
     plt.subplot(2, 1, 1)
-    plt.plot(timeAxis, speedAxis, "o-", label = "Speed Variation")
-    plt.ylabel("Thrust (T)")
+    plt.plot(time, speed, "o-", label = "Speed Variation")
+    plt.ylabel("Speed (v)")
     
     plt.title("Comparison between Speed and Thrust according to time")
 
     plt.subplot(2, 1, 2)
-    plt.plot(timeAxis, thrustAxis, ".-", label = "Thrust Variation")
-    plt.ylabel("Speed (v)")
+    plt.plot(time, thrust, ".-", label = "Thrust Variation")
+    plt.ylabel("Thrust (T)")
     plt.xlabel("Time (t)")
     
     plt.show()
