@@ -201,7 +201,7 @@ void flightManagement(void * input){
         printf("[FMC] Antes do if\n");
         
         // Envia mensagem a cada NACQUI ciclos
-        if(cycle_num % NACQUI == 0){
+        if(cycle_num % NACQUI == 0 || verifySpeedLim(vel)){
             long current_timestamp = (unsigned)time(NULL);
             
             //lock -- talvez n seja necessario pq eh read
@@ -209,7 +209,7 @@ void flightManagement(void * input){
             snprintf(buffer, sizeof(fdr_message.mesg_text), "%ld,%f,%f", current_timestamp, vel, shmp->thrust);
             //unlock
 
-            printf("[FMC] depois da escrita %s\n", buffer);
+            printf("[FMC] Depois da escrita %s\n", buffer);
             strncpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
 
             // msgsnd to send message 
@@ -232,14 +232,14 @@ void flightManagement(void * input){
             }
             
         }
-        printf("[FMC] Antes do computeSpeed\n");
+        printf("[FMC] A fazer computeSpeed\n");
 
         sched_yield();
         sem_wait(semThrust);
         
         thrust = shmp->thrust;
         //sem_post(semThrust);
-        printf("[FMC] new thrust: %ld\n", thrust);
+        printf("[FMC] Nova Thrust: %ld\n", thrust);
         computeSpeed(drag);
         shmp->speed = vel;
         

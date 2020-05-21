@@ -110,13 +110,13 @@ void controlAlgorithm(void * input){
         sem_wait(semThrust);
         vel_atual = shmp->speed;
         printf("[CTRL] Vel: %f\n", vel_atual);
-        
+        printf("[CTRL] Error prior %f,\n Integral prior %f\n", error_prior, integral_prior);
         printf("[CTRL] antes do PID\n");
         error = vel_final - vel_atual;
         integral = integral_prior + error * iteration_time;
         derivative = (error - error_prior) / iteration_time;
         thrust = (KP * error) + (KI * integral) + (KD * derivative);
-        printf("[CTRL] erro %f, integral %f, derivative %f\n", error, integral, derivative);
+        printf("[CTRL] erro %f,\n integral %f,\n derivative %f\n", error, integral, derivative);
 
         shmp->thrust = thrust;
         printf("[CTRL] Thrust: %f\n", thrust);
