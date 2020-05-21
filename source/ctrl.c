@@ -19,9 +19,9 @@ Paulo Alvares 49460
 
 #include "ctrl.h"
 
-#define KP 9.0 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
-#define KI 0.02
-#define KD 1.50
+#define KP 10.0 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
+#define KI 2.0
+#define KD 3.0
 
 #define SHM_KEY 0x1234
 
@@ -96,7 +96,7 @@ void controlAlgorithm(void * input){
     
     double vel_final = ((intptr_t)input) / 3.6;
     double thrust = 0.0;
-    double iteration_time = 0.04; //1cs
+    double iteration_time = 0.01; //1cs
     
     
     semSpeed = sem_open("sem_Speed", O_CREAT);

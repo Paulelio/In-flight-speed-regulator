@@ -145,7 +145,6 @@ void flightManagement(void * input){
     vel_final = (*aviao).vel_final / 3.6; //para m/s
 
     double drag = computeDrag(altitude);
-    printf("[FMC] Drag = %f\n", drag);
     //printf("Valores da estrutura: altitude %i, velocidade inicial %d, velocidade final %d \n", altitude, vel_init, vel_final);
     
     

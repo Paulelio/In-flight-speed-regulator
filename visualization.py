@@ -47,7 +47,7 @@ def createGraph(record):
     print("Thrust instances: ", len(thrust))
     
     plt.subplot(2, 1, 1)
-    plt.plot(time, speed, "o-", label = "Speed Variation")
+    plt.plot(time, speed, ".-", label = "Speed Variation")
     plt.ylabel("Speed (v)")
     
     plt.title("Comparison between Speed and Thrust according to time")
