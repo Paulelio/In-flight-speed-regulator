@@ -1,19 +1,19 @@
 Coisas a fazer:
     ☐ Verificar mutual exclusion
-    ☐ Memória partilhada
+    ✔ Memória partilhada @done(20-05-21 14:41)
     ✔ Como correr fmc.c e ctrl.c @done(20-05-08 20:08)
     ☐ Data visualization
-    ☐ Multithreads 
+    ✔ Multithreads @done(20-05-21 14:41)
     ☐ Testar o código que já temos
         ✔ Testar verificacao de input @done(20-05-08 20:08)
         ☐ Testar formulas
     ✔ Criar threads co prints para verificar se a execução está a funcionar @done(20-05-08 20:09)
     ✔ message queue @done(20-05-16 18:27)
-    ☐ Alterar o grafico para os valores corresponderem diretamente e não pelo sort 
+    ✔ Alterar o grafico para os valores corresponderem diretamente e não pelo sort @done(20-05-21 14:40)
 DÚVIDAS:
     ✔ Como fazer o calculo do thrust no control algorithm, uma vez que não temos a informação do drag neste componente? @done(20-05-08 17:37) Utilizar percentagens das diferenças entre as velocidades dadas inicialmente
     ✔ Como correr o xenomai? @done(20-05-08 17:20)
-    ☐ Como inicializar as cenas todas: 
+    ✔ Como inicializar as cenas todas: @done(20-05-21 14:41)
         ✔ Ordem de prioridade (fmc > ctrl > fdr) @done(20-05-08 17:38)
     ✔ A visualização dos dados é para fazer com base no ficheiro do flight recorder? @done(20-05-08 17:45)
     ✔ Os dados devem ser persistentes entre utilizações ou se são para ser apagados no fim de terminar a sessão? @done(20-05-08 17:48)

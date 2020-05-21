@@ -65,6 +65,6 @@ def createGraph(record):
     
     plt.show()
 
-filePath = "visualizationTest.csv"
+filePath = "fdrBlackbox.csv"
 file = openFile(filePath)
 createGraph(file)
