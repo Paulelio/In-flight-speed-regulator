@@ -28,7 +28,7 @@ void writeToRecord(char recMesg[]){
 
     fileRecord = fopen("fdrBlackbox.csv", "a");
     fprintf(fileRecord, "%s\n", recMesg);
-    printf("[FDR] - recebido: %s\n",recMesg);
+    //printf("[FDR] - recebido: %s\n",recMesg);
     fclose(fileRecord);
 
     return;
@@ -40,7 +40,7 @@ void writeToRecord(char recMesg[]){
  */ 
 int flightDataRecorder(void * input){
     printf("[FDR] Flight Data Recorder \n");
-    printf("[FDR] A ler do FMC\n");
+    //printf("[FDR] A ler do FMC\n");
     //read message
     
     key_t keyFDR; 
@@ -63,8 +63,8 @@ int flightDataRecorder(void * input){
         //write to fdrBlackbox
         if(strcmp(message.mesg_text, last_mesg) != 0){
             writeToRecord(message.mesg_text);
-            printf("last message: %s\n", last_mesg);
-            printf("messafe.mesg_text %s\n", message.mesg_text);
+            //printf("last message: %s\n", last_mesg);
+            //printf("messafe.mesg_text %s\n", message.mesg_text);
             strncpy(last_mesg, message.mesg_text, 1024);
             // display the message 
             printf("[FDR] Dados Recebidos: %s \n", message.mesg_text);
