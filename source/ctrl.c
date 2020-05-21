@@ -20,7 +20,7 @@ Paulo Alvares 49460
 #include "ctrl.h"
 
 #define KP 6.0 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
-#define KI 1.0
+#define KI 0.2
 #define KD 1.0
 
 #define SHM_KEY 0x1234
