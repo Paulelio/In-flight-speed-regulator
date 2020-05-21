@@ -19,7 +19,7 @@ Paulo Alvares 49460
 
 #include "ctrl.h"
 
-#define KP 10.0 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
+#define KP 1.0 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
 #define KI 2.0
 #define KD 3.0
 
