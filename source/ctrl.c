@@ -62,7 +62,7 @@ int sched_setattrCTRL(pid_t pid,
  * Parameters: speed - velocidade atual
  * Returns: true - se estiver a menos de 5%, false se estiver fora desse limite
  */ 
-bool verifySpeedLim(double speed){
+bool verifySpeedLim(double speed, double vel_final){
     if(speed < vel_final * (1 - LIMIT_INTERVAL) || speed > vel_final * (1 + LIMIT_INTERVAL)){ //passar para constantes os valores limite #define
         return false;
     }
@@ -125,7 +125,7 @@ void controlAlgorithm(void * input){
         vel_atual = shmp->speed;
         printf("[CTRL] Vel: %f\n", vel_atual);
 
-        if(verifySpeedLim(vel)){
+        if(verifySpeedLim(vel_atual, vel_final)){
             printf("[CTRL] Acabou o calculo\n A sair...\n");
             return;
         }
