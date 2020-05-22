@@ -26,7 +26,7 @@ struct mesg_buffer {
 // FALTA DAR SPLIT DA MENSAGEM 
 void writeToRecord(char recMesg[]){
 
-    fileRecord = fopen("fdrBlackbox.csv", "w");
+    fileRecord = fopen("fdrBlackbox.csv", "a");
     fprintf(fileRecord, "%s\n", recMesg);
     //printf("[FDR] - recebido: %s\n",recMesg);
     fclose(fileRecord);
