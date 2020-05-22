@@ -19,7 +19,7 @@ Paulo Alvares 49460
 
 #include "ctrl.h"
 //valores de referencia KP=0.7, KI=0.06, KD=0.3
-#define KP 8 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
+#define KP 7 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
 #define KI 0.06
 #define KD 0.3
 #define MAX_THRUST 242000
@@ -63,7 +63,7 @@ int sched_setattrCTRL(pid_t pid,
  * Returns: true - se estiver a menos de 5%, false se estiver fora desse limite
  */ 
 bool verifySpeedCTRL(double speed, double vel_final){
-    if(speed < vel_final * (1 - LIMIT_INTERVAL) || speed > vel_final * (1 + LIMIT_INTERVAL)){ //passar para constantes os valores limite #define
+    if(speed <= vel_final * (1 - LIMIT_INTERVAL) || speed >= vel_final * (1 + LIMIT_INTERVAL)){
         return false;
     }
     return true;
