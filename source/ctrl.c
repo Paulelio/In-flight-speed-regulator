@@ -98,7 +98,7 @@ void controlAlgorithm(void * input){
     double vel_atual = 0.0;
     
     double vel_final = ((intptr_t)input) / 3.6;
-    double thrust = MAX_THRUST;
+    double thrust = MAX_THRUST/2;
     double iteration_time = 0.01; //1cs
     
     
@@ -113,10 +113,19 @@ void controlAlgorithm(void * input){
         sem_wait(semThrust);
         vel_atual = shmp->speed;
         printf("[CTRL] Vel: %f\n", vel_atual);
+        
         error = vel_final - vel_atual;
         integral = integral_prior + error * iteration_time;
         derivative = (error - error_prior) / iteration_time;
         thrust = thrust + ((KP * error) + (KI * integral) + (KD * derivative));
+        
+        if(thrust > MAX_THRUST){
+             thrust = MAX_THRUST;
+        }
+        else if (thrust < MIN_THRUST){
+            thrust = MIN_THRUST;
+        }
+       
         printf("[CTRL] erro %f,\n integral %f,\n derivative %f\n, error prior %f,\n integral prior %f\n", error, integral, derivative, error_prior, integral_prior);
 
         shmp->thrust = thrust;
