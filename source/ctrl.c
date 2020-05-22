@@ -22,6 +22,9 @@ Paulo Alvares 49460
 #define KP 0.7 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
 #define KI 0.06
 #define KD 0.3
+#define MAX_THRUST = 242000
+#define MIN_THRUST = 0
+
 
 #define SHM_KEY 0x1234
 
@@ -95,7 +98,7 @@ void controlAlgorithm(void * input){
     double vel_atual = 0.0;
     
     double vel_final = ((intptr_t)input) / 3.6;
-    double thrust = 0.0;
+    double thrust = MAX_THRUST;
     double iteration_time = 0.01; //1cs
     
     
@@ -113,7 +116,7 @@ void controlAlgorithm(void * input){
         error = vel_final - vel_atual;
         integral = integral_prior + error * iteration_time;
         derivative = (error - error_prior) / iteration_time;
-        thrust = (KP * error) + (KI * integral) + (KD * derivative);
+        thrust = thrust + ((KP * error) + (KI * integral) + (KD * derivative));
         printf("[CTRL] erro %f,\n integral %f,\n derivative %f\n, error prior %f,\n integral prior %f\n", error, integral, derivative, error_prior, integral_prior);
 
         shmp->thrust = thrust;

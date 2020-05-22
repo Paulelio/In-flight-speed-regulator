@@ -182,7 +182,7 @@ void flightManagement(void * input){
     semSpeed = sem_open("sem_Speed", O_CREAT);
     semThrust = sem_open("sem_Thrust", O_CREAT);
 
-    shmp->thrust = 0;
+    shmp->thrust = -(drag);
     shmp->speed = vel;
 
     struct timespec *tp = malloc(sizeof(struct timespec));
