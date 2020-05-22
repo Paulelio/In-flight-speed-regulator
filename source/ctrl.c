@@ -98,7 +98,7 @@ void controlAlgorithm(void * input){
     double vel_atual = 0.0;
     
     double vel_final = ((intptr_t)input) / 3.6;
-    double thrust = shmp->thrust;
+    double thrust = MAX_THRUST;
     double iteration_time = 0.01; //1cs
     
     
