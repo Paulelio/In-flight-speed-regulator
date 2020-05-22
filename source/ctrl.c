@@ -22,8 +22,8 @@ Paulo Alvares 49460
 #define KP 0.7 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
 #define KI 0.06
 #define KD 0.3
-#define MAX_THRUST = 242000
-#define MIN_THRUST = 0
+#define MAX_THRUST 242000
+#define MIN_THRUST 0
 
 
 #define SHM_KEY 0x1234
