@@ -24,7 +24,7 @@ Paulo Alvares 49460
 
 #define peso 79000
 #define period 0.1 //segundos
-#define NACQUI 10 //valor de quantos em quantos ciclos vai ser enviada info para o fdr
+#define NACQUI 1 //valor de quantos em quantos ciclos vai ser enviada info para o fdr
 #define LIMIT_INTERVAL 0.05 //valor de intervalo aceitavel da velocidade final
 #define SAMPLE_INT = 30000 //intervalo entre medicoes 30s (30000 ms)
 #define SHM_KEY 0x1234

@@ -78,7 +78,7 @@ void controlAlgorithm(void * input){
         .size = sizeof (attrCTRL),
         .sched_policy = SCHED_DEADLINE,
         .sched_runtime = 9 * 1000,
-        .sched_period = 100 * 1000 * 1000,
+        .sched_period = 1000 * 1000 * 1000,
         .sched_deadline = 14 * 1000,
     };
 
@@ -152,7 +152,7 @@ void controlAlgorithm(void * input){
         error_prior = error;
         integral_prior = integral;
         
-        //sleep(10); //em NRT
+        //sleep(5); //em NRT
         sched_yield(); //em RT
         //sleep(5);
 
