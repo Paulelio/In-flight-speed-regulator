@@ -28,8 +28,8 @@ Paulo Alvares 49460
 #define LIMIT_INTERVAL 0.05 //valor de intervalo aceitavel da velocidade final
 #define SAMPLE_INT = 30000 //intervalo entre medicoes 30s (30000 ms)
 #define SHM_KEY 0x1234
-#define MIN_SPEED 83.34
-#define MAX_SPEED 228.61
+#define MIN_SPEED 83.34 // = 300 / 3.6 (m/s)
+#define MAX_SPEED 228.61 // = 823 / 3.6 (m/s)
 /** Funcoes para uso de relogios
  * int clock_getres(clockid_t clock_id, struct timespec *res);
  * int clock_gettime(clockid_t clock_id, struct timespec *tp);
@@ -88,11 +88,11 @@ void computeSpeed(double drag){
 
     double new_vel = vel + ( (thrust + drag) / ( peso / 10000 ) ) * period;
 
-    /* if(new_vel > MAX_SPEED){
+    if(new_vel > MAX_SPEED){
         new_vel = MAX_SPEED;
     }else if(new_vel < MIN_SPEED){
         new_vel = MIN_SPEED;
-    } */
+    }
 
     printf("[FMC] new vel: %f\n", new_vel);
     vel = new_vel;  
