@@ -19,7 +19,7 @@ Paulo Alvares 49460
 
 #include "ctrl.h"
 //valores de referencia KP=0.7, KI=0.06, KD=0.3
-#define KP 10 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
+#define KP 5 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
 #define KI 0.06
 #define KD 0.3
 #define MAX_THRUST 242000
