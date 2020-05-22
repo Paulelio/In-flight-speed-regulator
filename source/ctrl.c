@@ -19,7 +19,7 @@ Paulo Alvares 49460
 
 #include "ctrl.h"
 
-#define KP 0.7 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
+#define KP 1.2 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
 #define KI 0.06
 #define KD 0.3
 #define MAX_THRUST 242000
@@ -116,7 +116,6 @@ void controlAlgorithm(void * input){
     semSpeed = sem_open("sem_Speed", O_CREAT);
     semThrust = sem_open("sem_Thrust", O_CREAT);
     
-    printf("Sems criados\n");
 
     sched_setattrCTRL(0, &attrCTRL, 0);
 
