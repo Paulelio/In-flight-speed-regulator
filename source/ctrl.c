@@ -18,8 +18,8 @@ Paulo Alvares 49460
 #include <fcntl.h> 
 
 #include "ctrl.h"
-
-#define KP 1.2 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
+//valores de referencia KP=0.7, KI=0.06, KD=0.3
+#define KP 5 // reduzir muito (3,4,5) -- evita que o controlo tenho uma grande variacao
 #define KI 0.06
 #define KD 0.3
 #define MAX_THRUST 242000
