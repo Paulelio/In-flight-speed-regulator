@@ -61,23 +61,27 @@ int flightDataRecorder(void * input){
     //sleep(10);
     while(msgrcv(msgid, &message, sizeof(message), 1, 0) != 0){
         //write to fdrBlackbox
-        if(strcmp(message.mesg_text, last_mesg) != 0){
+        if (strcmp(message.mesg_text, "exit")){
+            printf("[FDR] Chegou ao limite de velocidade correto\n A sair ...\n");
+            return 0;
+        }
+        else if(strcmp(message.mesg_text, last_mesg) != 0){
             writeToRecord(message.mesg_text);
             //printf("last message: %s\n", last_mesg);
             //printf("messafe.mesg_text %s\n", message.mesg_text);
             strncpy(last_mesg, message.mesg_text, 1024);
             // display the message 
             printf("[FDR] Dados Recebidos: %s \n", message.mesg_text);
-        } 
-        else{
+        }    
+        else {
             sleep(3);
-        }            
+        }        
     } 
     //printf("[FDR] escrevi para ficheiro\n");z
     
      // to destroy the message queue 
     msgctl(msgid, IPC_RMID, NULL); 
-    
+
     return 0;
 }
 

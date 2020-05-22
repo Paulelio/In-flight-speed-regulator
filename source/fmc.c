@@ -219,6 +219,12 @@ void flightManagement(void * input){
 
             if(verifySpeedLim(vel)){
                 printf("[FMC] Chegou ao limite aceitavel de velocidade\n");
+                snprintf(buffer, sizeof(fdr_message.mesg_text), "exit");
+                strncpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
+
+                // msgsnd to send message 
+                msgsnd(msgid, &fdr_message, sizeof(fdr_message), 0); 
+                
                 free(tp);
                 free(buffer);
                 sem_close(semSpeed);

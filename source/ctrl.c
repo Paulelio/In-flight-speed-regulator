@@ -24,6 +24,7 @@ Paulo Alvares 49460
 #define KD 0.3
 #define MAX_THRUST 242000
 #define MIN_THRUST 0
+#define LIMIT_INTERVAL 0.05
 
 
 #define SHM_KEY 0x1234
@@ -57,6 +58,16 @@ int sched_setattrCTRL(pid_t pid,
     return syscall(__NR_sched_setattr, pid, attr, flags);
 }
 
+/** Funcao para verificar se a velocidade atual estah a 5% da velocidade final
+ * Parameters: speed - velocidade atual
+ * Returns: true - se estiver a menos de 5%, false se estiver fora desse limite
+ */ 
+bool verifySpeedLim(double speed){
+    if(speed < vel_final * (1 - LIMIT_INTERVAL) || speed > vel_final * (1 + LIMIT_INTERVAL)){ //passar para constantes os valores limite #define
+        return false;
+    }
+    return true;
+}
 
 /** Funcao principal do ctrl
  * 
@@ -113,6 +124,11 @@ void controlAlgorithm(void * input){
         sem_wait(semThrust);
         vel_atual = shmp->speed;
         printf("[CTRL] Vel: %f\n", vel_atual);
+
+        if(verifySpeedLim(vel)){
+            printf("[CTRL] Acabou o calculo\n A sair...\n");
+            return;
+        }
         
         error = vel_final - vel_atual;
         integral = integral_prior + error * iteration_time;
