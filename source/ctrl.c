@@ -19,9 +19,9 @@ Paulo Alvares 49460
 
 #include "ctrl.h"
 //valores de referencia KP=0.7, KI=0.06, KD=0.3
-#define KP 8.0 
-#define KI 0.1
-#define KD 0.01
+#define KP 0.7 
+#define KI 0.06
+#define KD 0.3
 #define MAX_THRUST 242000
 #define MIN_THRUST 0
 #define LIMIT_INTERVAL 0.05
