@@ -109,13 +109,15 @@ void controlAlgorithm(void * input){
     double vel_atual = 0.0;
     
     double vel_final = ((intptr_t)input) / 3.6;
-    //double thrust = MAX_THRUST/2;
+    double thrust = MAX_THRUST/2;
     double iteration_time = 0.01; //1cs
     
     
     semSpeed = sem_open("sem_Speed", O_CREAT);
     semThrust = sem_open("sem_Thrust", O_CREAT);
-    double thrust = MAX_THRUST/2;
+    
+    printf("Sems criados\n");
+
     sched_setattrCTRL(0, &attrCTRL, 0);
 
     for(;;){

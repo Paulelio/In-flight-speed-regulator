@@ -63,7 +63,7 @@ int flightDataRecorder(void * input){
         //write to fdrBlackbox
         if (strcmp(message.mesg_text, "exit") == 0){
             printf("[FDR] Chegou ao limite de velocidade correto\n A sair ...\n");
-            return 0;
+            break;
         }
         else if(strcmp(message.mesg_text, last_mesg) != 0){
             writeToRecord(message.mesg_text);
