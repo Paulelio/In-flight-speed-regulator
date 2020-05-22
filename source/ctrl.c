@@ -115,7 +115,7 @@ void controlAlgorithm(void * input){
     
     semSpeed = sem_open("sem_Speed", O_CREAT);
     semThrust = sem_open("sem_Thrust", O_CREAT);
-    double thrust = shmp->thrust;
+    double thrust = MAX_THRUST/2;
     sched_setattrCTRL(0, &attrCTRL, 0);
 
     for(;;){
