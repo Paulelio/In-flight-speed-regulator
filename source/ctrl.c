@@ -99,7 +99,7 @@ void controlAlgorithm(void * input){
       return;
     }
 
-    int cycle = 0;
+    int cycle = 1;
 
     double error;
     double integral;
@@ -126,7 +126,7 @@ void controlAlgorithm(void * input){
         
         sem_wait(semThrust);
         vel_atual = shmp->speed;
-        //printf("[CTRL] Vel: %f\n", vel_atual);
+        printf("[CTRL] Vel: %f\n", vel_atual);
 
         if(cycle == 200){
         //if(verifySpeedCTRL(vel_atual, vel_final)){

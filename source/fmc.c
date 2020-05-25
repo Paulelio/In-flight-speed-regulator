@@ -254,7 +254,7 @@ void flightManagement(void * input){
         
         thrust = shmp->thrust;
         //sem_post(semThrust);
-        //printf("[FMC] Nova Thrust: %f\n", thrust);
+        printf("[FMC] Nova Thrust: %f\n", thrust);
         computeSpeed(drag);
         shmp->speed = vel;
         
