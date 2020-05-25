@@ -19,9 +19,9 @@ Paulo Alvares 49460
 
 #include "ctrl.h"
 //valores de referencia KP=0.7, KI=0.06, KD=0.3
-#define KP 8
+#define KP 40.0
 #define KI 0.1
-#define KD 0.01
+#define KD 0.3
 #define MAX_THRUST 242000
 #define MIN_THRUST 0
 #define LIMIT_INTERVAL 0.05
@@ -120,11 +120,11 @@ void controlAlgorithm(void * input){
     sched_setattrCTRL(0, &attrCTRL, 0);
 
     for(;;){
-        printf("[CTRL] no for\n");
+        //printf("[CTRL] no for\n");
         
         sem_wait(semThrust);
         vel_atual = shmp->speed;
-        printf("[CTRL] Vel: %f\n", vel_atual);
+        //printf("[CTRL] Vel: %f\n", vel_atual);
 
         if(verifySpeedCTRL(vel_atual, vel_final)){
             printf("[CTRL] Acabou o calculo\n A sair...\n");
@@ -143,10 +143,10 @@ void controlAlgorithm(void * input){
             thrust = MIN_THRUST;
         }
        
-        printf("[CTRL] erro %f,\n integral %f,\n derivative %f\n, error prior %f,\n integral prior %f\n", error, integral, derivative, error_prior, integral_prior);
+        //printf("[CTRL] erro %f,\n integral %f,\n derivative %f\n, error prior %f,\n integral prior %f\n", error, integral, derivative, error_prior, integral_prior);
 
         shmp->thrust = thrust;
-        printf("[CTRL] Thrust: %f\n", thrust);
+        //printf("[CTRL] Thrust: %f\n", thrust);
         sem_post(semThrust);
 
         error_prior = error;

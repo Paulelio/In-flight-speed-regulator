@@ -39,7 +39,7 @@ void writeToRecord(char recMesg[]){
  * 
  */ 
 int flightDataRecorder(void * input){
-    printf("[FDR] Flight Data Recorder \n");
+    //printf("[FDR] Flight Data Recorder \n");
     //printf("[FDR] A ler do FMC\n");
     //read message
     
@@ -71,7 +71,7 @@ int flightDataRecorder(void * input){
             //printf("messafe.mesg_text %s\n", message.mesg_text);
             strncpy(last_mesg, message.mesg_text, 1024);
             // display the message 
-            printf("[FDR] Dados Recebidos: %s \n", message.mesg_text);
+            //printf("[FDR] Dados Recebidos: %s \n", message.mesg_text);
         }    
         else {
             sleep(3);

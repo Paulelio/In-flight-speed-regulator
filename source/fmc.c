@@ -23,7 +23,7 @@ Paulo Alvares 49460
 #include "fmc.h"
 
 #define peso 79000
-#define period 0.1 //segundos
+#define period 0.01 //segundos
 #define NACQUI 1 //valor de quantos em quantos ciclos vai ser enviada info para o fdr
 #define LIMIT_INTERVAL 0.05 //valor de intervalo aceitavel da velocidade final
 #define SAMPLE_INT = 30000 //intervalo entre medicoes 30s (30000 ms)
@@ -94,7 +94,7 @@ void computeSpeed(double drag){
         new_vel = MIN_SPEED;
     }
 
-    printf("[FMC] new vel: %f\n", new_vel);
+    //printf("[FMC] new vel: %f\n", new_vel);
     vel = new_vel;  
     
     sem_post(semSpeed);
@@ -143,7 +143,7 @@ void flightManagement(void * input){
         .size = sizeof(attrFMC),
         .sched_policy = SCHED_DEADLINE,
         .sched_runtime = 10 * 1000, // 10 0 000 microsegundos = 10 segundos
-        .sched_period = 100 * 1000 * 1000, //20 000 000 000 nanosegundos = 20 segundos
+        .sched_period = 10 * 1000 * 1000, //20 000 000 000 nanosegundos = 20 segundos
         .sched_deadline = 21 * 1000, // 15 000 000 microsegundos = 15 segundos -- deadline não pode ser maior que o período!
     };
 
@@ -203,8 +203,8 @@ void flightManagement(void * input){
     sched_setattrFMC(0, &attrFMC, 0);
 
     for(;;){
-        printf("[FMC] No for do FMC\n");
-        printf("[FMC] Vel mal entra no for = %f\n", vel);
+        //printf("[FMC] No for do FMC\n");
+        //printf("[FMC] Vel mal entra no for = %f\n", vel);
 
         //printf("[FMC] Antes do if\n");
         
@@ -213,7 +213,7 @@ void flightManagement(void * input){
             long current_timestamp = (unsigned)time(NULL);
             
             //lock -- talvez n seja necessario pq eh read
-            printf("[FMC] %ld,%f,%f\n", current_timestamp, vel, thrust);
+            //printf("[FMC] %ld,%f,%f\n", current_timestamp, vel, thrust);
             snprintf(buffer, sizeof(fdr_message.mesg_text), "%ld,%f,%f", current_timestamp, vel, shmp->thrust);
             //unlock
 
@@ -224,10 +224,10 @@ void flightManagement(void * input){
             msgsnd(msgid, &fdr_message, sizeof(fdr_message), 0); 
 
             // display the message 
-            printf("[FMC] Dados enviados: %s \n", fdr_message.mesg_text); 
+            //printf("[FMC] Dados enviados: %s \n", fdr_message.mesg_text); 
 
             if(verifySpeedLim(vel)){
-                printf("[FMC] Chegou ao limite aceitavel de velocidade\n");
+                //printf("[FMC] Chegou ao limite aceitavel de velocidade\n");
                 snprintf(buffer, sizeof(fdr_message.mesg_text), "exit");
                 strncpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
 
@@ -246,14 +246,14 @@ void flightManagement(void * input){
             }
             
         }
-        printf("[FMC] A fazer computeSpeed\n");
+        //printf("[FMC] A fazer computeSpeed\n");
 
         sched_yield();
         sem_wait(semThrust);
         
         thrust = shmp->thrust;
         //sem_post(semThrust);
-        printf("[FMC] Nova Thrust: %f\n", thrust);
+        //printf("[FMC] Nova Thrust: %f\n", thrust);
         computeSpeed(drag);
         shmp->speed = vel;
         
