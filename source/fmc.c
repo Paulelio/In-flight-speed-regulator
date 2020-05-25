@@ -228,7 +228,7 @@ void flightManagement(void * input){
 
             if(cycle_num == 200){
             //if(verifySpeedLim(vel)){
-                //printf("[FMC] Chegou ao limite aceitavel de velocidade\n");
+                printf("[FMC] Chegou ao limite aceitavel de velocidade\n");
                 snprintf(buffer, sizeof(fdr_message.mesg_text), "exit");
                 strncpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 
 
@@ -261,7 +261,7 @@ void flightManagement(void * input){
         sem_post(semThrust);
 
         clock_gettime(CLOCK_REALTIME, tp);
-        cycle_num ++;
+        cycle_num++;
         //sched_yield();
     }
     

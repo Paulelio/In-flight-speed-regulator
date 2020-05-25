@@ -74,7 +74,7 @@ int flightDataRecorder(void * input){
             //printf("[FDR] Dados Recebidos: %s \n", message.mesg_text);
         }    
         else {
-            sleep(3);
+            sleep(1);
         }        
     } 
     //printf("[FDR] escrevi para ficheiro\n");z
