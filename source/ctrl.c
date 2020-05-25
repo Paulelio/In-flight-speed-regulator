@@ -128,7 +128,7 @@ void controlAlgorithm(void * input){
         vel_atual = shmp->speed;
         printf("[CTRL] Vel: %f\n", vel_atual);
 
-        if(cycle == 200){
+        if(cycle == 1000){
         //if(verifySpeedCTRL(vel_atual, vel_final)){
             printf("[CTRL] Acabou o calculo\n A sair...\n");
             return;
