@@ -226,7 +226,8 @@ void flightManagement(void * input){
             // display the message 
             //printf("[FMC] Dados enviados: %s \n", fdr_message.mesg_text); 
 
-            if(verifySpeedLim(vel)){
+            if(cycle_num == 200){
+            //if(verifySpeedLim(vel)){
                 //printf("[FMC] Chegou ao limite aceitavel de velocidade\n");
                 snprintf(buffer, sizeof(fdr_message.mesg_text), "exit");
                 strncpy(fdr_message.mesg_text, buffer, sizeof(fdr_message.mesg_text)); 

@@ -78,7 +78,7 @@ void controlAlgorithm(void * input){
         .size = sizeof (attrCTRL),
         .sched_policy = SCHED_DEADLINE,
         .sched_runtime = 9 * 1000,
-        .sched_period = 100 * 1000 * 1000,
+        .sched_period = 10 * 1000 * 1000,
         .sched_deadline = 14 * 1000,
     };
 
@@ -98,6 +98,8 @@ void controlAlgorithm(void * input){
       perror("Shared memory attach");
       return;
     }
+
+    int cycle = 0;
 
     double error;
     double integral;
@@ -126,7 +128,8 @@ void controlAlgorithm(void * input){
         vel_atual = shmp->speed;
         //printf("[CTRL] Vel: %f\n", vel_atual);
 
-        if(verifySpeedCTRL(vel_atual, vel_final)){
+        if(cycle == 200){
+        //if(verifySpeedCTRL(vel_atual, vel_final)){
             printf("[CTRL] Acabou o calculo\n A sair...\n");
             return;
         }
@@ -152,6 +155,7 @@ void controlAlgorithm(void * input){
         error_prior = error;
         integral_prior = integral;
         
+        cycle++;
         //sleep(5); //em NRT
         sched_yield(); //em RT
         //sleep(5);
